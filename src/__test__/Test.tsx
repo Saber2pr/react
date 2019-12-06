@@ -1,8 +1,8 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-12-06 17:41:19
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-06 19:51:52
  */
 import { React } from ".."
 import { TestIf } from "./TestIF"
@@ -11,6 +11,7 @@ import { TestPlace } from "./TestPlace"
 import { TestUseMemo } from "./TestUseMemo"
 import { TestUseReducer } from "./TestUseReducer"
 import { TestChildren } from "./TestChildren"
+import { TestStyle } from "./TestStyle"
 
 const Tests = [
   TestIf,
@@ -18,7 +19,8 @@ const Tests = [
   TestPlace,
   TestUseMemo,
   TestUseReducer,
-  TestChildren
+  TestChildren,
+  TestStyle
 ]
 
 const App = () => {
