@@ -2,10 +2,9 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 16:44:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 19:37:06
+ * @Last Modified time: 2019-12-06 20:56:42
  */
 import { HostConfig } from "./ReactDefaults"
-import { NodeType, Fiber } from "./ReactTypes"
 import {
   createElement as ReactCreateElement,
   Children as ReactChildren
@@ -18,22 +17,22 @@ import {
   useReducer as ReactUseReducer
 } from "./ReactFiberHooks"
 import { createRenderer as ReactCreateRenderer } from "./ReactFiberReconciler"
+import { Reflection } from "./ReactFiberReflection"
 
 const renderer = ReactCreateRenderer(HostConfig)
 
 export namespace React {
   export const render = (
-    component: any,
+    component: JSX.Element,
     container: HTMLElement,
     callback?: Function
   ) => {
-    const rootFiber: Fiber = {
-      $$typeof: NodeType.Root,
-      stateNode: container,
-      props: { children: [component] },
-      callback
+    const isContainer = Reflection.getContainerFiber(container)
+    if (isContainer) {
+      renderer.updateContainer(component, container, callback)
+    } else {
+      renderer.createContainer(component, container, callback)
     }
-    renderer(rootFiber)
   }
 
   export const createElement = ReactCreateElement
@@ -110,4 +109,12 @@ const useState = ReactUseState
 const createRenderer = ReactCreateRenderer
 
 export default React
-export { useCallBack, useMemo, useReducer, useRef, useState, createRenderer }
+export {
+  useCallBack,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+  createRenderer,
+  HostConfig
+}

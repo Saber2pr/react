@@ -1,8 +1,8 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:47
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-12-06 17:11:47
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-06 21:36:06
  */
 import { Fiber, NodeType } from "./ReactTypes"
 
@@ -63,5 +63,13 @@ export namespace Reflection {
     } else {
       delete fiber.alternate
     }
+  }
+
+  export function setContainerFiber(container: HTMLElement, fiber: Fiber) {
+    container["_rootContainer"] = fiber
+  }
+
+  export function getContainerFiber(container: HTMLElement) {
+    return container["_rootContainer"]
   }
 }

@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 19:08:56
+ * @Last Modified time: 2019-12-06 21:53:51
  */
 import { Fiber, NodeType } from "./ReactTypes"
 import { TestCallSize, resetIndex } from "./ReactShared"
@@ -23,7 +23,7 @@ function renderRoot(root: Fiber) {
   while (workInProgress) {
     workInProgress = performUnitOfWork(workInProgress, root)
     if (workInProgress === root) break
-    TestCallSize("workLoop")
+    TestCallSize("renderRoot")
   }
 
   if (pendingCommit) {

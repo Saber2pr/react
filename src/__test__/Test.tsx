@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 19:51:52
+ * @Last Modified time: 2019-12-06 21:55:13
  */
 import { React } from ".."
 import { TestIf } from "./TestIF"
@@ -12,6 +12,29 @@ import { TestUseMemo } from "./TestUseMemo"
 import { TestUseReducer } from "./TestUseReducer"
 import { TestChildren } from "./TestChildren"
 import { TestStyle } from "./TestStyle"
+import "./TestCreateRenderer"
+
+const Store = {
+  state: 0
+}
+
+const TestRerenderRoot = () => {
+  const state = Store.state
+  return (
+    <div>
+      <div>This is a RerenderRoot Test</div>
+      <div>{state}</div>
+      <button
+        onclick={() => {
+          Store.state++
+          React.render(<App />, document.getElementById("root"))
+        }}
+      >
+        add
+      </button>
+    </div>
+  )
+}
 
 const Tests = [
   TestIf,
@@ -48,4 +71,4 @@ const App = () => {
   )
 }
 
-React.render(<App />, document.body)
+React.render(<App />, document.getElementById("root"))

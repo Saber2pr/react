@@ -2,12 +2,13 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 19:07:32
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 19:33:03
+ * @Last Modified time: 2019-12-06 21:54:22
  */
 import { renderRoot } from "./ReactFiberWorkLoop"
-import { Fiber } from "./ReactTypes"
+import { Fiber, NodeType } from "./ReactTypes"
 import { TestCallSize } from "./ReactShared"
 import { setHostConfig, HostConfigType } from "./ReactHostConfig"
+import { Reflection } from "./ReactFiberReflection"
 
 declare interface IdleDeadline {
   readonly didTimeout: boolean
@@ -67,8 +68,7 @@ function scheduleWork(fiber: Fiber, mode: ScheduleWorkMode = "normal") {
 function scheduleUnitOfWorkNormalMode() {
   TestCallSize("scheduleUnitOfWorkNormalMode")
   const update = updateQueue.pop()
-
-  renderRoot(update)
+  if (update) renderRoot(update)
 
   if (updateQueue.length) {
     pushEffect(scheduleUnitOfWorkNormalMode)
@@ -78,8 +78,7 @@ function scheduleUnitOfWorkNormalMode() {
 function scheduleUnitOfWorkLayoutMode() {
   TestCallSize("scheduleUnitOfWorkLayoutMode")
   const update = updateQueue.pop()
-
-  renderRoot(update)
+  if (update) renderRoot(update)
 
   if (updateQueue.length) {
     pushLayoutEffect(scheduleUnitOfWorkLayoutMode)
@@ -89,13 +88,41 @@ function scheduleUnitOfWorkLayoutMode() {
 function createRenderer(HostConfig: HostConfigType) {
   setHostConfig(HostConfig)
 
-  const renderer = (fiber: Fiber) => {
-    const container = fiber.stateNode
+  const createContainer = (
+    component: Fiber,
+    container: HTMLElement,
+    callback?: Function
+  ) => {
+    const rootFiber: Fiber = {
+      $$typeof: NodeType.Root,
+      stateNode: container,
+      props: { children: [component] },
+      callback
+    }
     HostConfig.removeAllChild(container)
-    scheduleWork(fiber)
+    Reflection.setContainerFiber(container, rootFiber)
+    scheduleWork(rootFiber)
   }
 
-  return renderer
+  const updateContainer = (
+    component: Fiber,
+    container: HTMLElement,
+    callback?: Function
+  ) => {
+    const rootFiber: Fiber = {
+      $$typeof: NodeType.Root,
+      stateNode: container,
+      alternate: Reflection.getContainerFiber(container),
+      props: { children: [component] },
+      callback
+    }
+    scheduleWork(rootFiber)
+  }
+
+  return {
+    createContainer,
+    updateContainer
+  }
 }
 
 export { scheduleWork, createRenderer }

@@ -13,5 +13,5 @@ export default {
   watch: {
     include: "lib/**"
   },
-  plugins: [commonjs(), resolve(), uglify()]
+  plugins: [commonjs(), resolve()]
 }

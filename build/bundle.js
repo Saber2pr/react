@@ -1,1 +1,1373 @@
-var react=function(e){"use strict";var c="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};function t(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}function n(e,t){return e(t={exports:{}},t.exports),t.exports}var s=n(function(e,t){var n,r;Object.defineProperty(t,"__esModule",{value:!0}),(r=n=n||{}).createElement=function(e){return document.createElement(e)},r.createDocumentFragment=function(){return document.createDocumentFragment()},r.createTextNode=function(e){return document.createTextNode(String(e))},r.insertBefore=function(e,t,n){e.insertBefore(t,n)},r.appendChild=function(e){for(var t=[],n=1;n<arguments.length;n++)t[n-1]=arguments[n];e.append.apply(e,t)},r.replaceChild=function(e,t,n){e.replaceChild(t,n)},r.removeSelf=function(e){e.remove()},r.removeAllChild=function(e){e.innerHTML=""},r.updateProps=function(r,e,l){if(Object.entries(e).forEach(function(e){var t=e[0],n=e[1];"style"!==t&&l[t]!==n&&(r[t]=n)}),e.style){var t=e.style,o=l.style||{};Object.entries(t).forEach(function(e){var t=e[0],n=e[1];o[t]!==n&&(r.style[t]=n)})}},t.HostConfig=n});t(s);s.HostConfig;var d=n(function(e,t){var n,r;Object.defineProperty(t,"__esModule",{value:!0}),(n=t.NodeType||(t.NodeType={})).Text=Symbol("Text"),n.Fragment=Symbol("DocumentFragment"),n.Root=Symbol("Container"),n.Hook=Symbol("Hook"),n.Host=Symbol("Host"),n.Unknown=Symbol("Unknown"),(r=t.EffectType||(t.EffectType={})).Place=Symbol("Place"),r.Update=Symbol("Update"),r.Delete=Symbol("Delete"),r.Create=Symbol("Create"),r.getEffectLevel=function(e){switch(e){case r.Create:return 4;case r.Update:return 2;case r.Place:return 3;case r.Delete:return 1;default:return 0}}});t(d);d.NodeType,d.EffectType;var i=n(function(e,t){Object.defineProperty(t,"__esModule",{value:!0});var n={};t.HostConfig=n,t.setHostConfig=function(e){Object.assign(n,e)}});t(i);i.HostConfig,i.setHostConfig;var p=n(function(e,t){var l,o=c&&c.__assign||function(){return(o=Object.assign||function(e){for(var t,n=1,r=arguments.length;n<r;n++)for(var l in t=arguments[n])Object.prototype.hasOwnProperty.call(t,l)&&(e[l]=t[l]);return e}).apply(this,arguments)};Object.defineProperty(t,"__esModule",{value:!0}),t.createStateNode=function(e){var t=e.$$typeof,n=e.tag,r=e.props,l=null;if(t===d.NodeType.Text&&(l=i.HostConfig.createTextNode(r.nodeValue)),t===d.NodeType.Root&&(l=e.stateNode),t===d.NodeType.Host&&(l=i.HostConfig.createElement(n)),r.ref){var o=r.ref;"function"==typeof o?o(l):o.current=l}return l},(l||(l={})).toArray=function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];return e.flat(2).reduce(function(e,t){return void 0===t?e:"number"==typeof t?e.concat(n(t)):"string"==typeof t?t.replace(/ |\r?\n|\r/g,"")?e.concat(n(t)):e:e.concat(t)},[])},t.Children=l;var n=function(e){return{tag:"#text",$$typeof:d.NodeType.Text,props:{nodeValue:e}}};t.createTextElement=n;t.createElement=function(e,t){for(var n=[],r=2;r<arguments.length;r++)n[r-2]=arguments[r];return t=o(o({},t),{children:l.toArray.apply(l,n)}),"string"==typeof e?{$$typeof:d.NodeType.Host,tag:e,props:t}:"function"==typeof e?{$$typeof:d.NodeType.Hook,tag:e,props:t}:{$$typeof:d.NodeType.Unknown,tag:e,props:t}}});t(p);p.createStateNode,p.Children,p.createTextElement,p.createElement;var v=n(function(e,t){Object.defineProperty(t,"__esModule",{value:!0});var n=1e4;t.setMaxCallSize=function(e){n=e};var r=function(e){void 0===e&&(e="default"),r.size||(r.size={});var t=r.size;if(e in t?t[e]++:t[e]=1,t[e]>n)throw new Error("CALL SIZE OVERFLOW: "+e+", try to reset the MAX_CALL_SIZE("+n+")")};t.TestCallSize=r;function l(e,t){return e===t&&(0!==e||1/e==1/t)||e!=e&&t!=t}t.is=l,t.areHookInputsEqual=function(e,t){if(null===t)return!1;for(var n=0;n<t.length&&n<e.length;n++)if(!l(e[n],t[n]))return!1;return!0};var o=0;t.getIndex=function(){var e=o;return o++,e};t.resetIndex=function(){o=0}});t(v);v.setMaxCallSize,v.TestCallSize,v.is,v.areHookInputsEqual,v.getIndex,v.resetIndex;var m=n(function(e,t){var n,o;function a(e){var t=e.$$typeof,n=e.tag;if(t!==d.NodeType.Hook)throw new Error("Reflection Error: reference not found.");return n}Object.defineProperty(t,"__esModule",{value:!0}),n=t.Reflection||(t.Reflection={}),o=new WeakMap,n.getRefObj=a,n.get=function(e,t){if(e[t])return e[t];var n=a(e),r=o.get(n)||{};return e[t]=r[t],e[t]},n.set=function(e,t,n){var r=a(e),l=o.get(r)||{};l[t]=n,o.set(r,l)},n.delet=function(e,t){var n=a(e);delete e[t],o.delete(n)},n.setAlternate=function(e,t){e.$$typeof===d.NodeType.Hook?n.set(e,"alternate",t):e.alternate=t},n.getAlternate=function(e){return e.$$typeof===d.NodeType.Hook?n.get(e,"alternate"):e.alternate},n.unlinkAlternate=function(e){if(e.$$typeof===d.NodeType.Hook)return n.delet(e,"alternate");delete e.alternate}});t(m);m.Reflection;var y=n(function(e,t){Object.defineProperty(t,"__esModule",{value:!0}),t.isHostParent=function(e){return e.$$typeof===d.NodeType.Host||e.$$typeof===d.NodeType.Root},t.isHost=function(e){return e.$$typeof===d.NodeType.Host||e.$$typeof===d.NodeType.Text},t.isSameTag=function(e,t){return e.tag===t.tag}});t(y);y.isHostParent,y.isHost,y.isSameTag;var f=n(function(e,t){var f=c&&c.__assign||function(){return(f=Object.assign||function(e){for(var t,n=1,r=arguments.length;n<r;n++)for(var l in t=arguments[n])Object.prototype.hasOwnProperty.call(t,l)&&(e[l]=t[l]);return e}).apply(this,arguments)};Object.defineProperty(t,"__esModule",{value:!0}),t.reconcileChildren=function(e,t){t=p.Children.toArray(t);for(var n=m.Reflection.getAlternate(e),r=n?n.child:null,l=null,o=0;o<t.length||r;){var a=l,u=r,c=o<t.length&&t[o];if(u&&c&&y.isSameTag(c,u))l=f(f({},u),{tag:c.tag,props:c.props,$$typeof:c.$$typeof,effectType:d.EffectType.Update,return:e}),m.Reflection.setAlternate(l,u);else if(u&&c&&!y.isSameTag(c,u))l=f(f({},u),{tag:c.tag,props:c.props,$$typeof:c.$$typeof,return:e,effectType:d.EffectType.Place}),m.Reflection.setAlternate(l,u);else if(!u&&c)l=f(f({},u),{tag:c.tag,props:c.props,$$typeof:c.$$typeof,return:e,effectType:d.EffectType.Create}),m.Reflection.setAlternate(l,u);else if(u&&!c){u.effectType=d.EffectType.Delete;var i=e.effectList||[];i.push(u),e.effectList=i}r=r&&r.sibling,0!==o&&e.child?a&&(c?a.sibling=l:(a.sibling=null,delete a.sibling)):e.child=l,o++,v.TestCallSize("reconcileChildren")}return e.child}});t(f);f.reconcileChildren;var g=n(function(e,t){Object.defineProperty(t,"__esModule",{value:!0}),t.getHostSiblingFiber=function(e){var t=e;e:for(;;){for(v.TestCallSize("getHostSiblingFiber");!t.sibling;){if(!t.return||y.isHostParent(t.return))return null;t=t.return}for(t.sibling.return=t.return,t=t.sibling;!y.isHost(t);){if(t.effectType===d.EffectType.Place)continue e;if(!t.child)continue e;t=(t.child.return=t).child}if(t.effectType!==d.EffectType.Place)return t}},t.getHostParentFiber=function(e){for(var t=e.return;t;){if(v.TestCallSize("getHostParentFiber"),y.isHostParent(t))return t;t=t.return}},t.getHostChildFiber=function(e){for(var t=e.child;t;){if(v.TestCallSize("getHostChildFiber"),y.isHost(t))return t;t=t.child}}});t(g);g.getHostSiblingFiber,g.getHostParentFiber,g.getHostChildFiber;var b=n(function(e,t){function l(e){var t=e.$$typeof,n=e.effectType;if(t!==d.NodeType.Hook)switch(n){case d.EffectType.Create:r(e);break;case d.EffectType.Update:a(e);break;case d.EffectType.Place:o(e);break;case d.EffectType.Delete:u(e)}}function r(e){var t=g.getHostParentFiber(e).stateNode,n=e.stateNode;i.HostConfig.appendChild(t,n),m.Reflection.unlinkAlternate(e)}function o(e){var t=e.alternate,n=e.stateNode,r=t.stateNode,l=g.getHostParentFiber(t).stateNode;i.HostConfig.replaceChild(l,n,r);var o=g.getHostChildFiber(e);if(o){var a=o.stateNode,u=g.getHostSiblingFiber(o);if(u){var c=u.stateNode;i.HostConfig.insertBefore(n,a,c)}else i.HostConfig.appendChild(n,a)}}function a(e){var t=m.Reflection.getAlternate(e),n=e.props,r=e.stateNode,l=t?t.props:{},o=Object.fromEntries(Object.entries(n).filter(function(e){var t=e[0];return!["ref","children"].includes(t)}));i.HostConfig.updateProps(r,o,l)}function u(e){var t=e.stateNode;i.HostConfig.removeSelf(t)}Object.defineProperty(t,"__esModule",{value:!0}),t.commitWork=function(e){var t,n;(n=(t=e).effectList||[],t.effectList=n.map(function(e){return{level:d.EffectType.getEffectLevel(e.effectType),effect:e}}).sort(function(e,t){return t.level-e.level}).map(function(e){return e.effect}),t.effectList).forEach(l);var r=e.callback;r&&r(e)},t.commitCreate=r,t.commitPlace=o,t.commitUpdate=a,t.commitDelete=u});t(b);b.commitWork,b.commitCreate,b.commitPlace,b.commitUpdate,b.commitDelete;var T=n(function(e,t){var o=c&&c.__spreadArrays||function(){for(var e=0,t=0,n=arguments.length;t<n;t++)e+=arguments[t].length;var r=Array(e),l=0;for(t=0;t<n;t++)for(var o=arguments[t],a=0,u=o.length;a<u;a++,l++)r[l]=o[a];return r};Object.defineProperty(t,"__esModule",{value:!0});var n=null,a=null;function r(e,t){var n=function(e){if(e.$$typeof===d.NodeType.Hook)return function(e){var t=e.tag,n=e.props;m.Reflection.setAlternate(e,e),v.resetIndex();var r=t(n);return f.reconcileChildren(e,r)}(e);if(e.$$typeof===d.NodeType.Root)return u(e);if(e.$$typeof===d.NodeType.Text)return u(e);if(e.$$typeof===d.NodeType.Host)return u(e)}(e);if(n)return n;for(var r=e;r;){if(r===t)return r;if(l(r,t),r.sibling)return r.sibling;r=r.return,v.TestCallSize("performUnitOfWork")}}function l(e,t){var n=e.return;if(n){var r=n.effectList||[],l=e.effectList||[];n.effectList=r.concat.apply(r,o(l,[e])),e.effectList=[],delete e.effectList,n===t&&(a=n)}}function u(e){var t=e.props.children,n=e.stateNode,r=e.alternate;return n&&(!r||y.isSameTag(e,r))||(e.stateNode=p.createStateNode(e),b.commitUpdate(e)),f.reconcileChildren(e,t)}t.getCurrentWorkInProgress=function(){return n},t.renderRoot=function(e){for(n||((n=e).effectList=null,n=n);n&&(n=r(n,e))!==e;)v.TestCallSize("workLoop");a&&(b.commitWork(a),a=n=null)}});t(T);T.getCurrentWorkInProgress,T.renderRoot;var E=n(function(e,t){Object.defineProperty(t,"__esModule",{value:!0});var n=[],r=0;function l(e){requestIdleCallback?requestIdleCallback(e):setTimeout(e)}function o(e){if(!requestAnimationFrame){var t=Date.now(),n=Math.max(r+16,t);return setTimeout(function(){return e(r=n)},n-t)}requestAnimationFrame(e)}function a(e,t){switch(void 0===t&&(t="normal"),n.push(e),t){case"normal":l(u);break;case"layout":o(c);break;default:l(u)}}function u(){v.TestCallSize("scheduleUnitOfWorkNormalMode");var e=n.pop();T.renderRoot(e),n.length&&l(u)}function c(){v.TestCallSize("scheduleUnitOfWorkLayoutMode");var e=n.pop();T.renderRoot(e),n.length&&o(c)}t.scheduleWork=a,t.createRenderer=function(n){return i.setHostConfig(n),function(e){var t=e.stateNode;n.removeAllChild(t),a(e)}}});t(E);E.scheduleWork,E.createRenderer;var h=n(function(e,t){function u(e){var t=v.getIndex(),n=T.getCurrentWorkInProgress(),r=n.memoizedState||{};t in r||(r[t]=e,n.memoizedState=r);return[r[t],function(e){e!==r[t]&&(r[t]=e,E.scheduleWork(n))}]}Object.defineProperty(t,"__esModule",{value:!0}),t.useState=u;function l(e){return u({current:e})[0]}function c(e,t){void 0===t&&(t=[]);var n=l(e),r=l(null);return v.areHookInputsEqual(t,r.current)?n.current:(n.current=e,r.current=t,e)}t.useReducer=function(e,t,n){var r=c(e),l=u(n?r(t,n):t),o=l[0],a=l[1];return[o,function(e){return a(r(o,e))}]},t.useRef=l,t.useCallBack=c,t.useMemo=function(e,t){void 0===t&&(t=[]);var n=l(null),r=l(null);return v.areHookInputsEqual(t,r.current)||(n.current=e(),r.current=t),n.current}});t(h);h.useState,h.useReducer,h.useRef,h.useCallBack,h.useMemo;var l=n(function(e,t){Object.defineProperty(t,"__esModule",{value:!0});var n,r,l=E.createRenderer(s.HostConfig);(r=n=t.React||(t.React={})).render=function(e,t,n){var r={$$typeof:d.NodeType.Root,stateNode:t,props:{children:[e]},callback:n};l(r)},r.createElement=p.createElement,r.Children=p.Children,r.useCallBack=h.useCallBack,r.useMemo=h.useMemo,r.useReducer=h.useReducer,r.useRef=h.useRef,r.useState=h.useState,r.createRenderer=E.createRenderer;var o=h.useCallBack;t.useCallBack=o;var a=h.useMemo;t.useMemo=a;var u=h.useReducer;t.useReducer=u;var c=h.useRef;t.useRef=c;var i=h.useState;t.useState=i;var f=E.createRenderer;t.createRenderer=f,t.default=n});t(l);l.React,l.useCallBack,l.useMemo,l.useReducer,l.useRef,l.useState,l.createRenderer;var u=n(function(e,n){Object.defineProperty(n,"__esModule",{value:!0}),function(e){for(var t in e)n.hasOwnProperty(t)||(n[t]=e[t])}(l);var t=l;n.default=t.default});t(u);var r=n(function(e,t){var n=c&&c.__importStar||function(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t.default=e,t};Object.defineProperty(t,"__esModule",{value:!0});var o=n(u);t.TestIf=function(){var e=o.useState(!0),t=e[0],n=e[1],r=o.useCallBack(function(){return n(!t)},[t]),l=o.useCallBack(function(){return n(!t)});return o.default.createElement("div",null,o.default.createElement("div",null,"TestIf Demo"),t&&o.default.createElement("ol",null,o.default.createElement("li",null,"apple"),o.default.createElement("li",null,"banana"),o.default.createElement("li",null,"orange")),o.default.createElement("button",{onclick:r},"change(with deps)"),o.default.createElement("button",{onclick:l},"change(without deps)"))}});t(r);r.TestIf;var o=n(function(e,t){var n=c&&c.__importStar||function(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t.default=e,t};Object.defineProperty(t,"__esModule",{value:!0});var r=n(u);t.TestList=function(){var e=r.useState([1,2,3]),t=e[0],n=e[1];return r.default.createElement("div",null,r.default.createElement("div",null,"TestList Demo"),r.default.createElement("ul",null,t.map(function(e){return r.default.createElement("li",null,e)})),r.default.createElement("button",{onclick:function(){return n([1,2,3,4,5])}},"append"),r.default.createElement("button",{onclick:function(){return n([1])}},"remove"),r.default.createElement("button",{onclick:function(){return n([0,1,2,3])}},"insert"))}});t(o);o.TestList;var a=n(function(e,t){var n=c&&c.__importStar||function(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t.default=e,t};Object.defineProperty(t,"__esModule",{value:!0});var o=n(u);t.TestPlace=function(){var e=o.useState(o.default.createElement("p",null,"to be placed")),t=e[0],n=e[1],r=o.useRef(!0),l=o.useRef();return o.default.createElement("div",null,o.default.createElement("div",{ref:l},"TestPlace Demo"),t,o.default.createElement("button",{onclick:function(){r.current?n(o.default.createElement("div",null,o.default.createElement("header",null,"header"),o.default.createElement("ul",null,o.default.createElement("li",null,"content1"),o.default.createElement("li",null,"content2")),o.default.createElement("footer",null,"footer"))):n(o.default.createElement("p",null,"to be placed")),r.current=!r.current}},"place"),o.default.createElement("button",{onclick:function(){return console.log(l)}},"console ref"))}});t(a);a.TestPlace;var _=n(function(e,t){var n=c&&c.__importStar||function(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t.default=e,t};Object.defineProperty(t,"__esModule",{value:!0});var a=n(u);t.TestUseMemo=function(){function e(){return n+1}var t=a.useState(0),n=t[0],r=t[1],l=a.useMemo(e),o=e();return a.default.createElement("div",null,a.default.createElement("div",null,"TestUseMemo Demo"),a.default.createElement("div",null,a.default.createElement("ul",null,a.default.createElement("li",null,"state:",n),a.default.createElement("li",null,"memoState:",l),a.default.createElement("li",null,"no memoState:",o)),a.default.createElement("button",{onclick:function(){return r(n+1)}},"update")))}});t(_);_.TestUseMemo;var C=n(function(e,t){var n=c&&c.__importStar||function(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t.default=e,t};Object.defineProperty(t,"__esModule",{value:!0});var r=n(u);t.TestUseReducer=function(){var e=r.useReducer(function(e,t){switch(t.type){case"add":return{count:e.count+1};case"sub":return{count:e.count-1};default:return e}},{count:0},{type:"add"}),t=e[0],n=e[1];return r.default.createElement("div",null,r.default.createElement("div",null,"TestUseReducer Demo"),r.default.createElement("div",null,r.default.createElement("div",null,"state:",t.count),r.default.createElement("button",{onclick:function(){return n({type:"add"})}},"add"),r.default.createElement("button",{onclick:function(){return n({type:"sub"})}},"sub")))}});t(C);C.TestUseReducer;var R=n(function(e,t){var n=c&&c.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});function r(e){var t=e.list;return o.default.createElement("ul",null,t.map(function(e){return o.default.createElement("li",null,e)}))}function l(e){var t=e.children;return o.default.createElement("ul",null,t.map(function(e){return o.default.createElement("li",null,e)}))}var o=n(u);t.TestChildren=function(){return o.default.createElement("div",null,o.default.createElement("div",null,"TestChildren"),o.default.createElement(r,{list:[1,2,3]}),o.default.createElement(l,null,[4,5,6]))}});t(R);R.TestChildren;var S=n(function(e,t){var n=c&&c.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});var r=n(u);t.TestStyle=function(){var e=l.useState("red"),t=e[0],n=e[1];return r.default.createElement("div",null,r.default.createElement("div",null,"TestStyle Demo"),r.default.createElement("div",{style:{color:t}},"what color it is now?"),r.default.createElement("button",{onclick:function(){return n("blue")}},"change"))}});t(S);S.TestStyle;var k=n(function(e,t){Object.defineProperty(t,"__esModule",{value:!0});var n=[r.TestIf,o.TestList,a.TestPlace,_.TestUseMemo,C.TestUseReducer,R.TestChildren,S.TestStyle];u.React.render(u.React.createElement(function(){return u.React.createElement("div",null,u.React.createElement("header",null,u.React.createElement("h1",null,"React Features Tests")),u.React.createElement("main",null,u.React.createElement("ol",null,n.map(function(e,t){return u.React.createElement("li",null,0!==t&&u.React.createElement("hr",null),u.React.createElement(e,null))}))),u.React.createElement("footer",null,u.React.createElement("i",null,"by ",u.React.createElement("a",{href:"https://saber2pr.top/"},"saber2pr"))))},null),document.body)}),P=t(k);return e.__moduleExports=k,e.default=P,e}({});
+var react = (function (exports) {
+	'use strict';
+
+	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+	function unwrapExports (x) {
+		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+	}
+
+	function createCommonjsModule(fn, module) {
+		return module = { exports: {} }, fn(module, module.exports), module.exports;
+	}
+
+	var ReactDefaults = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 19:30:24
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 19:47:12
+	 */
+	var HostConfig;
+	(function (HostConfig) {
+	    function createElement(tag) {
+	        return document.createElement(tag);
+	    }
+	    HostConfig.createElement = createElement;
+	    function createDocumentFragment() {
+	        return document.createDocumentFragment();
+	    }
+	    HostConfig.createDocumentFragment = createDocumentFragment;
+	    function createTextNode(data) {
+	        return document.createTextNode(String(data));
+	    }
+	    HostConfig.createTextNode = createTextNode;
+	    function insertBefore(parent, newChild, refChild) {
+	        parent.insertBefore(newChild, refChild);
+	    }
+	    HostConfig.insertBefore = insertBefore;
+	    function appendChild(parent) {
+	        var nodes = [];
+	        for (var _i = 1; _i < arguments.length; _i++) {
+	            nodes[_i - 1] = arguments[_i];
+	        }
+	        parent.append.apply(parent, nodes);
+	    }
+	    HostConfig.appendChild = appendChild;
+	    function replaceChild(parent, newChild, oldChild) {
+	        parent.replaceChild(newChild, oldChild);
+	    }
+	    HostConfig.replaceChild = replaceChild;
+	    function removeSelf(node) {
+	        node.remove();
+	    }
+	    HostConfig.removeSelf = removeSelf;
+	    function removeAllChild(node) {
+	        node.innerHTML = "";
+	    }
+	    HostConfig.removeAllChild = removeAllChild;
+	    function updateProps(node, newProps, oldProps) {
+	        Object.entries(newProps).forEach(function (_a) {
+	            var k = _a[0], v = _a[1];
+	            if (k === "style")
+	                return;
+	            if (oldProps[k] === v)
+	                return;
+	            node[k] = v;
+	        });
+	        if (newProps["style"]) {
+	            var newStyle = newProps["style"];
+	            var oldStyle_1 = oldProps["style"] || {};
+	            Object.entries(newStyle).forEach(function (_a) {
+	                var k = _a[0], v = _a[1];
+	                if (oldStyle_1[k] === v)
+	                    return;
+	                node.style[k] = v;
+	            });
+	        }
+	    }
+	    HostConfig.updateProps = updateProps;
+	})(HostConfig || (HostConfig = {}));
+	exports.HostConfig = HostConfig;
+	});
+
+	unwrapExports(ReactDefaults);
+	var ReactDefaults_1 = ReactDefaults.HostConfig;
+
+	var ReactTypes = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 16:47:37
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 17:17:11
+	 */
+	var NodeType;
+	(function (NodeType) {
+	    NodeType.Text = Symbol("Text");
+	    NodeType.Fragment = Symbol("DocumentFragment");
+	    NodeType.Root = Symbol("Container");
+	    NodeType.Hook = Symbol("Hook");
+	    NodeType.Host = Symbol("Host");
+	    NodeType.Unknown = Symbol("Unknown");
+	})(NodeType = exports.NodeType || (exports.NodeType = {}));
+	var EffectType;
+	(function (EffectType) {
+	    EffectType.Place = Symbol("Place");
+	    EffectType.Update = Symbol("Update");
+	    EffectType.Delete = Symbol("Delete");
+	    EffectType.Create = Symbol("Create");
+	    EffectType.getEffectLevel = function (effectType) {
+	        switch (effectType) {
+	            case EffectType.Create:
+	                return 4;
+	            case EffectType.Update:
+	                return 2;
+	            case EffectType.Place:
+	                return 3;
+	            case EffectType.Delete:
+	                return 1;
+	            default:
+	                return 0;
+	        }
+	    };
+	})(EffectType = exports.EffectType || (exports.EffectType = {}));
+	});
+
+	unwrapExports(ReactTypes);
+	var ReactTypes_1 = ReactTypes.NodeType;
+	var ReactTypes_2 = ReactTypes.EffectType;
+
+	var ReactHostConfig = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 16:44:01
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 19:45:55
+	 */
+	var HostConfig = {};
+	exports.HostConfig = HostConfig;
+	function setHostConfig(config) {
+	    Object.assign(HostConfig, config);
+	}
+	exports.setHostConfig = setHostConfig;
+	});
+
+	unwrapExports(ReactHostConfig);
+	var ReactHostConfig_1 = ReactHostConfig.HostConfig;
+	var ReactHostConfig_2 = ReactHostConfig.setHostConfig;
+
+	var ReactFiberElement = createCommonjsModule(function (module, exports) {
+	var __assign = (commonjsGlobal && commonjsGlobal.__assign) || function () {
+	    __assign = Object.assign || function(t) {
+	        for (var s, i = 1, n = arguments.length; i < n; i++) {
+	            s = arguments[i];
+	            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+	                t[p] = s[p];
+	        }
+	        return t;
+	    };
+	    return __assign.apply(this, arguments);
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:09:48
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 17:10:12
+	 */
+
+
+	function createStateNode(hostFiber) {
+	    var type = hostFiber.$$typeof, tag = hostFiber.tag, props = hostFiber.props;
+	    var stateNode = null;
+	    if (type === ReactTypes.NodeType.Text) {
+	        stateNode = ReactHostConfig.HostConfig.createTextNode(props.nodeValue);
+	    }
+	    if (type === ReactTypes.NodeType.Root) {
+	        stateNode = hostFiber.stateNode;
+	    }
+	    if (type === ReactTypes.NodeType.Host) {
+	        stateNode = ReactHostConfig.HostConfig.createElement(tag);
+	    }
+	    if (props.ref) {
+	        var ref = props.ref;
+	        if (typeof ref === "function") {
+	            ref(stateNode);
+	        }
+	        else {
+	            ref.current = stateNode;
+	        }
+	    }
+	    return stateNode;
+	}
+	exports.createStateNode = createStateNode;
+	var Children;
+	(function (Children) {
+	    Children.toArray = function () {
+	        var children = [];
+	        for (var _i = 0; _i < arguments.length; _i++) {
+	            children[_i] = arguments[_i];
+	        }
+	        return children.flat(2).reduce(function (acc, ch) {
+	            if (ch === undefined)
+	                return acc;
+	            if (typeof ch === "number") {
+	                return acc.concat(createTextElement(ch));
+	            }
+	            if (typeof ch === "string") {
+	                if (!ch.replace(/ |\r?\n|\r/g, ""))
+	                    return acc;
+	                return acc.concat(createTextElement(ch));
+	            }
+	            return acc.concat(ch);
+	        }, []);
+	    };
+	})(Children || (Children = {}));
+	exports.Children = Children;
+	var createTextElement = function (nodeValue) { return ({
+	    tag: "#text",
+	    $$typeof: ReactTypes.NodeType.Text,
+	    props: { nodeValue: nodeValue }
+	}); };
+	exports.createTextElement = createTextElement;
+	var createElement = function (tag, props) {
+	    var children = [];
+	    for (var _i = 2; _i < arguments.length; _i++) {
+	        children[_i - 2] = arguments[_i];
+	    }
+	    props = __assign(__assign({}, props), { children: Children.toArray.apply(Children, children) });
+	    if (typeof tag === "string") {
+	        return { $$typeof: ReactTypes.NodeType.Host, tag: tag, props: props };
+	    }
+	    if (typeof tag === "function") {
+	        return { $$typeof: ReactTypes.NodeType.Hook, tag: tag, props: props };
+	    }
+	    return { $$typeof: ReactTypes.NodeType.Unknown, tag: tag, props: props };
+	};
+	exports.createElement = createElement;
+	});
+
+	unwrapExports(ReactFiberElement);
+	var ReactFiberElement_1 = ReactFiberElement.createStateNode;
+	var ReactFiberElement_2 = ReactFiberElement.Children;
+	var ReactFiberElement_3 = ReactFiberElement.createTextElement;
+	var ReactFiberElement_4 = ReactFiberElement.createElement;
+
+	var ReactShared = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:13:32
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 17:16:43
+	 */
+	var MAX_CALL_SIZE = 10000;
+	var setMaxCallSize = function (size) {
+	    MAX_CALL_SIZE = size;
+	};
+	exports.setMaxCallSize = setMaxCallSize;
+	var TestCallSize = function (id) {
+	    if (id === void 0) { id = "default"; }
+	    if (!TestCallSize["size"]) {
+	        TestCallSize["size"] = {};
+	    }
+	    var size = TestCallSize["size"];
+	    if (id in size) {
+	        size[id]++;
+	    }
+	    else {
+	        size[id] = 1;
+	    }
+	    if (size[id] > MAX_CALL_SIZE) {
+	        throw new Error("CALL SIZE OVERFLOW: " + id + ", try to reset the MAX_CALL_SIZE(" + MAX_CALL_SIZE + ")");
+	    }
+	};
+	exports.TestCallSize = TestCallSize;
+	var is = function (x, y) {
+	    return (x === y && (x !== 0 || 1 / x === 1 / y)) || (x !== x && y !== y);
+	};
+	exports.is = is;
+	function areHookInputsEqual(nextDeps, prevDeps) {
+	    if (prevDeps === null) {
+	        return false;
+	    }
+	    for (var i = 0; i < prevDeps.length && i < nextDeps.length; i++) {
+	        if (is(nextDeps[i], prevDeps[i])) {
+	            continue;
+	        }
+	        return false;
+	    }
+	    return true;
+	}
+	exports.areHookInputsEqual = areHookInputsEqual;
+	var index = 0;
+	var getIndex = function () {
+	    var currentIndex = index;
+	    index++;
+	    return currentIndex;
+	};
+	exports.getIndex = getIndex;
+	var resetIndex = function () {
+	    index = 0;
+	};
+	exports.resetIndex = resetIndex;
+	});
+
+	unwrapExports(ReactShared);
+	var ReactShared_1 = ReactShared.setMaxCallSize;
+	var ReactShared_2 = ReactShared.TestCallSize;
+	var ReactShared_3 = ReactShared.is;
+	var ReactShared_4 = ReactShared.areHookInputsEqual;
+	var ReactShared_5 = ReactShared.getIndex;
+	var ReactShared_6 = ReactShared.resetIndex;
+
+	var ReactFiberReflection = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:11:47
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 21:36:06
+	 */
+
+	var Reflection;
+	(function (Reflection) {
+	    var combiner = new WeakMap();
+	    function getRefObj(fiber) {
+	        var reference = null;
+	        var $$typeof = fiber.$$typeof, tag = fiber.tag;
+	        if ($$typeof === ReactTypes.NodeType.Hook) {
+	            reference = tag;
+	        }
+	        else {
+	            throw new Error("Reflection Error: reference not found.");
+	        }
+	        return reference;
+	    }
+	    Reflection.getRefObj = getRefObj;
+	    function get(hookFiber, key) {
+	        if (hookFiber[key])
+	            return hookFiber[key];
+	        var ref = getRefObj(hookFiber);
+	        var meta = combiner.get(ref) || {};
+	        hookFiber[key] = meta[key];
+	        return hookFiber[key];
+	    }
+	    Reflection.get = get;
+	    function set(hookFiber, key, value) {
+	        var ref = getRefObj(hookFiber);
+	        var meta = combiner.get(ref) || {};
+	        meta[key] = value;
+	        combiner.set(ref, meta);
+	    }
+	    Reflection.set = set;
+	    function delet(hookFiber, key) {
+	        var ref = getRefObj(hookFiber);
+	        delete hookFiber[key];
+	        combiner.delete(ref);
+	    }
+	    Reflection.delet = delet;
+	    function setAlternate(fiber, alternate) {
+	        if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
+	            Reflection.set(fiber, "alternate", alternate);
+	        }
+	        else {
+	            fiber.alternate = alternate;
+	        }
+	    }
+	    Reflection.setAlternate = setAlternate;
+	    function getAlternate(fiber) {
+	        if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
+	            return Reflection.get(fiber, "alternate");
+	        }
+	        else {
+	            return fiber.alternate;
+	        }
+	    }
+	    Reflection.getAlternate = getAlternate;
+	    function unlinkAlternate(fiber) {
+	        if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
+	            return Reflection.delet(fiber, "alternate");
+	        }
+	        else {
+	            delete fiber.alternate;
+	        }
+	    }
+	    Reflection.unlinkAlternate = unlinkAlternate;
+	    function setContainerFiber(container, fiber) {
+	        container["_rootContainer"] = fiber;
+	    }
+	    Reflection.setContainerFiber = setContainerFiber;
+	    function getContainerFiber(container) {
+	        return container["_rootContainer"];
+	    }
+	    Reflection.getContainerFiber = getContainerFiber;
+	})(Reflection = exports.Reflection || (exports.Reflection = {}));
+	});
+
+	unwrapExports(ReactFiberReflection);
+	var ReactFiberReflection_1 = ReactFiberReflection.Reflection;
+
+	var ReactIs = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:13:21
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 17:14:54
+	 */
+
+	exports.isHostParent = function (fiber) {
+	    return fiber.$$typeof === ReactTypes.NodeType.Host || fiber.$$typeof === ReactTypes.NodeType.Root;
+	};
+	exports.isHost = function (fiber) {
+	    return fiber.$$typeof === ReactTypes.NodeType.Host || fiber.$$typeof === ReactTypes.NodeType.Text;
+	};
+	exports.isSameTag = function (element, oldFiber) {
+	    return element.tag === oldFiber.tag;
+	};
+	});
+
+	unwrapExports(ReactIs);
+	var ReactIs_1 = ReactIs.isHostParent;
+	var ReactIs_2 = ReactIs.isHost;
+	var ReactIs_3 = ReactIs.isSameTag;
+
+	var ReactFiberChildren = createCommonjsModule(function (module, exports) {
+	var __assign = (commonjsGlobal && commonjsGlobal.__assign) || function () {
+	    __assign = Object.assign || function(t) {
+	        for (var s, i = 1, n = arguments.length; i < n; i++) {
+	            s = arguments[i];
+	            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+	                t[p] = s[p];
+	        }
+	        return t;
+	    };
+	    return __assign.apply(this, arguments);
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:08:56
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 21:54:36
+	 */
+
+
+
+
+
+	function reconcileChildren(fiber, children) {
+	    children = ReactFiberElement.Children.toArray(children);
+	    // get hookFiber's alternate
+	    var alternate = ReactFiberReflection.Reflection.getAlternate(fiber);
+	    var nextOldFiber = alternate ? alternate.child : null;
+	    var newFiber = null;
+	    var i = 0;
+	    while (i < children.length || nextOldFiber) {
+	        var prevChild = newFiber;
+	        var oldFiber = nextOldFiber;
+	        var element = i < children.length && children[i];
+	        // update
+	        if (oldFiber && element && ReactIs.isSameTag(element, oldFiber)) {
+	            newFiber = __assign(__assign({}, oldFiber), { tag: element.tag, props: element.props, $$typeof: element.$$typeof, effectType: ReactTypes.EffectType.Update, return: fiber });
+	            ReactFiberReflection.Reflection.setAlternate(newFiber, oldFiber);
+	        }
+	        // place
+	        else if (oldFiber && element && !ReactIs.isSameTag(element, oldFiber)) {
+	            newFiber = __assign(__assign({}, oldFiber), { tag: element.tag, props: element.props, $$typeof: element.$$typeof, return: fiber, effectType: ReactTypes.EffectType.Place });
+	            ReactFiberReflection.Reflection.setAlternate(newFiber, oldFiber);
+	        }
+	        // create
+	        else if (!oldFiber && element) {
+	            newFiber = __assign(__assign({}, oldFiber), { tag: element.tag, props: element.props, $$typeof: element.$$typeof, return: fiber, effectType: ReactTypes.EffectType.Create });
+	            ReactFiberReflection.Reflection.setAlternate(newFiber, oldFiber);
+	        }
+	        // delete
+	        else if (oldFiber && !element) {
+	            oldFiber.effectType = ReactTypes.EffectType.Delete;
+	            var effectList = fiber.effectList || [];
+	            effectList.push(oldFiber);
+	            fiber.effectList = effectList;
+	        }
+	        // next alternate
+	        if (nextOldFiber)
+	            nextOldFiber = nextOldFiber.sibling;
+	        if (i === 0 || !fiber.child) {
+	            fiber.child = newFiber; // link: fiber->child
+	        }
+	        else if (prevChild) {
+	            if (element) {
+	                prevChild.sibling = newFiber; // link: fiber.sibling->fiber
+	            }
+	            else {
+	                prevChild.sibling = null; // unlink: fiber.sibling
+	                delete prevChild.sibling;
+	            }
+	        }
+	        i++;
+	        ReactShared.TestCallSize("reconcileChildren");
+	    }
+	    return fiber.child;
+	}
+	exports.reconcileChildren = reconcileChildren;
+	});
+
+	unwrapExports(ReactFiberChildren);
+	var ReactFiberChildren_1 = ReactFiberChildren.reconcileChildren;
+
+	var ReactFiberTraverse = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:11:57
+	 * @Last Modified by:   saber2pr
+	 * @Last Modified time: 2019-12-06 17:11:57
+	 */
+
+
+
+	function getHostSiblingFiber(fiber) {
+	    var node = fiber;
+	    siblings: while (true) {
+	        ReactShared.TestCallSize("getHostSiblingFiber");
+	        while (!node.sibling) {
+	            if (!node.return || ReactIs.isHostParent(node.return)) {
+	                return null;
+	            }
+	            node = node.return;
+	        }
+	        node.sibling.return = node.return;
+	        node = node.sibling;
+	        while (!ReactIs.isHost(node)) {
+	            if (node.effectType === ReactTypes.EffectType.Place) {
+	                continue siblings;
+	            }
+	            if (!node.child) {
+	                continue siblings;
+	            }
+	            else {
+	                node.child.return = node;
+	                node = node.child;
+	            }
+	        }
+	        if (!(node.effectType === ReactTypes.EffectType.Place)) {
+	            return node;
+	        }
+	    }
+	}
+	exports.getHostSiblingFiber = getHostSiblingFiber;
+	function getHostParentFiber(fiber) {
+	    var parent = fiber.return;
+	    while (parent) {
+	        ReactShared.TestCallSize("getHostParentFiber");
+	        if (ReactIs.isHostParent(parent)) {
+	            return parent;
+	        }
+	        parent = parent.return;
+	    }
+	}
+	exports.getHostParentFiber = getHostParentFiber;
+	function getHostChildFiber(fiber) {
+	    var child = fiber.child;
+	    while (child) {
+	        ReactShared.TestCallSize("getHostChildFiber");
+	        if (ReactIs.isHost(child)) {
+	            return child;
+	        }
+	        child = child.child;
+	    }
+	}
+	exports.getHostChildFiber = getHostChildFiber;
+	});
+
+	unwrapExports(ReactFiberTraverse);
+	var ReactFiberTraverse_1 = ReactFiberTraverse.getHostSiblingFiber;
+	var ReactFiberTraverse_2 = ReactFiberTraverse.getHostParentFiber;
+	var ReactFiberTraverse_3 = ReactFiberTraverse.getHostChildFiber;
+
+	var ReactFiberCommitWork = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:09:07
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 21:50:17
+	 */
+
+
+
+
+	function commitWork(fiber) {
+	    var effectList = sortEffectList(fiber);
+	    effectList.forEach(commitUnitOfWork);
+	    var callback = fiber.callback;
+	    if (callback)
+	        callback(fiber);
+	}
+	exports.commitWork = commitWork;
+	function sortEffectList(fiber) {
+	    var effectList = fiber.effectList || [];
+	    fiber.effectList = effectList
+	        .map(function (effect) { return ({
+	        level: ReactTypes.EffectType.getEffectLevel(effect.effectType),
+	        effect: effect
+	    }); })
+	        .sort(function (a, b) { return b.level - a.level; })
+	        .map(function (task) { return task.effect; });
+	    return fiber.effectList;
+	}
+	function commitUnitOfWork(fiber) {
+	    var type = fiber.$$typeof, effectTag = fiber.effectType;
+	    if (type === ReactTypes.NodeType.Hook) ;
+	    else {
+	        switch (effectTag) {
+	            case ReactTypes.EffectType.Create:
+	                commitCreate(fiber);
+	                break;
+	            case ReactTypes.EffectType.Update:
+	                commitUpdate(fiber);
+	                break;
+	            case ReactTypes.EffectType.Place:
+	                commitPlace(fiber);
+	                break;
+	            case ReactTypes.EffectType.Delete:
+	                commitDelete(fiber);
+	                break;
+	        }
+	    }
+	}
+	function commitCreate(hostFiber) {
+	    var HostParent = ReactFiberTraverse.getHostParentFiber(hostFiber);
+	    var parent = HostParent.stateNode;
+	    var node = hostFiber.stateNode;
+	    ReactHostConfig.HostConfig.appendChild(parent, node);
+	    ReactFiberReflection.Reflection.unlinkAlternate(hostFiber);
+	}
+	exports.commitCreate = commitCreate;
+	function commitPlace(hostFiber) {
+	    var alternate = hostFiber.alternate, newChild = hostFiber.stateNode;
+	    var oldChild = alternate.stateNode;
+	    var HostParent = ReactFiberTraverse.getHostParentFiber(alternate);
+	    var parent = HostParent.stateNode;
+	    ReactHostConfig.HostConfig.replaceChild(parent, newChild, oldChild);
+	    // replace child node
+	    var HostChild = ReactFiberTraverse.getHostChildFiber(hostFiber);
+	    if (HostChild) {
+	        var HostChildNode = HostChild.stateNode;
+	        var HostChildSibling = ReactFiberTraverse.getHostSiblingFiber(HostChild);
+	        if (HostChildSibling) {
+	            var HostChildSiblingNode = HostChildSibling.stateNode;
+	            ReactHostConfig.HostConfig.insertBefore(newChild, HostChildNode, HostChildSiblingNode);
+	        }
+	        else {
+	            ReactHostConfig.HostConfig.appendChild(newChild, HostChildNode);
+	        }
+	    }
+	}
+	exports.commitPlace = commitPlace;
+	function commitUpdate(hostFiber) {
+	    var alternate = ReactFiberReflection.Reflection.getAlternate(hostFiber);
+	    var newProps = hostFiber.props;
+	    var node = hostFiber.stateNode;
+	    var oldProps = alternate ? alternate.props : {};
+	    var newPropsToUpdate = Object.fromEntries(Object.entries(newProps).filter(function (_a) {
+	        var k = _a[0];
+	        return !["ref", "children"].includes(k);
+	    }));
+	    ReactHostConfig.HostConfig.updateProps(node, newPropsToUpdate, oldProps);
+	}
+	exports.commitUpdate = commitUpdate;
+	function commitDelete(fiber) {
+	    var stateNode = fiber.stateNode;
+	    ReactHostConfig.HostConfig.removeSelf(stateNode);
+	}
+	exports.commitDelete = commitDelete;
+	});
+
+	unwrapExports(ReactFiberCommitWork);
+	var ReactFiberCommitWork_1 = ReactFiberCommitWork.commitWork;
+	var ReactFiberCommitWork_2 = ReactFiberCommitWork.commitCreate;
+	var ReactFiberCommitWork_3 = ReactFiberCommitWork.commitPlace;
+	var ReactFiberCommitWork_4 = ReactFiberCommitWork.commitUpdate;
+	var ReactFiberCommitWork_5 = ReactFiberCommitWork.commitDelete;
+
+	var ReactFiberWorkLoop = createCommonjsModule(function (module, exports) {
+	var __spreadArrays = (commonjsGlobal && commonjsGlobal.__spreadArrays) || function () {
+	    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+	    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+	        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+	            r[k] = a[j];
+	    return r;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:12:44
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 21:53:51
+	 */
+
+
+
+
+
+
+
+	var workInProgress = null;
+	var pendingCommit = null;
+	var getCurrentWorkInProgress = function () { return workInProgress; };
+	exports.getCurrentWorkInProgress = getCurrentWorkInProgress;
+	function renderRoot(root) {
+	    if (!workInProgress)
+	        workInProgress = createWorkInProgress(root);
+	    while (workInProgress) {
+	        workInProgress = performUnitOfWork(workInProgress, root);
+	        if (workInProgress === root)
+	            break;
+	        ReactShared.TestCallSize("renderRoot");
+	    }
+	    if (pendingCommit) {
+	        ReactFiberCommitWork.commitWork(pendingCommit);
+	        workInProgress = null;
+	        pendingCommit = null;
+	    }
+	}
+	exports.renderRoot = renderRoot;
+	function createWorkInProgress(fiber) {
+	    workInProgress = fiber;
+	    workInProgress.effectList = null;
+	    return workInProgress;
+	}
+	function performUnitOfWork(fiber, top) {
+	    var next = beginWork(fiber);
+	    if (next)
+	        return next;
+	    var current = fiber;
+	    while (current) {
+	        if (current === top)
+	            return current;
+	        completeWork(current, top);
+	        if (current.sibling)
+	            return current.sibling;
+	        current = current.return;
+	        ReactShared.TestCallSize("performUnitOfWork");
+	    }
+	}
+	function completeWork(fiber, top) {
+	    var parent = fiber.return;
+	    if (parent) {
+	        var parentEffectList = parent.effectList || [];
+	        var fiberEffectList = fiber.effectList || [];
+	        parent.effectList = parentEffectList.concat.apply(parentEffectList, __spreadArrays(fiberEffectList, [fiber]));
+	        fiber.effectList = [];
+	        delete fiber.effectList;
+	        if (parent === top)
+	            pendingCommit = parent;
+	    }
+	}
+	function beginWork(fiber) {
+	    if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
+	        return updateHOOKComponent(fiber);
+	    }
+	    if (fiber.$$typeof === ReactTypes.NodeType.Root) {
+	        return updateHostComponent(fiber);
+	    }
+	    if (fiber.$$typeof === ReactTypes.NodeType.Text) {
+	        return updateHostComponent(fiber);
+	    }
+	    if (fiber.$$typeof === ReactTypes.NodeType.Host) {
+	        return updateHostComponent(fiber);
+	    }
+	}
+	function updateHOOKComponent(hookFiber) {
+	    var constructor = hookFiber.tag, props = hookFiber.props;
+	    ReactFiberReflection.Reflection.setAlternate(hookFiber, hookFiber);
+	    ReactShared.resetIndex();
+	    var children = constructor(props);
+	    return ReactFiberChildren.reconcileChildren(hookFiber, children);
+	}
+	function updateHostComponent(hostFiber) {
+	    var children = hostFiber.props.children, stateNode = hostFiber.stateNode, alternate = hostFiber.alternate;
+	    if (!stateNode || (alternate && !ReactIs.isSameTag(hostFiber, alternate))) {
+	        hostFiber.stateNode = ReactFiberElement.createStateNode(hostFiber);
+	        ReactFiberCommitWork.commitUpdate(hostFiber);
+	    }
+	    return ReactFiberChildren.reconcileChildren(hostFiber, children);
+	}
+	});
+
+	unwrapExports(ReactFiberWorkLoop);
+	var ReactFiberWorkLoop_1 = ReactFiberWorkLoop.getCurrentWorkInProgress;
+	var ReactFiberWorkLoop_2 = ReactFiberWorkLoop.renderRoot;
+
+	var ReactFiberReconciler = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 19:07:32
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 21:54:22
+	 */
+
+
+
+
+
+	var updateQueue = [];
+	var lastTime = 0;
+	function pushEffect(callback) {
+	    if (requestIdleCallback) {
+	        requestIdleCallback(callback);
+	    }
+	    else {
+	        setTimeout(callback);
+	    }
+	}
+	function pushLayoutEffect(callback) {
+	    if (requestAnimationFrame) {
+	        requestAnimationFrame(callback);
+	    }
+	    else {
+	        var now = Date.now();
+	        var nextTime_1 = Math.max(lastTime + 16, now);
+	        return setTimeout(function () { return callback((lastTime = nextTime_1)); }, nextTime_1 - now);
+	    }
+	}
+	function scheduleWork(fiber, mode) {
+	    if (mode === void 0) { mode = "normal"; }
+	    updateQueue.push(fiber);
+	    switch (mode) {
+	        case "normal":
+	            pushEffect(scheduleUnitOfWorkNormalMode);
+	            break;
+	        case "layout":
+	            pushLayoutEffect(scheduleUnitOfWorkLayoutMode);
+	            break;
+	        default:
+	            pushEffect(scheduleUnitOfWorkNormalMode);
+	    }
+	}
+	exports.scheduleWork = scheduleWork;
+	function scheduleUnitOfWorkNormalMode() {
+	    ReactShared.TestCallSize("scheduleUnitOfWorkNormalMode");
+	    var update = updateQueue.pop();
+	    if (update)
+	        ReactFiberWorkLoop.renderRoot(update);
+	    if (updateQueue.length) {
+	        pushEffect(scheduleUnitOfWorkNormalMode);
+	    }
+	}
+	function scheduleUnitOfWorkLayoutMode() {
+	    ReactShared.TestCallSize("scheduleUnitOfWorkLayoutMode");
+	    var update = updateQueue.pop();
+	    if (update)
+	        ReactFiberWorkLoop.renderRoot(update);
+	    if (updateQueue.length) {
+	        pushLayoutEffect(scheduleUnitOfWorkLayoutMode);
+	    }
+	}
+	function createRenderer(HostConfig) {
+	    ReactHostConfig.setHostConfig(HostConfig);
+	    var createContainer = function (component, container, callback) {
+	        var rootFiber = {
+	            $$typeof: ReactTypes.NodeType.Root,
+	            stateNode: container,
+	            props: { children: [component] },
+	            callback: callback
+	        };
+	        HostConfig.removeAllChild(container);
+	        ReactFiberReflection.Reflection.setContainerFiber(container, rootFiber);
+	        scheduleWork(rootFiber);
+	    };
+	    var updateContainer = function (component, container, callback) {
+	        var rootFiber = {
+	            $$typeof: ReactTypes.NodeType.Root,
+	            stateNode: container,
+	            alternate: ReactFiberReflection.Reflection.getContainerFiber(container),
+	            props: { children: [component] },
+	            callback: callback
+	        };
+	        scheduleWork(rootFiber);
+	    };
+	    return {
+	        createContainer: createContainer,
+	        updateContainer: updateContainer
+	    };
+	}
+	exports.createRenderer = createRenderer;
+	});
+
+	unwrapExports(ReactFiberReconciler);
+	var ReactFiberReconciler_1 = ReactFiberReconciler.scheduleWork;
+	var ReactFiberReconciler_2 = ReactFiberReconciler.createRenderer;
+
+	var ReactFiberHooks = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:11:09
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 19:09:39
+	 */
+
+
+
+	function useState(initialState) {
+	    var id = ReactShared.getIndex();
+	    var fiber = ReactFiberWorkLoop.getCurrentWorkInProgress();
+	    var memoizedState = fiber.memoizedState || {};
+	    if (!(id in memoizedState)) {
+	        memoizedState[id] = initialState;
+	        fiber.memoizedState = memoizedState;
+	    }
+	    var setState = function (state) {
+	        if (state === memoizedState[id])
+	            return;
+	        memoizedState[id] = state;
+	        ReactFiberReconciler.scheduleWork(fiber);
+	    };
+	    return [memoizedState[id], setState];
+	}
+	exports.useState = useState;
+	var useReducer = function (initReducer, initialState, initAction) {
+	    var reducer = useCallBack(initReducer);
+	    var initState = initAction
+	        ? reducer(initialState, initAction)
+	        : initialState;
+	    var _a = useState(initState), state = _a[0], setState = _a[1];
+	    var dispatch = function (action) { return setState(reducer(state, action)); };
+	    return [state, dispatch];
+	};
+	exports.useReducer = useReducer;
+	function useRef(value) {
+	    var state = useState({ current: value })[0];
+	    return state;
+	}
+	exports.useRef = useRef;
+	function useCallBack(callback, deps) {
+	    if (deps === void 0) { deps = []; }
+	    var ref = useRef(callback);
+	    var prevDepsRef = useRef(null);
+	    if (ReactShared.areHookInputsEqual(deps, prevDepsRef.current)) {
+	        return ref.current;
+	    }
+	    else {
+	        ref.current = callback;
+	        prevDepsRef.current = deps;
+	        return callback;
+	    }
+	}
+	exports.useCallBack = useCallBack;
+	function useMemo(memoFunc, deps) {
+	    if (deps === void 0) { deps = []; }
+	    var ref = useRef(null);
+	    var prevDepsRef = useRef(null);
+	    if (ReactShared.areHookInputsEqual(deps, prevDepsRef.current)) {
+	        return ref.current;
+	    }
+	    else {
+	        ref.current = memoFunc();
+	        prevDepsRef.current = deps;
+	        return ref.current;
+	    }
+	}
+	exports.useMemo = useMemo;
+	});
+
+	unwrapExports(ReactFiberHooks);
+	var ReactFiberHooks_1 = ReactFiberHooks.useState;
+	var ReactFiberHooks_2 = ReactFiberHooks.useReducer;
+	var ReactFiberHooks_3 = ReactFiberHooks.useRef;
+	var ReactFiberHooks_4 = ReactFiberHooks.useCallBack;
+	var ReactFiberHooks_5 = ReactFiberHooks.useMemo;
+
+	var React_1 = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 16:44:19
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 20:56:42
+	 */
+
+	exports.HostConfig = ReactDefaults.HostConfig;
+
+
+
+
+	var renderer = ReactFiberReconciler.createRenderer(ReactDefaults.HostConfig);
+	var React;
+	(function (React) {
+	    React.render = function (component, container, callback) {
+	        var isContainer = ReactFiberReflection.Reflection.getContainerFiber(container);
+	        if (isContainer) {
+	            renderer.updateContainer(component, container, callback);
+	        }
+	        else {
+	            renderer.createContainer(component, container, callback);
+	        }
+	    };
+	    React.createElement = ReactFiberElement.createElement;
+	    React.Children = ReactFiberElement.Children;
+	    React.useCallBack = ReactFiberHooks.useCallBack;
+	    React.useMemo = ReactFiberHooks.useMemo;
+	    React.useReducer = ReactFiberHooks.useReducer;
+	    React.useRef = ReactFiberHooks.useRef;
+	    React.useState = ReactFiberHooks.useState;
+	    React.createRenderer = ReactFiberReconciler.createRenderer;
+	})(React = exports.React || (exports.React = {}));
+	var useCallBack = ReactFiberHooks.useCallBack;
+	exports.useCallBack = useCallBack;
+	var useMemo = ReactFiberHooks.useMemo;
+	exports.useMemo = useMemo;
+	var useReducer = ReactFiberHooks.useReducer;
+	exports.useReducer = useReducer;
+	var useRef = ReactFiberHooks.useRef;
+	exports.useRef = useRef;
+	var useState = ReactFiberHooks.useState;
+	exports.useState = useState;
+	var createRenderer = ReactFiberReconciler.createRenderer;
+	exports.createRenderer = createRenderer;
+	exports.default = React;
+	});
+
+	unwrapExports(React_1);
+	var React_2 = React_1.HostConfig;
+	var React_3 = React_1.React;
+	var React_4 = React_1.useCallBack;
+	var React_5 = React_1.useMemo;
+	var React_6 = React_1.useReducer;
+	var React_7 = React_1.useRef;
+	var React_8 = React_1.useState;
+	var React_9 = React_1.createRenderer;
+
+	var lib = createCommonjsModule(function (module, exports) {
+	function __export(m) {
+	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	__export(React_1);
+	var React_1$1 = React_1;
+	exports.default = React_1$1.default;
+	});
+
+	unwrapExports(lib);
+
+	var TestIF = createCommonjsModule(function (module, exports) {
+	var __importStar = (commonjsGlobal && commonjsGlobal.__importStar) || function (mod) {
+	    if (mod && mod.__esModule) return mod;
+	    var result = {};
+	    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+	    result["default"] = mod;
+	    return result;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 15:28:47
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 17:28:45
+	 */
+	var __1 = __importStar(lib);
+	exports.TestIf = function () {
+	    var _a = __1.useState(true), isShow = _a[0], setState = _a[1];
+	    var clickWithDeps = __1.useCallBack(function () { return setState(!isShow); }, [isShow]);
+	    var clickWithoutDes = __1.useCallBack(function () { return setState(!isShow); });
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("div", null, "TestIf Demo"),
+	        isShow && (__1.default.createElement("ol", null,
+	            __1.default.createElement("li", null, "apple"),
+	            __1.default.createElement("li", null, "banana"),
+	            __1.default.createElement("li", null, "orange"))),
+	        __1.default.createElement("button", { onclick: clickWithDeps }, "change(with deps)"),
+	        __1.default.createElement("button", { onclick: clickWithoutDes }, "change(without deps)")));
+	};
+	});
+
+	unwrapExports(TestIF);
+	var TestIF_1 = TestIF.TestIf;
+
+	var TestList = createCommonjsModule(function (module, exports) {
+	var __importStar = (commonjsGlobal && commonjsGlobal.__importStar) || function (mod) {
+	    if (mod && mod.__esModule) return mod;
+	    var result = {};
+	    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+	    result["default"] = mod;
+	    return result;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 15:28:50
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 16:29:05
+	 */
+	var __1 = __importStar(lib);
+	exports.TestList = function () {
+	    var _a = __1.useState([1, 2, 3]), list = _a[0], setList = _a[1];
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("div", null, "TestList Demo"),
+	        __1.default.createElement("ul", null, list.map(function (l) { return (__1.default.createElement("li", null, l)); })),
+	        __1.default.createElement("button", { onclick: function () { return setList([1, 2, 3, 4, 5]); } }, "append"),
+	        __1.default.createElement("button", { onclick: function () { return setList([1]); } }, "remove"),
+	        __1.default.createElement("button", { onclick: function () { return setList([0, 1, 2, 3]); } }, "insert")));
+	};
+	});
+
+	unwrapExports(TestList);
+	var TestList_1 = TestList.TestList;
+
+	var TestPlace = createCommonjsModule(function (module, exports) {
+	var __importStar = (commonjsGlobal && commonjsGlobal.__importStar) || function (mod) {
+	    if (mod && mod.__esModule) return mod;
+	    var result = {};
+	    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+	    result["default"] = mod;
+	    return result;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 15:28:44
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 16:41:58
+	 */
+	var __1 = __importStar(lib);
+	exports.TestPlace = function () {
+	    var _a = __1.useState(__1.default.createElement("p", null, "to be placed")), state = _a[0], setState = _a[1];
+	    var flag = __1.useRef(true);
+	    var ref = __1.useRef();
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("div", { ref: ref }, "TestPlace Demo"),
+	        state,
+	        __1.default.createElement("button", { onclick: function () {
+	                if (flag.current) {
+	                    setState(__1.default.createElement("div", null,
+	                        __1.default.createElement("header", null, "header"),
+	                        __1.default.createElement("ul", null,
+	                            __1.default.createElement("li", null, "content1"),
+	                            __1.default.createElement("li", null, "content2")),
+	                        __1.default.createElement("footer", null, "footer")));
+	                }
+	                else {
+	                    setState(__1.default.createElement("p", null, "to be placed"));
+	                }
+	                flag.current = !flag.current;
+	            } }, "place"),
+	        __1.default.createElement("button", { onclick: function () { return console.log(ref); } }, "console ref")));
+	};
+	});
+
+	unwrapExports(TestPlace);
+	var TestPlace_1 = TestPlace.TestPlace;
+
+	var TestUseMemo = createCommonjsModule(function (module, exports) {
+	var __importStar = (commonjsGlobal && commonjsGlobal.__importStar) || function (mod) {
+	    if (mod && mod.__esModule) return mod;
+	    var result = {};
+	    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+	    result["default"] = mod;
+	    return result;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 15:39:28
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 16:29:18
+	 */
+	var __1 = __importStar(lib);
+	exports.TestUseMemo = function () {
+	    var _a = __1.useState(0), state = _a[0], setState = _a[1];
+	    var expression = function () {
+	        return state + 1;
+	    };
+	    var resultMemo = __1.useMemo(expression);
+	    var result = expression();
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("div", null, "TestUseMemo Demo"),
+	        __1.default.createElement("div", null,
+	            __1.default.createElement("ul", null,
+	                __1.default.createElement("li", null,
+	                    "state:",
+	                    state),
+	                __1.default.createElement("li", null,
+	                    "memoState:",
+	                    resultMemo),
+	                __1.default.createElement("li", null,
+	                    "no memoState:",
+	                    result)),
+	            __1.default.createElement("button", { onclick: function () { return setState(state + 1); } }, "update"))));
+	};
+	});
+
+	unwrapExports(TestUseMemo);
+	var TestUseMemo_1 = TestUseMemo.TestUseMemo;
+
+	var TestUseReducer = createCommonjsModule(function (module, exports) {
+	var __importStar = (commonjsGlobal && commonjsGlobal.__importStar) || function (mod) {
+	    if (mod && mod.__esModule) return mod;
+	    var result = {};
+	    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+	    result["default"] = mod;
+	    return result;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 15:39:28
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 16:29:24
+	 */
+	var __1 = __importStar(lib);
+	exports.TestUseReducer = function () {
+	    var _a = __1.useReducer(function (state, action) {
+	        switch (action.type) {
+	            case "add":
+	                return { count: state.count + 1 };
+	            case "sub":
+	                return { count: state.count - 1 };
+	            default:
+	                return state;
+	        }
+	    }, { count: 0 }, { type: "add" }), state = _a[0], dispatch = _a[1];
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("div", null, "TestUseReducer Demo"),
+	        __1.default.createElement("div", null,
+	            __1.default.createElement("div", null,
+	                "state:",
+	                state.count),
+	            __1.default.createElement("button", { onclick: function () { return dispatch({ type: "add" }); } }, "add"),
+	            __1.default.createElement("button", { onclick: function () { return dispatch({ type: "sub" }); } }, "sub"))));
+	};
+	});
+
+	unwrapExports(TestUseReducer);
+	var TestUseReducer_1 = TestUseReducer.TestUseReducer;
+
+	var TestChildren = createCommonjsModule(function (module, exports) {
+	var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
+	    return (mod && mod.__esModule) ? mod : { "default": mod };
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:32:18
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 17:36:54
+	 */
+	var __1 = __importDefault(lib);
+	var ListFromProps = function (_a) {
+	    var list = _a.list;
+	    return (__1.default.createElement("ul", null, list.map(function (l) { return (__1.default.createElement("li", null, l)); })));
+	};
+	var ListFromChildren = function (_a) {
+	    var children = _a.children;
+	    return (__1.default.createElement("ul", null, children.map(function (l) { return (__1.default.createElement("li", null, l)); })));
+	};
+	exports.TestChildren = function () {
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("div", null, "TestChildren"),
+	        __1.default.createElement(ListFromProps, { list: [1, 2, 3] }),
+	        __1.default.createElement(ListFromChildren, null, [4, 5, 6])));
+	};
+	});
+
+	unwrapExports(TestChildren);
+	var TestChildren_1 = TestChildren.TestChildren;
+
+	var TestStyle = createCommonjsModule(function (module, exports) {
+	var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
+	    return (mod && mod.__esModule) ? mod : { "default": mod };
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 19:52:53
+	 * @Last Modified by:   saber2pr
+	 * @Last Modified time: 2019-12-06 19:52:53
+	 */
+	var __1 = __importDefault(lib);
+
+	exports.TestStyle = function () {
+	    var _a = React_1.useState("red"), state = _a[0], setState = _a[1];
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("div", null, "TestStyle Demo"),
+	        __1.default.createElement("div", { style: { color: state } }, "what color it is now?"),
+	        __1.default.createElement("button", { onclick: function () { return setState("blue"); } }, "change")));
+	};
+	});
+
+	unwrapExports(TestStyle);
+	var TestStyle_1 = TestStyle.TestStyle;
+
+	var TestCreateRenderer = createCommonjsModule(function (module, exports) {
+	var __importStar = (commonjsGlobal && commonjsGlobal.__importStar) || function (mod) {
+	    if (mod && mod.__esModule) return mod;
+	    var result = {};
+	    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+	    result["default"] = mod;
+	    return result;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 20:38:27
+	 * @Last Modified by:   saber2pr
+	 * @Last Modified time: 2019-12-06 20:38:27
+	 */
+	var __1 = __importStar(lib);
+	var renderer = __1.default.createRenderer(__1.HostConfig);
+	var container = document.createElement("div");
+	document.body.append(container);
+	var Store = {
+	    state: 0
+	};
+	exports.TestCreateRenderer = function () {
+	    var state = Store.state;
+	    return (__1.default.createElement("div", null,
+	        __1.default.createElement("hr", null),
+	        __1.default.createElement("div", null, "This is a UpdateContainer Test"),
+	        __1.default.createElement("div", null, state),
+	        __1.default.createElement("button", { onclick: function () {
+	                Store.state++;
+	                renderer.updateContainer(__1.default.createElement(exports.TestCreateRenderer, null), container, function () {
+	                    return console.log(Store.state);
+	                });
+	            } }, "add")));
+	};
+	renderer.createContainer(__1.default.createElement(exports.TestCreateRenderer, null), container);
+	});
+
+	unwrapExports(TestCreateRenderer);
+	var TestCreateRenderer_1 = TestCreateRenderer.TestCreateRenderer;
+
+	var Test = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	var Tests = [
+	    TestIF.TestIf,
+	    TestList.TestList,
+	    TestPlace.TestPlace,
+	    TestUseMemo.TestUseMemo,
+	    TestUseReducer.TestUseReducer,
+	    TestChildren.TestChildren,
+	    TestStyle.TestStyle
+	];
+	var App = function () {
+	    return (lib.React.createElement("div", null,
+	        lib.React.createElement("header", null,
+	            lib.React.createElement("h1", null, "React Features Tests")),
+	        lib.React.createElement("main", null,
+	            lib.React.createElement("ol", null, Tests.map(function (Test, i) { return (lib.React.createElement("li", null,
+	                i !== 0 && lib.React.createElement("hr", null),
+	                lib.React.createElement(Test, null))); }))),
+	        lib.React.createElement("footer", null,
+	            lib.React.createElement("i", null,
+	                "by ",
+	                lib.React.createElement("a", { href: "https://saber2pr.top/" }, "saber2pr")))));
+	};
+	lib.React.render(lib.React.createElement(App, null), document.getElementById("root"));
+	});
+
+	var Test$1 = unwrapExports(Test);
+
+	exports.__moduleExports = Test;
+	exports.default = Test$1;
+
+	return exports;
+
+}({}));
