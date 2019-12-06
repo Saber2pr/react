@@ -1,0 +1,32 @@
+{
+  "name": "@saber2pr/react",
+  "version": "0.2.0",
+  "description": "react-like in Typescript.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saber2pr/react.git"
+  },
+  "author": "saber2pr",
+  "license": "MIT",
+  "files": [
+    "lib/core/*",
+    "lib/index.*"
+  ],
+  "main": "./lib/index.js",
+  "scripts": {
+    "start": "tsc --watch",
+    "dev": "rollup -c --watch"
+  },
+  "keywords": [
+    "react-like",
+    "react-hooks",
+    "typescript"
+  ],
+  "devDependencies": {
+    "rollup": "^1.27.8",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.3",
+    "typescript": "^3.4.3"
+  }
+}
