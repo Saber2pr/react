@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 17:09:31
+ * @Last Modified time: 2019-12-06 19:46:55
  */
 import { Fiber, EffectType, NodeType } from "./ReactTypes"
 import { HostConfig } from "./ReactHostConfig"
@@ -87,24 +87,14 @@ function commitPlace(hostFiber: Fiber) {
 
 function commitUpdate(hostFiber: Fiber) {
   const alternate = Reflection.getAlternate(hostFiber)
-  const newProps: any = hostFiber.props
-  const dom: any = hostFiber.stateNode
+  const newProps = hostFiber.props
+  const node = hostFiber.stateNode
   const oldProps = alternate ? alternate.props : {}
 
-  Object.entries(newProps).forEach(([k, v]) => {
-    if (["ref", "style", "children"].includes(k)) return
-    if (oldProps[k] === v) return
-    dom[k] = v
-  })
-
-  if (newProps.style) {
-    const newStyle = newProps.style
-    const oldStyle = oldProps.style || {}
-    Object.entries(newStyle).forEach(([k, v]) => {
-      if (oldStyle[k] === v) return
-      dom.style[k] = v
-    })
-  }
+  const newPropsToUpdate = Object.fromEntries(
+    Object.entries(newProps).filter(([k]) => !["ref", "children"].includes(k))
+  )
+  HostConfig.updateProps(node, newPropsToUpdate, oldProps)
 }
 
 function commitDelete(fiber: Fiber) {

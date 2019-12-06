@@ -2,11 +2,10 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 16:44:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 17:29:39
+ * @Last Modified time: 2019-12-06 19:37:06
  */
-import { HostConfig } from "./ReactHostConfig"
+import { HostConfig } from "./ReactDefaults"
 import { NodeType, Fiber } from "./ReactTypes"
-import { workLoop } from "./ReactFiberWorkLoop"
 import {
   createElement as ReactCreateElement,
   Children as ReactChildren
@@ -18,6 +17,9 @@ import {
   useRef as ReactUseRef,
   useReducer as ReactUseReducer
 } from "./ReactFiberHooks"
+import { createRenderer as ReactCreateRenderer } from "./ReactFiberReconciler"
+
+const renderer = ReactCreateRenderer(HostConfig)
 
 export namespace React {
   export const render = (
@@ -31,9 +33,7 @@ export namespace React {
       props: { children: [component] },
       callback
     }
-
-    HostConfig.removeAllChild(container)
-    workLoop(rootFiber)
+    renderer(rootFiber)
   }
 
   export const createElement = ReactCreateElement
@@ -45,6 +45,7 @@ export namespace React {
   export const useReducer = ReactUseReducer
   export const useRef = ReactUseRef
   export const useState = ReactUseState
+  export const createRenderer = ReactCreateRenderer
 }
 
 // TSX Typings
@@ -106,6 +107,7 @@ const useMemo = ReactUseMemo
 const useReducer = ReactUseReducer
 const useRef = ReactUseRef
 const useState = ReactUseState
+const createRenderer = ReactCreateRenderer
 
 export default React
-export { useCallBack, useMemo, useReducer, useRef, useState }
+export { useCallBack, useMemo, useReducer, useRef, useState, createRenderer }

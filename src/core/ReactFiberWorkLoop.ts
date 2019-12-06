@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 17:14:21
+ * @Last Modified time: 2019-12-06 19:08:56
  */
 import { Fiber, NodeType } from "./ReactTypes"
 import { TestCallSize, resetIndex } from "./ReactShared"
@@ -17,7 +17,7 @@ let pendingCommit: Fiber = null
 
 const getCurrentWorkInProgress = () => workInProgress
 
-function workLoop(root: Fiber) {
+function renderRoot(root: Fiber) {
   if (!workInProgress) workInProgress = createWorkInProgress(root)
 
   while (workInProgress) {
@@ -101,4 +101,4 @@ function updateHostComponent(hostFiber: Fiber) {
   return reconcileChildren(hostFiber, children)
 }
 
-export { getCurrentWorkInProgress, workLoop }
+export { getCurrentWorkInProgress, renderRoot }

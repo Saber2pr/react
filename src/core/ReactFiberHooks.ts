@@ -1,11 +1,12 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:09
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-12-06 17:11:09
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-06 19:09:39
  */
 import { areHookInputsEqual, getIndex } from "./ReactShared"
-import { getCurrentWorkInProgress, workLoop } from "./ReactFiberWorkLoop"
+import { getCurrentWorkInProgress } from "./ReactFiberWorkLoop"
+import { scheduleWork } from "./ReactFiberReconciler"
 
 function useState<T>(initialState: T): [T, (state: T) => void] {
   const id = getIndex()
@@ -20,7 +21,7 @@ function useState<T>(initialState: T): [T, (state: T) => void] {
   const setState = (state: T) => {
     if (state === memoizedState[id]) return
     memoizedState[id] = state
-    workLoop(fiber)
+    scheduleWork(fiber)
   }
 
   return [memoizedState[id], setState]
