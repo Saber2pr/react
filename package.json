@@ -1,6 +1,6 @@
 {
   "name": "@saber2pr/react",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "react-like in Typescript.",
   "repository": {
     "type": "git",
