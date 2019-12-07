@@ -2,13 +2,13 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 19:07:32
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 21:54:22
+ * @Last Modified time: 2019-12-07 15:53:26
  */
 import { renderRoot } from "./ReactFiberWorkLoop"
-import { Fiber, NodeType } from "./ReactTypes"
-import { TestCallSize } from "./ReactShared"
-import { setHostConfig, HostConfigType } from "./ReactHostConfig"
+import { Fiber, NodeType } from "../shared/ReactTypes"
+import { setHostConfig, HostConfigType } from "./ReactFiberHostConfig"
 import { Reflection } from "./ReactFiberReflection"
+import { TestCallSize } from "../shared/testCallSize"
 
 declare interface IdleDeadline {
   readonly didTimeout: boolean
@@ -112,15 +112,19 @@ function createRenderer(HostConfig: HostConfigType) {
       $$typeof: NodeType.Root,
       props: { children: [component] },
       stateNode: container,
-      alternate: Reflection.getContainerFiber(container),
       callback
     }
+    rootFiber.alternate = Reflection.getContainerFiber(rootFiber)
     scheduleWork(rootFiber)
   }
 
+  const isContainer = (container: HTMLElement) =>
+    Reflection.hasContainerFiber(container)
+
   return {
     createContainer,
-    updateContainer
+    updateContainer,
+    isContainer
   }
 }
 

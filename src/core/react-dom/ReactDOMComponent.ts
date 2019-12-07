@@ -2,24 +2,26 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:48
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 17:10:12
+ * @Last Modified time: 2019-12-07 16:06:09
  */
-import { Fiber, NodeType } from "./ReactTypes"
-import { HostConfig } from "./ReactHostConfig"
+import { Fiber, NodeType } from "../shared/ReactTypes"
+import { HostConfig } from "./ReactDOMHostConfig"
+import { Children } from "../react/ReactChildren"
+import { isTextFiber, isRootFiber, isHostFiber } from "../react-is/ReactIs"
 
 function createStateNode(hostFiber: Fiber) {
-  const { $$typeof: type, tag, props } = hostFiber
+  const { tag, props } = hostFiber
   let stateNode = null
 
-  if (type === NodeType.Text) {
+  if (isTextFiber(hostFiber)) {
     stateNode = HostConfig.createTextNode(props.nodeValue)
   }
 
-  if (type === NodeType.Root) {
+  if (isRootFiber(hostFiber)) {
     stateNode = hostFiber.stateNode
   }
 
-  if (type === NodeType.Host) {
+  if (isHostFiber(hostFiber)) {
     stateNode = HostConfig.createElement(tag)
   }
 
@@ -33,25 +35,6 @@ function createStateNode(hostFiber: Fiber) {
   }
 
   return stateNode
-}
-
-namespace Children {
-  export const toArray = (...children: any[]): Fiber[] => {
-    return children.flat(2).reduce<Fiber[]>(
-      (acc, ch) => {
-        if (ch === undefined) return acc
-        if (typeof ch === "number") {
-          return acc.concat(createTextElement(ch))
-        }
-        if (typeof ch === "string") {
-          if (!ch.replace(/ |\r?\n|\r/g, "")) return acc
-          return acc.concat(createTextElement(ch))
-        }
-        return acc.concat(ch)
-      },
-      [] as Fiber[]
-    )
-  }
 }
 
 const createTextElement = (nodeValue: string | number): Fiber => ({
@@ -73,4 +56,4 @@ const createElement = (tag: any, props: object, ...children: any[]): Fiber => {
   return { $$typeof: NodeType.Unknown, tag, props }
 }
 
-export { Children, createStateNode, createTextElement, createElement }
+export { createStateNode, createTextElement, createElement }

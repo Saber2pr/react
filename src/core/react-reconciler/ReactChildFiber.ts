@@ -2,12 +2,12 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:08:56
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 21:54:36
+ * @Last Modified time: 2019-12-07 15:39:23
  */
-import { Fiber, EffectType } from "./ReactTypes"
-import { TestCallSize } from "./ReactShared"
-import { Children } from "./ReactFiberElement"
-import { isSameTag } from "./ReactIs"
+import { Fiber, EffectType } from "../shared/ReactTypes"
+import { Children } from "../react/ReactChildren"
+import { isSameTag } from "../react-is/ReactIs"
+import { TestCallSize } from "../shared/testCallSize"
 
 function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   children = Children.toArray(children)
@@ -16,13 +16,13 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   let nextOldFiber = alternate ? alternate.child : null
 
   let newFiber: Fiber = null
-  let i = 0
+  let index = 0
 
-  while (i < children.length || nextOldFiber) {
+  while (index < children.length || nextOldFiber) {
     const prevChild = newFiber
-    const oldFiber = nextOldFiber
+    let oldFiber = nextOldFiber
 
-    const element = i < children.length && children[i]
+    const element = index < children.length && children[index]
 
     // update
     if (oldFiber && element && isSameTag(element, oldFiber)) {
@@ -38,6 +38,7 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
     // place
     else if (oldFiber && element && !isSameTag(element, oldFiber)) {
       newFiber = {
+        ...oldFiber,
         ...element,
         return: fiber,
         effectType: EffectType.Place,
@@ -65,7 +66,7 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
     // next alternate
     if (nextOldFiber) nextOldFiber = nextOldFiber.sibling
 
-    if (i === 0 || !fiber.child) {
+    if (index === 0 || !fiber.child) {
       fiber.child = newFiber // link: fiber->child
     } else if (prevChild) {
       if (element) {
@@ -75,7 +76,7 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
         delete prevChild.sibling
       }
     }
-    i++
+    index++
 
     TestCallSize("reconcileChildren")
   }

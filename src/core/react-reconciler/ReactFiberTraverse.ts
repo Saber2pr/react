@@ -1,26 +1,26 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:57
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-12-06 17:11:57
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-07 16:09:22
  */
-import { Fiber, EffectType } from "./ReactTypes"
-import { TestCallSize } from "./ReactShared"
-import { isHostParent, isHost } from "./ReactIs"
+import { Fiber, EffectType } from "../shared/ReactTypes"
+import { isHostParentFiber, isHostChildFiber } from "../react-is/ReactIs"
+import { TestCallSize } from "../shared/testCallSize"
 
 function getHostSiblingFiber(fiber: Fiber): Fiber {
   let node: Fiber = fiber
   siblings: while (true) {
     TestCallSize("getHostSiblingFiber")
     while (!node.sibling) {
-      if (!node.return || isHostParent(node.return)) {
+      if (!node.return || isHostParentFiber(node.return)) {
         return null
       }
       node = node.return
     }
     node.sibling.return = node.return
     node = node.sibling
-    while (!isHost(node)) {
+    while (!isHostChildFiber(node)) {
       if (node.effectType === EffectType.Place) {
         continue siblings
       }
@@ -41,7 +41,7 @@ function getHostParentFiber(fiber: Fiber): Fiber {
   let parent = fiber.return
   while (parent) {
     TestCallSize("getHostParentFiber")
-    if (isHostParent(parent)) {
+    if (isHostParentFiber(parent)) {
       return parent
     }
     parent = parent.return
@@ -52,7 +52,7 @@ function getHostChildFiber(fiber: Fiber): Fiber {
   let child = fiber.child
   while (child) {
     TestCallSize("getHostChildFiber")
-    if (isHost(child)) {
+    if (isHostChildFiber(child)) {
       return child
     }
     child = child.child

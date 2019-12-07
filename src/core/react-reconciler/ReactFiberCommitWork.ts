@@ -2,16 +2,17 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 21:50:17
+ * @Last Modified time: 2019-12-07 16:04:47
  */
-import { Fiber, EffectType, NodeType } from "./ReactTypes"
-import { HostConfig } from "./ReactHostConfig"
+import { Fiber, EffectType } from "../shared/ReactTypes"
+import { HostConfig } from "./ReactFiberHostConfig"
 import {
   getHostParentFiber,
   getHostChildFiber,
   getHostSiblingFiber
 } from "./ReactFiberTraverse"
 import { Reflection } from "./ReactFiberReflection"
+import { isRootFiber, isHookFiber } from "../react-is/ReactIs"
 
 function commitWork(fiber: Fiber) {
   const effectList = sortEffectList(fiber)
@@ -19,12 +20,12 @@ function commitWork(fiber: Fiber) {
   fiber.effectList = null
 
   // set root alternate
-  if (fiber.$$typeof === NodeType.Root) {
+  if (isRootFiber(fiber)) {
     Reflection.setContainerFiber(fiber)
   }
 
   // set hook alternate
-  else if (fiber.$$typeof === NodeType.Hook) {
+  else if (isHookFiber(fiber)) {
     Reflection.setInternalFiber(fiber)
   }
 
@@ -45,8 +46,8 @@ function sortEffectList(fiber: Fiber) {
 }
 
 function commitUnitOfWork(fiber: Fiber) {
-  const { $$typeof: type, effectType: effectTag } = fiber
-  if (type === NodeType.Hook) {
+  const { effectType: effectTag } = fiber
+  if (isHookFiber(fiber)) {
   } else {
     switch (effectTag) {
       case EffectType.Create:
@@ -109,9 +110,21 @@ function commitUpdate(hostFiber: Fiber) {
 
 function commitDelete(hostFiber: Fiber) {
   const { stateNode } = hostFiber
-  console.log("delete", hostFiber)
-
   HostConfig.removeSelf(stateNode)
+
+  datchFiber(hostFiber)
+}
+
+function datchFiber(fiber: Fiber) {
+  fiber.return = null
+  fiber.child = null
+  fiber.sibling = null
+  const alternate = fiber.alternate
+  if (alternate) {
+    alternate.return = null
+    alternate.child = null
+    alternate.sibling = null
+  }
 }
 
 export { commitWork, commitCreate, commitUpdate, commitPlace, commitDelete }

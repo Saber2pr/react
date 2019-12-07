@@ -2,15 +2,22 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 21:53:51
+ * @Last Modified time: 2019-12-07 16:03:27
  */
-import { Fiber, NodeType } from "./ReactTypes"
-import { TestCallSize, resetIndex } from "./ReactShared"
+import { Fiber } from "../shared/ReactTypes"
 import { Reflection } from "./ReactFiberReflection"
-import { createStateNode } from "./ReactFiberElement"
-import { reconcileChildren } from "./ReactFiberChildren"
+import { createStateNode } from "../react-dom/ReactDOMComponent"
+import { reconcileChildren } from "./ReactChildFiber"
 import { commitWork, commitUpdate } from "./ReactFiberCommitWork"
-import { isSameTag } from "./ReactIs"
+import {
+  isSameTag,
+  isHookFiber,
+  isRootFiber,
+  isTextFiber,
+  isHostFiber
+} from "../react-is/ReactIs"
+import { resetIndex } from "./ReactFiberStack"
+import { TestCallSize } from "../shared/testCallSize"
 
 let workInProgress: Fiber = null
 let pendingCommit: Fiber = null
@@ -66,16 +73,16 @@ function completeWork(fiber: Fiber, top: Fiber) {
 }
 
 function beginWork(fiber: Fiber) {
-  if (fiber.$$typeof === NodeType.Hook) {
+  if (isHookFiber(fiber)) {
     return updateHOOKComponent(fiber)
   }
-  if (fiber.$$typeof === NodeType.Root) {
+  if (isRootFiber(fiber)) {
     return updateHostComponent(fiber)
   }
-  if (fiber.$$typeof === NodeType.Text) {
+  if (isTextFiber(fiber)) {
     return updateHostComponent(fiber)
   }
-  if (fiber.$$typeof === NodeType.Host) {
+  if (isHostFiber(fiber)) {
     return updateHostComponent(fiber)
   }
 }

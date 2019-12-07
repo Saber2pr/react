@@ -2,9 +2,9 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 21:55:13
+ * @Last Modified time: 2019-12-07 16:13:33
  */
-import { React } from ".."
+import { React, ReactDOM } from ".."
 import { TestIf } from "./TestIF"
 import { TestList } from "./TestList"
 import { TestPlace } from "./TestPlace"
@@ -27,7 +27,7 @@ const TestRerenderRoot = () => {
       <button
         onclick={() => {
           Store.state++
-          React.render(<App />, document.getElementById("root"))
+          ReactDOM.render(<App />, document.getElementById("root"))
         }}
       >
         add
@@ -72,4 +72,4 @@ const App = () => {
   )
 }
 
-React.render(<App />, document.getElementById("root"))
+ReactDOM.render(<App />, document.getElementById("root"))

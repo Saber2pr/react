@@ -1,12 +1,12 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-12-06 20:38:27
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-12-06 20:38:27
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-07 15:47:14
  */
-import React, { HostConfig } from ".."
+import React, { HostConfig, createRenderer } from ".."
 
-const renderer = React.createRenderer(HostConfig)
+const renderer = createRenderer(HostConfig)
 
 const container = document.createElement("div")
 

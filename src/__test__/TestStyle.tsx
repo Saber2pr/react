@@ -5,7 +5,7 @@
  * @Last Modified time: 2019-12-06 19:52:53
  */
 import React from ".."
-import { useState } from "../core/React"
+import { useState } from "../core"
 
 export const TestStyle = () => {
   const [state, setState] = useState("red")

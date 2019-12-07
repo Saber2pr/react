@@ -2,11 +2,28 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:09
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 19:09:39
+ * @Last Modified time: 2019-12-07 15:19:09
  */
-import { areHookInputsEqual, getIndex } from "./ReactShared"
 import { getCurrentWorkInProgress } from "./ReactFiberWorkLoop"
 import { scheduleWork } from "./ReactFiberReconciler"
+import { getIndex } from "./ReactFiberStack"
+import { is } from "../shared/objectIs"
+
+function areHookInputsEqual(
+  nextDeps: readonly any[],
+  prevDeps: readonly any[] | null
+) {
+  if (prevDeps === null) {
+    return false
+  }
+  for (let i = 0; i < prevDeps.length && i < nextDeps.length; i++) {
+    if (is(nextDeps[i], prevDeps[i])) {
+      continue
+    }
+    return false
+  }
+  return true
+}
 
 function useState<T>(initialState: T): [T, (state: T) => void] {
   const id = getIndex()

@@ -1,50 +1,29 @@
 /*
  * @Author: saber2pr
- * @Date: 2019-12-06 16:44:19
+ * @Date: 2019-12-07 15:33:32
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 20:56:42
+ * @Last Modified time: 2019-12-07 15:49:29
  */
-import { HostConfig } from "./ReactDefaults"
-import {
-  createElement as ReactCreateElement,
-  Children as ReactChildren
-} from "./ReactFiberElement"
 import {
   useCallBack as ReactUseCallBack,
   useMemo as ReactUseMemo,
   useState as ReactUseState,
   useRef as ReactUseRef,
   useReducer as ReactUseReducer
-} from "./ReactFiberHooks"
-import { createRenderer as ReactCreateRenderer } from "./ReactFiberReconciler"
-import { Reflection } from "./ReactFiberReflection"
+} from "./react-reconciler/ReactFiberHooks"
+import { createRenderer } from "./react-reconciler/ReactFiberReconciler"
+import { Children as ReactChildren } from "./react/ReactChildren"
+import { createElement as ReactCreateElement } from "./react-dom/ReactDOM"
 
-const renderer = ReactCreateRenderer(HostConfig)
-
-export namespace React {
-  export const render = (
-    component: JSX.Element,
-    container: HTMLElement,
-    callback?: Function
-  ) => {
-    const hasContainerFiber = Reflection.hasContainerFiber(container)
-    if (hasContainerFiber) {
-      renderer.updateContainer(component, container, callback)
-    } else {
-      renderer.createContainer(component, container, callback)
-    }
-  }
-
-  export const createElement = ReactCreateElement
-
-  export const Children = ReactChildren
-
+namespace React {
   export const useCallBack = ReactUseCallBack
   export const useMemo = ReactUseMemo
   export const useReducer = ReactUseReducer
   export const useRef = ReactUseRef
   export const useState = ReactUseState
-  export const createRenderer = ReactCreateRenderer
+
+  export const createElement = ReactCreateElement
+  export const Children = ReactChildren
 }
 
 // TSX Typings
@@ -57,7 +36,7 @@ type Override<T, K extends keyof T, V> = {
 
 type Dict = { [k: string]: any }
 
-export namespace React {
+namespace React {
   export type Ref<T extends HTMLElement> =
     | {
         current: T
@@ -106,15 +85,15 @@ const useMemo = ReactUseMemo
 const useReducer = ReactUseReducer
 const useRef = ReactUseRef
 const useState = ReactUseState
-const createRenderer = ReactCreateRenderer
 
 export default React
 export {
+  React,
   useCallBack,
   useMemo,
   useReducer,
   useRef,
   useState,
-  createRenderer,
-  HostConfig
+  createRenderer
 }
+export * from "./react-dom/ReactDOM"

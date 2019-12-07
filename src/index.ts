@@ -1,2 +1,2 @@
-export * from "./core/React"
-export { default } from "./core/React"
+export * from "./core"
+export { default } from "./core"

@@ -2,37 +2,35 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:47
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 21:36:06
+ * @Last Modified time: 2019-12-07 15:56:01
  */
-import { Fiber } from "./ReactTypes"
+import { Fiber } from "../shared/ReactTypes"
 
 export namespace Reflection {
   const combiner = new WeakMap()
 
   export function setInternalFiber(hookFiber: Fiber) {
     const { tag: constructor } = hookFiber
-    constructor["_internalFiber"] = hookFiber
+    combiner.set(constructor, hookFiber)
   }
+
   export function getInternalFiber(hookFiber: Fiber) {
     const { tag: constructor } = hookFiber
-    return constructor["_internalFiber"]
+    return combiner.get(constructor)
   }
 
   export function setContainerFiber(rootFiber: Fiber) {
     const { stateNode: container } = rootFiber
-    container["_rootContainer"] = rootFiber
+    combiner.set(container, rootFiber)
   }
 
   export function getContainerFiber(rootFiber: Fiber) {
     const { stateNode: container } = rootFiber
-    if (container) {
-      return container["_rootContainer"]
-    } else {
-      return null
-    }
+    return combiner.get(container)
   }
 
-  export function hasContainerFiber(container: any) {
-    return container["_rootContainer"]
+  export function hasContainerFiber(container: HTMLElement) {
+    const containerFiber = combiner.get(container)
+    return !!containerFiber
   }
 }

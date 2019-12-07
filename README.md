@@ -16,12 +16,13 @@ import React, {
   useRef,
   useState
 } from "@saber2pr/react"
+import { ReactDOM } from "@saber2pr/react"
 
 function HelloMessage({ name }: { name: string }) {
   return <div>Hello {name}</div>
 }
 
-React.render(
+ReactDOM.render(
   <HelloMessage name="Taylor" />,
   document.getElementById("container")
 )
