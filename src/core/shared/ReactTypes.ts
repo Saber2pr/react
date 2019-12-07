@@ -2,8 +2,10 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 16:47:37
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 17:17:11
+ * @Last Modified time: 2019-12-07 22:09:01
  */
+import { Props } from "./ReactElementType"
+
 export namespace NodeType {
   export const Text = Symbol("Text")
   export const Fragment = Symbol("DocumentFragment")
@@ -35,15 +37,10 @@ export namespace EffectType {
   }
 }
 
-export type Props = {
-  [key: string]: any
-  children?: any[]
-}
-
 export type Fiber = {
   tag?: any
   $$typeof?: symbol
-  props?: Props
+  props?: Props<any>
   memoizedState?: object
   stateNode?: HTMLElement
   return?: Fiber

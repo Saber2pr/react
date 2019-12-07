@@ -56,6 +56,12 @@ namespace HostConfig {
     Object.entries(newProps).forEach(([k, v]) => {
       if (k === "style") return
       if (oldProps[k] === v) return
+
+      if (k === "dangerouslySetInnerHTML") {
+        k = "innerHTML"
+        v = v.__html
+      }
+
       node[k] = v
     })
 

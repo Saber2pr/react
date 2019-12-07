@@ -10,12 +10,15 @@
   "license": "MIT",
   "files": [
     "lib/core/*",
-    "lib/index.*"
+    "lib/index.*",
+    "lib/client.*",
+    "lib/server.*"
   ],
   "main": "./lib/index.js",
   "scripts": {
     "start": "tsc --watch",
-    "dev": "rollup -c --watch"
+    "dev": "rollup -c --watch",
+    "test": "node ./lib/__test__/TestSSR"
   },
   "keywords": [
     "react-like",

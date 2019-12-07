@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 16:04:47
+ * @Last Modified time: 2019-12-07 22:36:20
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { HostConfig } from "./ReactFiberHostConfig"
@@ -12,7 +12,40 @@ import {
   getHostSiblingFiber
 } from "./ReactFiberTraverse"
 import { Reflection } from "./ReactFiberReflection"
-import { isRootFiber, isHookFiber } from "../react-is/ReactIs"
+import {
+  isRootFiber,
+  isHookFiber,
+  isTextFiber,
+  isHostFiber
+} from "../react-is/ReactIs"
+
+function createStateNode(hostFiber: Fiber) {
+  const { tag, props } = hostFiber
+  let stateNode = null
+
+  if (isTextFiber(hostFiber)) {
+    stateNode = HostConfig.createTextNode(props.nodeValue)
+  }
+
+  if (isRootFiber(hostFiber)) {
+    stateNode = hostFiber.stateNode
+  }
+
+  if (isHostFiber(hostFiber)) {
+    stateNode = HostConfig.createElement(tag)
+  }
+
+  if (props.ref) {
+    const ref = props.ref
+    if (typeof ref === "function") {
+      ref(stateNode)
+    } else {
+      ref.current = stateNode
+    }
+  }
+
+  return stateNode
+}
 
 function commitWork(fiber: Fiber) {
   const effectList = sortEffectList(fiber)
@@ -127,4 +160,11 @@ function datchFiber(fiber: Fiber) {
   }
 }
 
-export { commitWork, commitCreate, commitUpdate, commitPlace, commitDelete }
+export {
+  commitWork,
+  commitCreate,
+  commitUpdate,
+  commitPlace,
+  commitDelete,
+  createStateNode
+}

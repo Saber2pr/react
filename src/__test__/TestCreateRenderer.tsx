@@ -2,9 +2,10 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 20:38:27
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 15:47:14
+ * @Last Modified time: 2019-12-07 22:43:47
  */
-import React, { HostConfig, createRenderer } from ".."
+import React, { createRenderer } from ".."
+import { HostConfig } from "../client"
 
 const renderer = createRenderer(HostConfig)
 

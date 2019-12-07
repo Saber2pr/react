@@ -2,13 +2,16 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 16:03:27
+ * @Last Modified time: 2019-12-07 23:27:19
  */
 import { Fiber } from "../shared/ReactTypes"
 import { Reflection } from "./ReactFiberReflection"
-import { createStateNode } from "../react-dom/ReactDOMComponent"
 import { reconcileChildren } from "./ReactChildFiber"
-import { commitWork, commitUpdate } from "./ReactFiberCommitWork"
+import {
+  commitWork,
+  commitUpdate,
+  createStateNode
+} from "./ReactFiberCommitWork"
 import {
   isSameTag,
   isHookFiber,
@@ -96,6 +99,18 @@ function updateHOOKComponent(hookFiber: Fiber) {
     Reflection.setInternalFiber(hookFiber)
   }
   resetIndex()
+
+  if (props.children && props.children.length === 1) {
+    let singleChild = props.children[0]
+
+    if (isTextFiber(singleChild)) {
+      const { props } = singleChild
+      singleChild = props.nodeValue
+    }
+
+    props.children = singleChild
+  }
+
   const children = constructor(props)
   return reconcileChildren(hookFiber, children)
 }

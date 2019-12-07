@@ -2,11 +2,10 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 16:44:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 15:39:49
+ * @Last Modified time: 2019-12-07 22:41:29
  */
 import { HostConfig } from "./ReactDOMHostConfig"
-import { createElement } from "./ReactDOMComponent"
-import { createRenderer as ReactCreateRenderer } from "../react-reconciler/ReactFiberReconciler"
+import { createRenderer as ReactCreateRenderer } from "../../react-reconciler/ReactFiberReconciler"
 
 const renderer = ReactCreateRenderer(HostConfig)
 
@@ -25,4 +24,5 @@ namespace ReactDOM {
   }
 }
 
-export { ReactDOM, createElement, HostConfig }
+export { ReactDOM, HostConfig }
+export default ReactDOM
