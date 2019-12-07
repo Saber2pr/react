@@ -18,7 +18,7 @@ import React, {
   useRef,
   useState
 } from "@saber2pr/react"
-import ReactDOM from "@saber2pr/react/client"
+import ReactDOM from "@saber2pr/react/lib/client"
 
 function HelloMessage({ name }: { name: string }) {
   return <div>Hello {name}</div>
@@ -36,7 +36,7 @@ ReactDOM.render(
 
 ```tsx
 import React from "@saber2pr/react"
-import ReactDOMServer from "@saber2pr/react/server"
+import ReactDOMServer from "@saber2pr/react/lib/server"
 
 const Content = ({ content }: { content: string }) => (
   <div>
