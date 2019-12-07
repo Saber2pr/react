@@ -5,7 +5,6 @@
  * @Last Modified time: 2019-12-06 21:54:36
  */
 import { Fiber, EffectType } from "./ReactTypes"
-import { Reflection } from "./ReactFiberReflection"
 import { TestCallSize } from "./ReactShared"
 import { Children } from "./ReactFiberElement"
 import { isSameTag } from "./ReactIs"
@@ -13,8 +12,7 @@ import { isSameTag } from "./ReactIs"
 function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   children = Children.toArray(children)
 
-  // get hookFiber's alternate
-  const alternate = Reflection.getAlternate(fiber)
+  const alternate = fiber.alternate
   let nextOldFiber = alternate ? alternate.child : null
 
   let newFiber: Fiber = null
@@ -30,39 +28,30 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
     if (oldFiber && element && isSameTag(element, oldFiber)) {
       newFiber = {
         ...oldFiber,
-        tag: element.tag,
-        props: element.props,
-        $$typeof: element.$$typeof,
+        ...element,
+        return: fiber,
         effectType: EffectType.Update,
-        return: fiber
+        alternate: oldFiber
       }
-      Reflection.setAlternate(newFiber, oldFiber)
     }
 
     // place
     else if (oldFiber && element && !isSameTag(element, oldFiber)) {
       newFiber = {
-        ...oldFiber,
-        tag: element.tag,
-        props: element.props,
-        $$typeof: element.$$typeof,
+        ...element,
         return: fiber,
-        effectType: EffectType.Place
+        effectType: EffectType.Place,
+        alternate: oldFiber
       }
-      Reflection.setAlternate(newFiber, oldFiber)
     }
 
     // create
     else if (!oldFiber && element) {
       newFiber = {
-        ...oldFiber,
-        tag: element.tag,
-        props: element.props,
-        $$typeof: element.$$typeof,
+        ...element,
         return: fiber,
         effectType: EffectType.Create
       }
-      Reflection.setAlternate(newFiber, oldFiber)
     }
 
     // delete

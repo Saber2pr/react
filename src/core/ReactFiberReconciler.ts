@@ -95,12 +95,11 @@ function createRenderer(HostConfig: HostConfigType) {
   ) => {
     const rootFiber: Fiber = {
       $$typeof: NodeType.Root,
-      stateNode: container,
       props: { children: [component] },
+      stateNode: container,
       callback
     }
     HostConfig.removeAllChild(container)
-    Reflection.setContainerFiber(container, rootFiber)
     scheduleWork(rootFiber)
   }
 
@@ -111,9 +110,9 @@ function createRenderer(HostConfig: HostConfigType) {
   ) => {
     const rootFiber: Fiber = {
       $$typeof: NodeType.Root,
+      props: { children: [component] },
       stateNode: container,
       alternate: Reflection.getContainerFiber(container),
-      props: { children: [component] },
       callback
     }
     scheduleWork(rootFiber)

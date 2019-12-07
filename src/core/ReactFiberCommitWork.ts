@@ -6,16 +6,27 @@
  */
 import { Fiber, EffectType, NodeType } from "./ReactTypes"
 import { HostConfig } from "./ReactHostConfig"
-import { Reflection } from "./ReactFiberReflection"
 import {
   getHostParentFiber,
   getHostChildFiber,
   getHostSiblingFiber
 } from "./ReactFiberTraverse"
+import { Reflection } from "./ReactFiberReflection"
 
 function commitWork(fiber: Fiber) {
   const effectList = sortEffectList(fiber)
   effectList.forEach(commitUnitOfWork)
+  fiber.effectList = null
+
+  // set root alternate
+  if (fiber.$$typeof === NodeType.Root) {
+    Reflection.setContainerFiber(fiber)
+  }
+
+  // set hook alternate
+  else if (fiber.$$typeof === NodeType.Hook) {
+    Reflection.setInternalFiber(fiber)
+  }
 
   const callback = fiber.callback
   if (callback) callback(fiber)
@@ -61,7 +72,6 @@ function commitCreate(hostFiber: Fiber) {
   const parent = HostParent.stateNode
   const node = hostFiber.stateNode
   HostConfig.appendChild(parent, node)
-  Reflection.unlinkAlternate(hostFiber)
 }
 
 function commitPlace(hostFiber: Fiber) {
@@ -86,7 +96,7 @@ function commitPlace(hostFiber: Fiber) {
 }
 
 function commitUpdate(hostFiber: Fiber) {
-  const alternate = Reflection.getAlternate(hostFiber)
+  const alternate = hostFiber.alternate
   const newProps = hostFiber.props
   const node = hostFiber.stateNode
   const oldProps = alternate ? alternate.props : {}
@@ -97,8 +107,10 @@ function commitUpdate(hostFiber: Fiber) {
   HostConfig.updateProps(node, newPropsToUpdate, oldProps)
 }
 
-function commitDelete(fiber: Fiber) {
-  const { stateNode } = fiber
+function commitDelete(hostFiber: Fiber) {
+  const { stateNode } = hostFiber
+  console.log("delete", hostFiber)
+
   HostConfig.removeSelf(stateNode)
 }
 

@@ -82,7 +82,12 @@ function beginWork(fiber: Fiber) {
 
 function updateHOOKComponent(hookFiber: Fiber) {
   const { tag: constructor, props } = hookFiber
-  Reflection.setAlternate(hookFiber, hookFiber)
+  const alternate = Reflection.getInternalFiber(hookFiber)
+  if (alternate) {
+    hookFiber.alternate = alternate
+  } else {
+    Reflection.setInternalFiber(hookFiber)
+  }
   resetIndex()
   const children = constructor(props)
   return reconcileChildren(hookFiber, children)
@@ -98,6 +103,7 @@ function updateHostComponent(hostFiber: Fiber) {
     hostFiber.stateNode = createStateNode(hostFiber)
     commitUpdate(hostFiber)
   }
+
   return reconcileChildren(hostFiber, children)
 }
 

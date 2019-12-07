@@ -316,85 +316,37 @@ var react = (function (exports) {
 
 	var ReactFiberReflection = createCommonjsModule(function (module, exports) {
 	Object.defineProperty(exports, "__esModule", { value: true });
-	/*
-	 * @Author: saber2pr
-	 * @Date: 2019-12-06 17:11:47
-	 * @Last Modified by: saber2pr
-	 * @Last Modified time: 2019-12-06 21:36:06
-	 */
-
 	var Reflection;
 	(function (Reflection) {
-	    var combiner = new WeakMap();
-	    function getRefObj(fiber) {
-	        var reference = null;
-	        var $$typeof = fiber.$$typeof, tag = fiber.tag;
-	        if ($$typeof === ReactTypes.NodeType.Hook) {
-	            reference = tag;
-	        }
-	        else {
-	            throw new Error("Reflection Error: reference not found.");
-	        }
-	        return reference;
+	    function setInternalFiber(hookFiber) {
+	        var constructor = hookFiber.tag;
+	        constructor["_internalFiber"] = hookFiber;
 	    }
-	    Reflection.getRefObj = getRefObj;
-	    function get(hookFiber, key) {
-	        if (hookFiber[key])
-	            return hookFiber[key];
-	        var ref = getRefObj(hookFiber);
-	        var meta = combiner.get(ref) || {};
-	        hookFiber[key] = meta[key];
-	        return hookFiber[key];
+	    Reflection.setInternalFiber = setInternalFiber;
+	    function getInternalFiber(hookFiber) {
+	        var constructor = hookFiber.tag;
+	        return constructor["_internalFiber"];
 	    }
-	    Reflection.get = get;
-	    function set(hookFiber, key, value) {
-	        var ref = getRefObj(hookFiber);
-	        var meta = combiner.get(ref) || {};
-	        meta[key] = value;
-	        combiner.set(ref, meta);
-	    }
-	    Reflection.set = set;
-	    function delet(hookFiber, key) {
-	        var ref = getRefObj(hookFiber);
-	        delete hookFiber[key];
-	        combiner.delete(ref);
-	    }
-	    Reflection.delet = delet;
-	    function setAlternate(fiber, alternate) {
-	        if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
-	            Reflection.set(fiber, "alternate", alternate);
-	        }
-	        else {
-	            fiber.alternate = alternate;
-	        }
-	    }
-	    Reflection.setAlternate = setAlternate;
-	    function getAlternate(fiber) {
-	        if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
-	            return Reflection.get(fiber, "alternate");
-	        }
-	        else {
-	            return fiber.alternate;
-	        }
-	    }
-	    Reflection.getAlternate = getAlternate;
-	    function unlinkAlternate(fiber) {
-	        if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
-	            return Reflection.delet(fiber, "alternate");
-	        }
-	        else {
-	            delete fiber.alternate;
-	        }
-	    }
-	    Reflection.unlinkAlternate = unlinkAlternate;
-	    function setContainerFiber(container, fiber) {
-	        container["_rootContainer"] = fiber;
+	    Reflection.getInternalFiber = getInternalFiber;
+	    function setContainerFiber(rootFiber) {
+	        var container = rootFiber.stateNode;
+	        container["_rootContainer"] = rootFiber;
 	    }
 	    Reflection.setContainerFiber = setContainerFiber;
-	    function getContainerFiber(container) {
-	        return container["_rootContainer"];
+	    function getContainerFiber(rootFiber) {
+	        var container = rootFiber.stateNode;
+	        if (container) {
+	            return container["_rootContainer"];
+	        }
+	        else {
+	            return null;
+	        }
 	    }
 	    Reflection.getContainerFiber = getContainerFiber;
+	    function hasContainerFiber(container) {
+	        return container["_rootContainer"];
+	    }
+	    Reflection.hasContainerFiber = hasContainerFiber;
 	})(Reflection = exports.Reflection || (exports.Reflection = {}));
 	});
 
@@ -449,11 +401,9 @@ var react = (function (exports) {
 
 
 
-
 	function reconcileChildren(fiber, children) {
 	    children = ReactFiberElement.Children.toArray(children);
-	    // get hookFiber's alternate
-	    var alternate = ReactFiberReflection.Reflection.getAlternate(fiber);
+	    var alternate = fiber.alternate;
 	    var nextOldFiber = alternate ? alternate.child : null;
 	    var newFiber = null;
 	    var i = 0;
@@ -463,18 +413,15 @@ var react = (function (exports) {
 	        var element = i < children.length && children[i];
 	        // update
 	        if (oldFiber && element && ReactIs.isSameTag(element, oldFiber)) {
-	            newFiber = __assign(__assign({}, oldFiber), { tag: element.tag, props: element.props, $$typeof: element.$$typeof, effectType: ReactTypes.EffectType.Update, return: fiber });
-	            ReactFiberReflection.Reflection.setAlternate(newFiber, oldFiber);
+	            newFiber = __assign(__assign(__assign({}, oldFiber), element), { return: fiber, effectType: ReactTypes.EffectType.Update, alternate: oldFiber });
 	        }
 	        // place
 	        else if (oldFiber && element && !ReactIs.isSameTag(element, oldFiber)) {
-	            newFiber = __assign(__assign({}, oldFiber), { tag: element.tag, props: element.props, $$typeof: element.$$typeof, return: fiber, effectType: ReactTypes.EffectType.Place });
-	            ReactFiberReflection.Reflection.setAlternate(newFiber, oldFiber);
+	            newFiber = __assign(__assign({}, element), { return: fiber, effectType: ReactTypes.EffectType.Place, alternate: oldFiber });
 	        }
 	        // create
 	        else if (!oldFiber && element) {
-	            newFiber = __assign(__assign({}, oldFiber), { tag: element.tag, props: element.props, $$typeof: element.$$typeof, return: fiber, effectType: ReactTypes.EffectType.Create });
-	            ReactFiberReflection.Reflection.setAlternate(newFiber, oldFiber);
+	            newFiber = __assign(__assign({}, element), { return: fiber, effectType: ReactTypes.EffectType.Create });
 	        }
 	        // delete
 	        else if (oldFiber && !element) {
@@ -594,6 +541,15 @@ var react = (function (exports) {
 	function commitWork(fiber) {
 	    var effectList = sortEffectList(fiber);
 	    effectList.forEach(commitUnitOfWork);
+	    fiber.effectList = null;
+	    // set root alternate
+	    if (fiber.$$typeof === ReactTypes.NodeType.Root) {
+	        ReactFiberReflection.Reflection.setContainerFiber(fiber);
+	    }
+	    // set hook alternate
+	    else if (fiber.$$typeof === ReactTypes.NodeType.Hook) {
+	        ReactFiberReflection.Reflection.setInternalFiber(fiber);
+	    }
 	    var callback = fiber.callback;
 	    if (callback)
 	        callback(fiber);
@@ -635,7 +591,6 @@ var react = (function (exports) {
 	    var parent = HostParent.stateNode;
 	    var node = hostFiber.stateNode;
 	    ReactHostConfig.HostConfig.appendChild(parent, node);
-	    ReactFiberReflection.Reflection.unlinkAlternate(hostFiber);
 	}
 	exports.commitCreate = commitCreate;
 	function commitPlace(hostFiber) {
@@ -660,7 +615,7 @@ var react = (function (exports) {
 	}
 	exports.commitPlace = commitPlace;
 	function commitUpdate(hostFiber) {
-	    var alternate = ReactFiberReflection.Reflection.getAlternate(hostFiber);
+	    var alternate = hostFiber.alternate;
 	    var newProps = hostFiber.props;
 	    var node = hostFiber.stateNode;
 	    var oldProps = alternate ? alternate.props : {};
@@ -671,8 +626,9 @@ var react = (function (exports) {
 	    ReactHostConfig.HostConfig.updateProps(node, newPropsToUpdate, oldProps);
 	}
 	exports.commitUpdate = commitUpdate;
-	function commitDelete(fiber) {
-	    var stateNode = fiber.stateNode;
+	function commitDelete(hostFiber) {
+	    var stateNode = hostFiber.stateNode;
+	    console.log("delete", hostFiber);
 	    ReactHostConfig.HostConfig.removeSelf(stateNode);
 	}
 	exports.commitDelete = commitDelete;
@@ -775,7 +731,13 @@ var react = (function (exports) {
 	}
 	function updateHOOKComponent(hookFiber) {
 	    var constructor = hookFiber.tag, props = hookFiber.props;
-	    ReactFiberReflection.Reflection.setAlternate(hookFiber, hookFiber);
+	    var alternate = ReactFiberReflection.Reflection.getInternalFiber(hookFiber);
+	    if (alternate) {
+	        hookFiber.alternate = alternate;
+	    }
+	    else {
+	        ReactFiberReflection.Reflection.setInternalFiber(hookFiber);
+	    }
 	    ReactShared.resetIndex();
 	    var children = constructor(props);
 	    return ReactFiberChildren.reconcileChildren(hookFiber, children);
@@ -865,20 +827,19 @@ var react = (function (exports) {
 	    var createContainer = function (component, container, callback) {
 	        var rootFiber = {
 	            $$typeof: ReactTypes.NodeType.Root,
-	            stateNode: container,
 	            props: { children: [component] },
+	            stateNode: container,
 	            callback: callback
 	        };
 	        HostConfig.removeAllChild(container);
-	        ReactFiberReflection.Reflection.setContainerFiber(container, rootFiber);
 	        scheduleWork(rootFiber);
 	    };
 	    var updateContainer = function (component, container, callback) {
 	        var rootFiber = {
 	            $$typeof: ReactTypes.NodeType.Root,
+	            props: { children: [component] },
 	            stateNode: container,
 	            alternate: ReactFiberReflection.Reflection.getContainerFiber(container),
-	            props: { children: [component] },
 	            callback: callback
 	        };
 	        scheduleWork(rootFiber);
@@ -993,8 +954,8 @@ var react = (function (exports) {
 	var React;
 	(function (React) {
 	    React.render = function (component, container, callback) {
-	        var isContainer = ReactFiberReflection.Reflection.getContainerFiber(container);
-	        if (isContainer) {
+	        var hasContainerFiber = ReactFiberReflection.Reflection.hasContainerFiber(container);
+	        if (hasContainerFiber) {
 	            renderer.updateContainer(component, container, callback);
 	        }
 	        else {
@@ -1338,7 +1299,36 @@ var react = (function (exports) {
 
 	var Test = createCommonjsModule(function (module, exports) {
 	Object.defineProperty(exports, "__esModule", { value: true });
+	/*
+	 * @Author: saber2pr
+	 * @Date: 2019-12-06 17:41:19
+	 * @Last Modified by: saber2pr
+	 * @Last Modified time: 2019-12-06 21:55:13
+	 */
+
+
+
+
+
+
+
+
+
+	var Store = {
+	    state: 0
+	};
+	var TestRerenderRoot = function () {
+	    var state = Store.state;
+	    return (lib.React.createElement("div", null,
+	        lib.React.createElement("div", null, "This is a RerenderRoot Test"),
+	        lib.React.createElement("div", null, state),
+	        lib.React.createElement("button", { onclick: function () {
+	                Store.state++;
+	                lib.React.render(lib.React.createElement(App, null), document.getElementById("root"));
+	            } }, "add")));
+	};
 	var Tests = [
+	    TestRerenderRoot,
 	    TestIF.TestIf,
 	    TestList.TestList,
 	    TestPlace.TestPlace,

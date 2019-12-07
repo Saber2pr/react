@@ -27,8 +27,8 @@ export namespace React {
     container: HTMLElement,
     callback?: Function
   ) => {
-    const isContainer = Reflection.getContainerFiber(container)
-    if (isContainer) {
+    const hasContainerFiber = Reflection.hasContainerFiber(container)
+    if (hasContainerFiber) {
       renderer.updateContainer(component, container, callback)
     } else {
       renderer.createContainer(component, container, callback)

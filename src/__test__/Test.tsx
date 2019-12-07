@@ -37,6 +37,7 @@ const TestRerenderRoot = () => {
 }
 
 const Tests = [
+  TestRerenderRoot,
   TestIf,
   TestList,
   TestPlace,
