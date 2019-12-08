@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 15:25:38
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 22:55:20
+ * @Last Modified time: 2019-12-08 11:01:04
  */
 import { Fiber, NodeType } from "../shared/ReactTypes"
 
@@ -20,14 +20,18 @@ namespace Children {
   export const toArray = (...children: any[]): Fiber[] => {
     return flat2(children).reduce<Fiber[]>(
       (acc, ch) => {
-        if (ch === undefined) return acc
+        // `if render` get false or undefind, ignore it
+        if (ch === false || ch === undefined) return acc
+
+        // to text node
         if (typeof ch === "number") {
           return acc.concat(toTextFiber(ch))
         }
         if (typeof ch === "string") {
-          if (!ch.replace(/ |\r?\n|\r/g, "")) return acc
           return acc.concat(toTextFiber(ch))
         }
+
+        // collect object
         return acc.concat(ch)
       },
       [] as Fiber[]
