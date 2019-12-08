@@ -2,9 +2,9 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:47
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 15:56:01
+ * @Last Modified time: 2019-12-08 12:32:05
  */
-import { Fiber } from "../shared/ReactTypes"
+import { Fiber, Instance } from "../shared/ReactTypes"
 
 export namespace Reflection {
   const combiner = new WeakMap()
@@ -29,7 +29,7 @@ export namespace Reflection {
     return combiner.get(container)
   }
 
-  export function hasContainerFiber(container: HTMLElement) {
+  export function hasContainerFiber(container: Instance) {
     const containerFiber = combiner.get(container)
     return !!containerFiber
   }
