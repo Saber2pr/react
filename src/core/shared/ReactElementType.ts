@@ -1,16 +1,16 @@
 /*
- * @Author: saber2pr
- * @Date: 2019-12-07 21:38:02
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 23:00:32
+ * @Last Modified time: 2019-12-08 12:32:58
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-08 12:33:31
  */
-type Ref<T extends HTMLElement> =
+type Ref<T> =
   | {
       current: T
     }
   | ((value: T) => void)
 
-interface Props<T extends HTMLElement> {
+interface Props<T> {
   ref?: Ref<T>
   children?: any
   [compatibleProps: string]: any
