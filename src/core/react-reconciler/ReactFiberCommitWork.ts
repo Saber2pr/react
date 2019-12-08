@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 22:36:20
+ * @Last Modified time: 2019-12-08 11:13:29
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { HostConfig } from "./ReactFiberHostConfig"
@@ -16,7 +16,8 @@ import {
   isRootFiber,
   isHookFiber,
   isTextFiber,
-  isHostFiber
+  isHostFiber,
+  isFragmentFiber
 } from "../react-is/ReactIs"
 
 function createStateNode(hostFiber: Fiber) {
@@ -33,6 +34,10 @@ function createStateNode(hostFiber: Fiber) {
 
   if (isHostFiber(hostFiber)) {
     stateNode = HostConfig.createElement(tag)
+  }
+
+  if (isFragmentFiber(hostFiber)) {
+    stateNode = HostConfig.createDocumentFragment()
   }
 
   if (props.ref) {
