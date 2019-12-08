@@ -1,8 +1,8 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-12-07 23:12:18
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-12-07 23:12:18
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-08 11:46:08
  */
 import React from ".."
 import ReactDOMServer from "../server"
@@ -10,6 +10,10 @@ import ReactDOMServer from "../server"
 const Content = ({ content }: { content: string }) => (
   <div>
     <div style={{ color: "red" }}>{content}</div>
+    <>
+      <p>fragment1</p>
+      <p>fragment2</p>
+    </>
     <button onclick={() => console.log("click")}>click</button>
   </div>
 )
