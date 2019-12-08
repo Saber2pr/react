@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 23:13:19
+ * @Last Modified time: 2019-12-08 11:09:56
  */
 import React from ".."
 import ReactDOM from "../client"
@@ -15,6 +15,7 @@ import { TestChildren } from "./TestChildren"
 import { TestStyle } from "./TestStyle"
 import "./TestCreateRenderer"
 import { TestSetInnerHTML } from "./TestSetInnerHTML"
+import { TestFragment } from "./TestFragment"
 
 const Store = {
   state: 0
@@ -47,7 +48,8 @@ const Tests = [
   TestUseReducer,
   TestChildren,
   TestStyle,
-  TestSetInnerHTML
+  TestSetInnerHTML,
+  TestFragment
 ]
 
 const App = () => {
