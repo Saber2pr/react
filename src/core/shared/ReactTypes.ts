@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 16:47:37
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 22:09:01
+ * @Last Modified time: 2019-12-08 12:29:38
  */
 import { Props } from "./ReactElementType"
 
@@ -37,12 +37,16 @@ export namespace EffectType {
   }
 }
 
+export interface Instance {}
+export interface TextInstance {}
+export interface FragmentInstance {}
+
 export type Fiber = {
   tag?: any
   $$typeof?: symbol
   props?: Props<any>
   memoizedState?: object
-  stateNode?: HTMLElement
+  stateNode?: Instance | TextInstance | FragmentInstance
   return?: Fiber
   child?: Fiber
   sibling?: Fiber
