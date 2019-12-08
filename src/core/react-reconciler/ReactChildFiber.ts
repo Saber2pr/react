@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:08:56
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 15:39:23
+ * @Last Modified time: 2019-12-08 11:03:47
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Children } from "../react/ReactChildren"
@@ -19,6 +19,8 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   let index = 0
 
   while (index < children.length || nextOldFiber) {
+    TestCallSize("reconcileChildren")
+
     const prevChild = newFiber
     let oldFiber = nextOldFiber
 
@@ -77,8 +79,6 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
       }
     }
     index++
-
-    TestCallSize("reconcileChildren")
   }
 
   return fiber.child
