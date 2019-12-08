@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 23:27:19
+ * @Last Modified time: 2019-12-08 11:25:17
  */
 import { Fiber } from "../shared/ReactTypes"
 import { Reflection } from "./ReactFiberReflection"
@@ -17,7 +17,8 @@ import {
   isHookFiber,
   isRootFiber,
   isTextFiber,
-  isHostFiber
+  isHostFiber,
+  isFragmentFiber
 } from "../react-is/ReactIs"
 import { resetIndex } from "./ReactFiberStack"
 import { TestCallSize } from "../shared/testCallSize"
@@ -86,6 +87,9 @@ function beginWork(fiber: Fiber) {
     return updateHostComponent(fiber)
   }
   if (isHostFiber(fiber)) {
+    return updateHostComponent(fiber)
+  }
+  if (isFragmentFiber(fiber)) {
     return updateHostComponent(fiber)
   }
 }
