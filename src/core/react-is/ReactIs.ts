@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:13:21
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 23:25:28
+ * @Last Modified time: 2019-12-08 11:12:56
  */
 import { Fiber, NodeType } from "../shared/ReactTypes"
 
@@ -21,6 +21,9 @@ const isHostFiber = (fiber: Fiber): fiber is Fiber =>
 const isTextFiber = (fiber: Fiber): fiber is Fiber =>
   fiber.$$typeof === NodeType.Text
 
+const isFragmentFiber = (fiber: Fiber): fiber is Fiber =>
+  fiber.$$typeof === NodeType.Fragment
+
 const isHostParentFiber = (fiber: Fiber): boolean =>
   isHostFiber(fiber) || isRootFiber(fiber)
 
@@ -34,5 +37,6 @@ export {
   isHookFiber,
   isRootFiber,
   isHostFiber,
-  isTextFiber
+  isTextFiber,
+  isFragmentFiber
 }
