@@ -2,10 +2,10 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 19:07:32
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 15:53:26
+ * @Last Modified time: 2019-12-08 12:31:52
  */
 import { renderRoot } from "./ReactFiberWorkLoop"
-import { Fiber, NodeType } from "../shared/ReactTypes"
+import { Fiber, NodeType, Instance } from "../shared/ReactTypes"
 import { setHostConfig, HostConfigType } from "./ReactFiberHostConfig"
 import { Reflection } from "./ReactFiberReflection"
 import { TestCallSize } from "../shared/testCallSize"
@@ -90,7 +90,7 @@ function createRenderer(HostConfig: HostConfigType) {
 
   const createContainer = (
     component: Fiber,
-    container: HTMLElement,
+    container: Instance,
     callback?: Function
   ) => {
     const rootFiber: Fiber = {
@@ -105,7 +105,7 @@ function createRenderer(HostConfig: HostConfigType) {
 
   const updateContainer = (
     component: Fiber,
-    container: HTMLElement,
+    container: Instance,
     callback?: Function
   ) => {
     const rootFiber: Fiber = {
@@ -118,7 +118,7 @@ function createRenderer(HostConfig: HostConfigType) {
     scheduleWork(rootFiber)
   }
 
-  const isContainer = (container: HTMLElement) =>
+  const isContainer = (container: Instance) =>
     Reflection.hasContainerFiber(container)
 
   return {
