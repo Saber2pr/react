@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 22:31:48
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 11:32:43
+ * @Last Modified time: 2019-12-08 12:52:54
  */
 import * as ReactFiberHooks from "../react-reconciler/ReactFiberHooks"
 import { createRenderer } from "../react-reconciler/ReactFiberReconciler"
@@ -30,14 +30,14 @@ type Override<T, K extends keyof T, V> = {
 }
 
 namespace React {
-  export type Ref<T extends HTMLElement> = ReactElementType.Ref<T>
-  export type Props<T extends HTMLElement> = ReactElementType.Props<T>
+  export type Ref<T> = ReactElementType.Ref<T>
+  export type Props<T> = ReactElementType.Props<T>
 
-  type ExAttributes<T extends HTMLElement> = {
+  type ExAttributes<T> = {
     dangerouslySetInnerHTML?: { __html: string }
   } & Props<T>
 
-  export type Attributes<T extends HTMLElement> = Override<
+  export type HTMLAttributes<T extends HTMLElement> = Override<
     T,
     "style",
     CSSProperties
@@ -45,7 +45,7 @@ namespace React {
     ExAttributes<T>
 
   export type IntrinsicAttributes<T extends HTMLElement> = Partial<
-    React.Attributes<T>
+    HTMLAttributes<T>
   >
 
   export type FC<T extends Object> = (props: T) => JSX.Element
