@@ -1,14 +1,15 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-12-07 22:31:48
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-12-07 22:31:48
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-12-08 11:32:43
  */
 import * as ReactFiberHooks from "../react-reconciler/ReactFiberHooks"
 import { createRenderer } from "../react-reconciler/ReactFiberReconciler"
 import { Children as ReactChildren } from "./ReactChildren"
 import * as ReactElementType from "../shared/ReactElementType"
 import * as ReactElement from "./ReactElement"
+import { NodeType } from "../shared/ReactTypes"
 
 namespace React {
   export const useCallBack = ReactFiberHooks.useCallBack
@@ -19,6 +20,7 @@ namespace React {
 
   export const createElement = ReactElement.createElement
   export const Children = ReactChildren
+  export const Fragment = NodeType.Fragment
 }
 
 // TSX Typings
@@ -67,23 +69,34 @@ declare global {
   }
 }
 
+// hooks
 const useCallBack = ReactFiberHooks.useCallBack
 const useMemo = ReactFiberHooks.useMemo
 const useReducer = ReactFiberHooks.useReducer
 const useRef = ReactFiberHooks.useRef
 const useState = ReactFiberHooks.useState
+
+// TSX Types
 type CSSProperties = React.CSSProperties
 type Props<T extends HTMLElement> = React.Props<T>
+
+// ReactElement
+const Fragment = NodeType.Fragment
 
 export default React
 export {
   React,
+  // hooks
   useCallBack,
   useMemo,
   useReducer,
   useRef,
   useState,
+  // reconciler creator
   createRenderer,
+  // TSX Types
   CSSProperties,
-  Props
+  Props,
+  // ReactElement
+  Fragment
 }
