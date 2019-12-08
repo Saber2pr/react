@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 22:30:12
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 22:51:52
+ * @Last Modified time: 2019-12-08 11:18:18
  */
 import { Fiber, NodeType } from "../shared/ReactTypes"
 import { Children } from "./ReactChildren"
@@ -21,6 +21,9 @@ const createElement = (tag: any, props: object, ...children: any[]): Fiber => {
   }
   if (typeof tag === "function") {
     return { $$typeof: NodeType.Hook, tag, props }
+  }
+  if (tag === NodeType.Fragment) {
+    return { $$typeof: NodeType.Fragment, tag: "#fragment", props }
   }
 
   return { $$typeof: NodeType.Unknown, tag, props }
