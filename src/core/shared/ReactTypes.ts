@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 16:47:37
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 12:29:38
+ * @Last Modified time: 2019-12-09 16:24:29
  */
 import { Props } from "./ReactElementType"
 
@@ -26,9 +26,9 @@ export namespace EffectType {
       case Create:
         return 4
       case Update:
-        return 2
-      case Place:
         return 3
+      case Place:
+        return 2
       case Delete:
         return 1
       default:
@@ -41,11 +41,19 @@ export interface Instance {}
 export interface TextInstance {}
 export interface FragmentInstance {}
 
+export type Effect = () => (() => void) | void
+
+export interface MemoizedState {
+  in?: Effect[]
+  out?: Effect[]
+  [id: number]: any
+}
+
 export type Fiber = {
   tag?: any
   $$typeof?: symbol
   props?: Props<any>
-  memoizedState?: object
+  memoizedState?: MemoizedState
   stateNode?: Instance | TextInstance | FragmentInstance
   return?: Fiber
   child?: Fiber
