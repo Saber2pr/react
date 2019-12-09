@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 22:31:48
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 12:52:54
+ * @Last Modified time: 2019-12-08 14:01:12
  */
 import * as ReactFiberHooks from "../react-reconciler/ReactFiberHooks"
 import { createRenderer } from "../react-reconciler/ReactFiberReconciler"
@@ -17,6 +17,7 @@ namespace React {
   export const useReducer = ReactFiberHooks.useReducer
   export const useRef = ReactFiberHooks.useRef
   export const useState = ReactFiberHooks.useState
+  export const useEffect = ReactFiberHooks.useEffect
 
   export const createElement = ReactElement.createElement
   export const Children = ReactChildren
@@ -75,6 +76,7 @@ const useMemo = ReactFiberHooks.useMemo
 const useReducer = ReactFiberHooks.useReducer
 const useRef = ReactFiberHooks.useRef
 const useState = ReactFiberHooks.useState
+const useEffect = ReactFiberHooks.useEffect
 
 // TSX Types
 type CSSProperties = React.CSSProperties
@@ -92,6 +94,7 @@ export {
   useReducer,
   useRef,
   useState,
+  useEffect,
   // reconciler creator
   createRenderer,
   // TSX Types
