@@ -2,14 +2,20 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 11:13:29
+ * @Last Modified time: 2019-12-09 16:27:24
  */
-import { Fiber, EffectType } from "../shared/ReactTypes"
+import {
+  Fiber,
+  EffectType,
+  NodeType,
+  Effect,
+  Instance
+} from "../shared/ReactTypes"
 import { HostConfig } from "./ReactFiberHostConfig"
 import {
   getHostParentFiber,
-  getHostChildFiber,
-  getHostSiblingFiber
+  getHostSiblingFiber,
+  getHostChildFiber
 } from "./ReactFiberTraverse"
 import { Reflection } from "./ReactFiberReflection"
 import {
@@ -19,6 +25,7 @@ import {
   isHostFiber,
   isFragmentFiber
 } from "../react-is/ReactIs"
+import { TestCallSize } from "../shared/testCallSize"
 
 function createStateNode(hostFiber: Fiber) {
   const { tag, props } = hostFiber
@@ -55,7 +62,6 @@ function createStateNode(hostFiber: Fiber) {
 function commitWork(fiber: Fiber) {
   const effectList = sortEffectList(fiber)
   effectList.forEach(commitUnitOfWork)
-  fiber.effectList = null
 
   // set root alternate
   if (isRootFiber(fiber)) {
@@ -84,10 +90,25 @@ function sortEffectList(fiber: Fiber) {
 }
 
 function commitUnitOfWork(fiber: Fiber) {
-  const { effectType: effectTag } = fiber
+  const { effectType } = fiber
   if (isHookFiber(fiber)) {
+    switch (effectType) {
+      case EffectType.Create:
+        commitHookEffectList("mount", fiber)
+        break
+      case EffectType.Place:
+        commitHookEffectList("mount", fiber)
+        commitPlace(fiber)
+        break
+      case EffectType.Delete:
+        commitHookEffectList("unmount", fiber)
+        commitDelete(fiber)
+        break
+      default:
+        break
+    }
   } else {
-    switch (effectTag) {
+    switch (effectType) {
       case EffectType.Create:
         commitCreate(fiber)
         break
@@ -106,6 +127,42 @@ function commitUnitOfWork(fiber: Fiber) {
   }
 }
 
+function commitHookEffectList(action: "mount" | "unmount", hookFiber: Fiber) {
+  const effect = hookFiber.memoizedState
+  if (!effect) {
+    return
+  }
+
+  if (action === "mount") {
+    // didMount
+    const creators = effect.in
+    if (creators) {
+      const nextEffects: Effect[] = []
+      while (creators.length) {
+        TestCallSize("commitHookEffectList")
+        const current = creators.pop()
+        const nextEffect = current()
+        if (nextEffect) {
+          nextEffects.push(nextEffect)
+        }
+      }
+      effect.out = nextEffects
+    }
+  }
+
+  if (action === "unmount") {
+    // didUnMount
+    const destroys = effect.out
+    if (destroys) {
+      while (destroys.length) {
+        TestCallSize("commitHookEffectList:1")
+        const current = destroys.pop()
+        current()
+      }
+    }
+  }
+}
+
 function commitCreate(hostFiber: Fiber) {
   const HostParent = getHostParentFiber(hostFiber)
   const parent = HostParent.stateNode
@@ -113,24 +170,40 @@ function commitCreate(hostFiber: Fiber) {
   HostConfig.appendChild(parent, node)
 }
 
-function commitPlace(hostFiber: Fiber) {
-  const { alternate, stateNode: newChild } = hostFiber
-  const oldChild = alternate.stateNode
-  const HostParent = getHostParentFiber(alternate)
-  const parent = HostParent.stateNode
-  HostConfig.replaceChild(parent, newChild, oldChild)
+function commitPlace(finishedWork: Fiber): void {
+  const parentFiber = getHostParentFiber(finishedWork)
+  const parent = parentFiber.stateNode
 
-  // replace child node
-  const HostChild = getHostChildFiber(hostFiber)
-  if (HostChild) {
-    const HostChildNode = HostChild.stateNode
-    const HostChildSibling = getHostSiblingFiber(HostChild)
-    if (HostChildSibling) {
-      const HostChildSiblingNode = HostChildSibling.stateNode
-      HostConfig.insertBefore(newChild, HostChildNode, HostChildSiblingNode)
-    } else {
-      HostConfig.appendChild(newChild, HostChildNode)
+  const before = getHostSiblingFiber(finishedWork)
+  let node = finishedWork
+  while (true) {
+    TestCallSize("commitPlace")
+    const isHost =
+      node.$$typeof === NodeType.Host || node.$$typeof === NodeType.Text
+    if (isHost) {
+      const stateNode = node.stateNode
+      if (before) {
+        HostConfig.insertBefore(parent, stateNode, before.stateNode)
+      } else {
+        HostConfig.appendChild(parent, stateNode)
+      }
+    } else if (node.child) {
+      node.child.return = node
+      node = node.child
+      continue
     }
+    if (node === finishedWork) {
+      return
+    }
+    while (!node.sibling) {
+      TestCallSize("commitPlace:1")
+      if (!node.return || node.return === finishedWork) {
+        return
+      }
+      node = node.return
+    }
+    node.sibling.return = node.return
+    node = node.sibling
   }
 }
 
@@ -146,11 +219,20 @@ function commitUpdate(hostFiber: Fiber) {
   HostConfig.updateProps(node, newPropsToUpdate, oldProps)
 }
 
-function commitDelete(hostFiber: Fiber) {
-  const { stateNode } = hostFiber
-  HostConfig.removeSelf(stateNode)
+function commitDelete(finishedWork: Fiber) {
+  const current = finishedWork
 
-  datchFiber(hostFiber)
+  let stateNode: Instance = null
+  if (isHookFiber(current)) {
+    const HostChildFiber = getHostChildFiber(current)
+    stateNode = HostChildFiber.stateNode
+    datchFiber(HostChildFiber)
+  } else {
+    stateNode = current.stateNode
+  }
+
+  HostConfig.removeSelf(stateNode)
+  datchFiber(current)
 }
 
 function datchFiber(fiber: Fiber) {
