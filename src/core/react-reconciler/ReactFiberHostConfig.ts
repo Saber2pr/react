@@ -17,6 +17,7 @@ type HostConfigType = {
   removeSelf(node: Instance): void
   removeAllChild(node: Instance): void
   updateProps(node: Instance, newProps: object, oldProps: object): void
+  removeChild(node: Instance, oldChild: Instance): void
 }
 
 function setHostConfig(config: HostConfigType) {
