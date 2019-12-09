@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 11:09:56
+ * @Last Modified time: 2019-12-08 14:08:33
  */
 import React from ".."
 import ReactDOM from "../client"
@@ -16,6 +16,7 @@ import { TestStyle } from "./TestStyle"
 import "./TestCreateRenderer"
 import { TestSetInnerHTML } from "./TestSetInnerHTML"
 import { TestFragment } from "./TestFragment"
+import { TestUseEffect } from "./TestUseEffect"
 
 const Store = {
   state: 0
@@ -49,7 +50,8 @@ const Tests = [
   TestChildren,
   TestStyle,
   TestSetInnerHTML,
-  TestFragment
+  TestFragment,
+  TestUseEffect
 ]
 
 const App = () => {
