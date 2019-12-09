@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 11:25:17
+ * @Last Modified time: 2019-12-09 16:17:52
  */
 import { Fiber } from "../shared/ReactTypes"
 import { Reflection } from "./ReactFiberReflection"
@@ -96,12 +96,7 @@ function beginWork(fiber: Fiber) {
 
 function updateHOOKComponent(hookFiber: Fiber) {
   const { tag: constructor, props } = hookFiber
-  const alternate = Reflection.getInternalFiber(hookFiber)
-  if (alternate) {
-    hookFiber.alternate = alternate
-  } else {
-    Reflection.setInternalFiber(hookFiber)
-  }
+  hookFiber.alternate = Reflection.getInternalFiber(hookFiber)
   resetIndex()
 
   if (props.children && props.children.length === 1) {
@@ -116,7 +111,11 @@ function updateHOOKComponent(hookFiber: Fiber) {
   }
 
   const children = constructor(props)
-  return reconcileChildren(hookFiber, children)
+
+  const child = reconcileChildren(hookFiber, children)
+  Reflection.setInternalFiber(hookFiber)
+  hookFiber.child = child
+  return child
 }
 
 function updateHostComponent(hostFiber: Fiber) {
@@ -125,12 +124,15 @@ function updateHostComponent(hostFiber: Fiber) {
     stateNode,
     alternate
   } = hostFiber
-  if (!stateNode || (alternate && !isSameTag(hostFiber, alternate))) {
+  const isSame = alternate ? isSameTag(hostFiber, alternate) : false
+  if (!stateNode || !isSame) {
     hostFiber.stateNode = createStateNode(hostFiber)
     commitUpdate(hostFiber)
   }
 
-  return reconcileChildren(hostFiber, children)
+  const child = reconcileChildren(hostFiber, children)
+  hostFiber.child = child
+  return child
 }
 
 export { getCurrentWorkInProgress, renderRoot }
