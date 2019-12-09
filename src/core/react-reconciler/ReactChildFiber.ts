@@ -6,7 +6,7 @@
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Children } from "../react/ReactChildren"
-import { isSameTag } from "../react-is/ReactIs"
+import { isSameTag, isHookFiber } from "../react-is/ReactIs"
 import { TestCallSize } from "../shared/testCallSize"
 
 function reconcileChildren(fiber: Fiber, children: Fiber[]) {
@@ -23,6 +23,12 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
 
     const prevChild = newFiber
     let oldFiber = nextOldFiber
+
+    if (oldFiber) {
+      if (oldFiber.effectType === EffectType.Delete) {
+        oldFiber = null
+      }
+    }
 
     const element = index < children.length && children[index]
 
@@ -90,7 +96,8 @@ function placeChild(element: Fiber, childToPlace: Fiber, returnFiber: Fiber) {
     ...childToPlace,
     ...element,
     return: returnFiber,
-    effectType: EffectType.Place
+    effectType: EffectType.Place,
+    alternate: childToPlace
   }
 
   deleteChild(returnFiber, childToPlace)
@@ -102,6 +109,16 @@ function deleteChild(returnFiber: Fiber, childToDelete: Fiber) {
   const effectList = returnFiber.effectList || []
   effectList.push(childToDelete)
   returnFiber.effectList = effectList
+
+  let current = childToDelete
+  while (isHookFiber(current)) {
+    TestCallSize("deleteChild")
+    current = current.child
+    if (!current) {
+      break
+    }
+    current.effectType = EffectType.Delete
+  }
 }
 
 export { reconcileChildren }
