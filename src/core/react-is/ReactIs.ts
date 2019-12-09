@@ -2,15 +2,14 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:13:21
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 11:12:56
+ * @Last Modified time: 2019-12-08 14:30:34
  */
 import { Fiber, NodeType } from "../shared/ReactTypes"
 
 const isSameTag = (element: Fiber, oldFiber: Fiber) =>
   element.tag === oldFiber.tag
 
-const isHookFiber = (fiber: Fiber): fiber is Fiber =>
-  fiber.$$typeof === NodeType.Hook
+const isHookFiber = (fiber: Fiber): boolean => fiber.$$typeof === NodeType.Hook
 
 const isRootFiber = (fiber: Fiber): fiber is Fiber =>
   fiber.$$typeof === NodeType.Root
