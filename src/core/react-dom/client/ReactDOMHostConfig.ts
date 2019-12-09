@@ -48,6 +48,10 @@ namespace HostConfig {
     node.innerHTML = ""
   }
 
+  export function removeChild(node: HTMLElement, oldChild: Node) {
+    node.removeChild(oldChild)
+  }
+
   export function updateProps(
     node: HTMLElement,
     newProps: object,
