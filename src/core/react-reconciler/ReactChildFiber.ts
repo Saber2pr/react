@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:08:56
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 11:03:47
+ * @Last Modified time: 2019-12-09 16:49:20
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Children } from "../react/ReactChildren"
@@ -28,41 +28,22 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
 
     // update
     if (oldFiber && element && isSameTag(element, oldFiber)) {
-      newFiber = {
-        ...oldFiber,
-        ...element,
-        return: fiber,
-        effectType: EffectType.Update,
-        alternate: oldFiber
-      }
+      newFiber = updateSlot(element, oldFiber, fiber)
     }
 
     // place
     else if (oldFiber && element && !isSameTag(element, oldFiber)) {
-      newFiber = {
-        ...oldFiber,
-        ...element,
-        return: fiber,
-        effectType: EffectType.Place,
-        alternate: oldFiber
-      }
+      newFiber = placeChild(element, oldFiber, fiber)
     }
 
     // create
     else if (!oldFiber && element) {
-      newFiber = {
-        ...element,
-        return: fiber,
-        effectType: EffectType.Create
-      }
+      newFiber = createChild(element, fiber)
     }
 
     // delete
     else if (oldFiber && !element) {
-      oldFiber.effectType = EffectType.Delete
-      const effectList = fiber.effectList || []
-      effectList.push(oldFiber)
-      fiber.effectList = effectList
+      deleteChild(fiber, oldFiber)
     }
 
     // next alternate
@@ -82,6 +63,45 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   }
 
   return fiber.child
+}
+
+function createChild(element: Fiber, returnFiber: Fiber) {
+  const newFiber: Fiber = {
+    ...element,
+    return: returnFiber,
+    effectType: EffectType.Create
+  }
+  return newFiber
+}
+
+function updateSlot(element: Fiber, oldFiber: Fiber, returnFiber: Fiber) {
+  const newFiber: Fiber = {
+    ...oldFiber,
+    ...element,
+    return: returnFiber,
+    effectType: EffectType.Update,
+    alternate: oldFiber
+  }
+  return newFiber
+}
+
+function placeChild(element: Fiber, childToPlace: Fiber, returnFiber: Fiber) {
+  const newFiber: Fiber = {
+    ...childToPlace,
+    ...element,
+    return: returnFiber,
+    effectType: EffectType.Place
+  }
+
+  deleteChild(returnFiber, childToPlace)
+  return newFiber
+}
+
+function deleteChild(returnFiber: Fiber, childToDelete: Fiber) {
+  childToDelete.effectType = EffectType.Delete
+  const effectList = returnFiber.effectList || []
+  effectList.push(childToDelete)
+  returnFiber.effectList = effectList
 }
 
 export { reconcileChildren }
