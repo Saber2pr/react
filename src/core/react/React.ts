@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 22:31:48
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 14:01:12
+ * @Last Modified time: 2019-12-10 17:40:21
  */
 import * as ReactFiberHooks from "../react-reconciler/ReactFiberHooks"
 import { createRenderer } from "../react-reconciler/ReactFiberReconciler"
@@ -10,6 +10,7 @@ import { Children as ReactChildren } from "./ReactChildren"
 import * as ReactElementType from "../shared/ReactElementType"
 import * as ReactElement from "./ReactElement"
 import { NodeType } from "../shared/ReactTypes"
+import { forwardRef as ReactForwardRef } from "./forwardRef"
 
 namespace React {
   export const useCallBack = ReactFiberHooks.useCallBack
@@ -18,10 +19,12 @@ namespace React {
   export const useRef = ReactFiberHooks.useRef
   export const useState = ReactFiberHooks.useState
   export const useEffect = ReactFiberHooks.useEffect
+  export const useImperativeHandle = ReactFiberHooks.useImperativeHandle
 
   export const createElement = ReactElement.createElement
   export const Children = ReactChildren
   export const Fragment = NodeType.Fragment
+  export const forwardRef = ReactForwardRef
 }
 
 // TSX Typings
@@ -49,7 +52,7 @@ namespace React {
     HTMLAttributes<T>
   >
 
-  export type FC<T extends Object> = (props: T) => JSX.Element
+  export type FC<T extends Object> = ReactElementType.FC<T>
   export type ComponentType<T> = FC<T>
   export type ReactElement = ReactElementType.ReactElement
   export type CSSProperties = Partial<CSSStyleDeclaration>
@@ -77,6 +80,7 @@ const useReducer = ReactFiberHooks.useReducer
 const useRef = ReactFiberHooks.useRef
 const useState = ReactFiberHooks.useState
 const useEffect = ReactFiberHooks.useEffect
+const useImperativeHandle = ReactFiberHooks.useImperativeHandle
 
 // TSX Types
 type CSSProperties = React.CSSProperties
@@ -84,6 +88,7 @@ type Props<T extends HTMLElement> = React.Props<T>
 
 // ReactElement
 const Fragment = NodeType.Fragment
+const forwardRef = ReactForwardRef
 
 export default React
 export {
@@ -95,11 +100,13 @@ export {
   useRef,
   useState,
   useEffect,
+  useImperativeHandle,
   // reconciler creator
   createRenderer,
   // TSX Types
   CSSProperties,
   Props,
   // ReactElement
-  Fragment
+  Fragment,
+  forwardRef
 }
