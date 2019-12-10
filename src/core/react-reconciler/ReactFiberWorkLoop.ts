@@ -2,9 +2,9 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-09 16:17:52
+ * @Last Modified time: 2019-12-09 22:23:26
  */
-import { Fiber } from "../shared/ReactTypes"
+import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Reflection } from "./ReactFiberReflection"
 import { reconcileChildren } from "./ReactChildFiber"
 import {
@@ -68,11 +68,20 @@ function completeWork(fiber: Fiber, top: Fiber) {
   if (parent) {
     const parentEffectList = parent.effectList || []
     const fiberEffectList = fiber.effectList || []
-    parent.effectList = parentEffectList.concat(...fiberEffectList, fiber)
+    parentEffectList.push(...fiberEffectList, fiber)
     fiber.effectList = []
     delete fiber.effectList
 
-    if (parent === top) pendingCommit = parent
+    // update effect.
+    if (isHookFiber(parent) && parent.effectType === EffectType.Update) {
+      parentEffectList.push(parent)
+    }
+
+    parent.effectList = parentEffectList
+
+    if (parent === top) {
+      pendingCommit = parent
+    }
   }
 }
 
@@ -96,8 +105,8 @@ function beginWork(fiber: Fiber) {
 
 function updateHOOKComponent(hookFiber: Fiber) {
   const { tag: constructor, props } = hookFiber
-  hookFiber.alternate = Reflection.getInternalFiber(hookFiber)
-  resetIndex()
+  const alternate = Reflection.getInternalFiber(hookFiber)
+  hookFiber.alternate = alternate
 
   if (props.children && props.children.length === 1) {
     let singleChild = props.children[0]
@@ -110,10 +119,21 @@ function updateHOOKComponent(hookFiber: Fiber) {
     props.children = singleChild
   }
 
+  resetIndex()
   const children = constructor(props)
-
   const child = reconcileChildren(hookFiber, children)
-  Reflection.setInternalFiber(hookFiber)
+
+  // create or alternate is datched.
+  if (!alternate || alternate.effectType === EffectType.Delete) {
+    Reflection.setInternalFiber(hookFiber)
+  }
+
+  if (alternate) {
+    if (isSameTag(alternate, hookFiber)) {
+      hookFiber.effectType = EffectType.Update
+    }
+  }
+
   hookFiber.child = child
   return child
 }
