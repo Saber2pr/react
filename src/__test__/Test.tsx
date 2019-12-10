@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 17:58:22
+ * @Last Modified time: 2019-12-10 20:37:43
  */
 import React from ".."
 import ReactDOM from "../client"
@@ -18,6 +18,8 @@ import { TestSetInnerHTML } from "./TestSetInnerHTML"
 import { TestFragment } from "./TestFragment"
 import { TestUseEffect } from "./TestUseEffect"
 import { TestForwardRef } from "./TestForwardRef"
+import { TestContext } from "./TestContext"
+import { TestLazy } from "./TestLazy"
 
 const Store = {
   state: 0
@@ -53,7 +55,9 @@ const Tests = [
   TestSetInnerHTML,
   TestFragment,
   TestUseEffect,
-  TestForwardRef
+  TestForwardRef,
+  TestContext,
+  TestLazy
 ]
 
 const App = () => {
