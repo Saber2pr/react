@@ -93,7 +93,6 @@ function updateSlot(element: Fiber, oldFiber: Fiber, returnFiber: Fiber) {
 
 function placeChild(element: Fiber, childToPlace: Fiber, returnFiber: Fiber) {
   const newFiber: Fiber = {
-    ...childToPlace,
     ...element,
     return: returnFiber,
     effectType: EffectType.Place,
