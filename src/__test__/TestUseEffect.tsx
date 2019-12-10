@@ -17,11 +17,25 @@ const Subscription = () => {
       console.log("unmount", listeners)
     }
   })
-  return <div>I'm a subscriber</div>
+  const [state, setState] = useState(0)
+
+  return (
+    <div>
+      <p>I'm a subscriber</p>
+      {state}
+      <button onclick={() => setState(state + 1)}>update hook</button>
+    </div>
+  )
 }
 
 export const TestUseEffect = () => {
   const [state, setState] = useState(true)
+  useEffect(() => {
+    console.log("willUpdate")
+    return () => {
+      console.log("didupdate")
+    }
+  })
   return (
     <div>
       <div>TestUseEffect Demo</div>
