@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 15:39:28
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 16:29:18
+ * @Last Modified time: 2019-12-10 21:16:35
  */
 import React, { useState, useMemo } from ".."
 
@@ -13,7 +13,7 @@ export const TestUseMemo = () => {
     return state + 1
   }
 
-  const resultMemo = useMemo(expression)
+  const resultMemo = useMemo(expression, [])
 
   const result = expression()
 
