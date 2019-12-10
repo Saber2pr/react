@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:08:56
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-09 16:49:20
+ * @Last Modified time: 2019-12-10 16:50:15
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Children } from "../react/ReactChildren"
@@ -10,6 +10,10 @@ import { isSameTag, isHookFiber } from "../react-is/ReactIs"
 import { TestCallSize } from "../shared/testCallSize"
 
 function reconcileChildren(fiber: Fiber, children: Fiber[]) {
+  if (isHookFiber(fiber)) {
+    reconcileHookRetFiber(fiber)
+  }
+
   children = Children.toArray(children)
 
   const alternate = fiber.alternate
@@ -69,6 +73,24 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   }
 
   return fiber.child
+}
+
+function reconcileHookRetFiber(hookFiber: Fiber) {
+  const alternate = hookFiber.alternate
+  //update hook effect
+  if (alternate) {
+    if (isSameTag(alternate, hookFiber)) {
+      // update
+      hookFiber.effectType = EffectType.Update
+    } else {
+      // place
+      hookFiber.effectType = EffectType.Place
+      alternate.effectType = EffectType.Delete
+    }
+  } else {
+    // create
+    hookFiber.effectType = EffectType.Create
+  }
 }
 
 function createChild(element: Fiber, returnFiber: Fiber) {
