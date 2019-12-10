@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:08:56
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 16:50:15
+ * @Last Modified time: 2019-12-10 21:15:27
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Children } from "../react/ReactChildren"
@@ -131,14 +131,10 @@ function deleteChild(returnFiber: Fiber, childToDelete: Fiber) {
   effectList.push(childToDelete)
   returnFiber.effectList = effectList
 
-  let current = childToDelete
-  while (isHookFiber(current)) {
-    TestCallSize("deleteChild")
-    current = current.child
-    if (!current) {
-      break
-    }
-    current.effectType = EffectType.Delete
+  // delete child
+  const child = childToDelete.child
+  if (child) {
+    child.effectType = EffectType.Delete
   }
 }
 
