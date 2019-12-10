@@ -2,14 +2,14 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:09
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 17:39:02
+ * @Last Modified time: 2019-12-10 21:01:24
  */
 import { getCurrentWorkInProgress } from "./ReactFiberWorkLoop"
 import { scheduleWork } from "./ReactFiberReconciler"
 import { getIndex } from "./ReactFiberStack"
 import { is } from "../shared/objectIs"
 import { Effect, MemoizedState } from "../shared/ReactTypes"
-import { Ref } from "../shared/ReactElementType"
+import { Ref, ReactContext } from "../shared/ReactElementType"
 
 const areHookInputsEqual = (
   nextDeps: readonly any[],
@@ -67,11 +67,11 @@ const useRef = <T>(value?: T) => {
 
 const useCallBack = <T extends Function>(
   callback: T,
-  deps: readonly any[] = []
+  deps?: readonly any[]
 ) => {
   const ref = useRef(callback)
   const prevDepsRef = useRef(null)
-  if (areHookInputsEqual(deps, prevDepsRef.current)) {
+  if (deps && areHookInputsEqual(deps, prevDepsRef.current)) {
     return ref.current
   } else {
     ref.current = callback
@@ -80,10 +80,10 @@ const useCallBack = <T extends Function>(
   }
 }
 
-const useMemo = <T>(memoFunc: () => T, deps: readonly any[] = []) => {
+const useMemo = <T>(memoFunc: () => T, deps?: readonly any[]) => {
   const ref = useRef<T>(null)
   const prevDepsRef = useRef(null)
-  if (areHookInputsEqual(deps, prevDepsRef.current)) {
+  if (deps && areHookInputsEqual(deps, prevDepsRef.current)) {
     return ref.current
   } else {
     ref.current = memoFunc()
@@ -104,7 +104,7 @@ const useEffect = (create: Effect, deps?: readonly any[]) => {
   const fiber = getCurrentWorkInProgress()
   const effect = fiber.memoizedState
   const prevDepsRef = useRef(null)
-  if (areHookInputsEqual(deps, prevDepsRef.current)) {
+  if (deps && areHookInputsEqual(deps, prevDepsRef.current)) {
     return
   } else {
     prevDepsRef.current = deps
@@ -118,7 +118,7 @@ const useImperativeHandle = <T, R extends T>(
   deps?: readonly any[]
 ) => {
   const prevDepsRef = useRef(null)
-  if (areHookInputsEqual(deps, prevDepsRef.current)) {
+  if (deps && areHookInputsEqual(deps, prevDepsRef.current)) {
     return
   } else {
     prevDepsRef.current = deps
@@ -131,6 +131,8 @@ const useImperativeHandle = <T, R extends T>(
   }
 }
 
+const useContext = <T>(context: ReactContext<T>): T => context.value
+
 export {
   useCallBack,
   useMemo,
@@ -138,5 +140,6 @@ export {
   useRef,
   useState,
   useEffect,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext
 }
