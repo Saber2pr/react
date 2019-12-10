@@ -7,7 +7,7 @@
 import { Fiber, Instance } from "../shared/ReactTypes"
 
 export namespace Reflection {
-  const combiner = new WeakMap()
+  const combiner = new WeakMap<object, Fiber>()
 
   export function setInternalFiber(hookFiber: Fiber) {
     const { tag: constructor } = hookFiber
@@ -30,7 +30,6 @@ export namespace Reflection {
   }
 
   export function hasContainerFiber(container: Instance) {
-    const containerFiber = combiner.get(container)
-    return !!containerFiber
+    return combiner.has(container)
   }
 }
