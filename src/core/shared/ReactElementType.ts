@@ -2,7 +2,7 @@
  * @Last Modified by: saber2pr
  * @Last Modified time: 2019-12-08 12:32:58
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 18:00:34
+ * @Last Modified time: 2019-12-10 20:35:19
  */
 type Ref<T> =
   | {
@@ -22,7 +22,34 @@ type ReactElement = {
   tag: any
 }
 
-type FC<T extends Object> = (props: T, ...params: any[]) => JSX.Element
-type RefForwardingComponent<T, P> = (props: P, ref: Ref<T>) => JSX.Element
+type FC<T extends Object> = (props: T, ...params: any[]) => ReactElement
+type RefForwardingComponent<T, P> = (props: P, ref: Ref<T>) => ReactElement
 
-export { ReactElement, Ref, Props, FC, RefForwardingComponent }
+type Provider<T> = (props: {
+  value?: T
+  children?: ReactElement
+}) => ReactElement
+
+type Consumer<T> = (props: {
+  children?: (context: T) => ReactElement
+}) => ReactElement
+
+type ReactContext<T> = {
+  Provider: Provider<T>
+  Consumer: Consumer<T>
+  value: T
+}
+
+type LazyComponent<T> = (props: T) => Promise<{ default: JSX.Element }>
+
+export {
+  ReactElement,
+  Ref,
+  Props,
+  FC,
+  RefForwardingComponent,
+  Provider,
+  Consumer,
+  ReactContext,
+  LazyComponent
+}
