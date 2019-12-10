@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-09 16:27:24
+ * @Last Modified time: 2019-12-09 22:23:17
  */
 import {
   Fiber,
@@ -69,8 +69,9 @@ function commitWork(fiber: Fiber) {
   }
 
   // set hook alternate
-  else if (isHookFiber(fiber)) {
+  if (isHookFiber(fiber)) {
     Reflection.setInternalFiber(fiber)
+    console.log(fiber.effectList.filter(e => e.$$typeof === NodeType.Hook))
   }
 
   const callback = fiber.callback
@@ -79,13 +80,24 @@ function commitWork(fiber: Fiber) {
 
 function sortEffectList(fiber: Fiber) {
   const effectList = fiber.effectList || []
-  fiber.effectList = effectList
-    .map(effect => ({
+
+  type NextEffect = { level: number; effect: Fiber }
+  const nextEffects: Array<NextEffect> = []
+  for (const effect of effectList) {
+    if (nextEffects.find(nextEffect => nextEffect.effect === effect)) {
+      continue
+    }
+    const nextEffect = {
       level: EffectType.getEffectLevel(effect.effectType),
       effect
-    }))
+    }
+    nextEffects.push(nextEffect)
+  }
+
+  fiber.effectList = nextEffects
     .sort((a, b) => b.level - a.level)
-    .map(task => task.effect)
+    .map(({ effect }) => effect)
+
   return fiber.effectList
 }
 
@@ -94,14 +106,17 @@ function commitUnitOfWork(fiber: Fiber) {
   if (isHookFiber(fiber)) {
     switch (effectType) {
       case EffectType.Create:
-        commitHookEffectList("mount", fiber)
+        commitHookMount(fiber)
+        break
+      case EffectType.Update:
+        commitHookUpdate(fiber)
         break
       case EffectType.Place:
-        commitHookEffectList("mount", fiber)
+        commitHookMount(fiber)
         commitPlace(fiber)
         break
       case EffectType.Delete:
-        commitHookEffectList("unmount", fiber)
+        commitHookUnMount(fiber)
         commitDelete(fiber)
         break
       default:
@@ -127,40 +142,45 @@ function commitUnitOfWork(fiber: Fiber) {
   }
 }
 
-function commitHookEffectList(action: "mount" | "unmount", hookFiber: Fiber) {
+function commitHookMount(hookFiber: Fiber) {
   const effect = hookFiber.memoizedState
   if (!effect) {
     return
   }
-
-  if (action === "mount") {
-    // didMount
-    const creators = effect.in
-    if (creators) {
-      const nextEffects: Effect[] = []
-      while (creators.length) {
-        TestCallSize("commitHookEffectList")
-        const current = creators.pop()
-        const nextEffect = current()
-        if (nextEffect) {
-          nextEffects.push(nextEffect)
-        }
-      }
-      effect.out = nextEffects
-    }
-  }
-
-  if (action === "unmount") {
-    // didUnMount
-    const destroys = effect.out
-    if (destroys) {
-      while (destroys.length) {
-        TestCallSize("commitHookEffectList:1")
-        const current = destroys.pop()
-        current()
+  const creators = effect.in
+  if (creators) {
+    const nextEffects: Effect[] = []
+    while (creators.length) {
+      TestCallSize("commitHookEffectList")
+      const current = creators.pop()
+      const nextEffect = current()
+      if (nextEffect) {
+        nextEffects.push(nextEffect)
       }
     }
+    effect.out = nextEffects
   }
+}
+
+function commitHookUnMount(hookFiber: Fiber) {
+  const effect = hookFiber.memoizedState
+  if (!effect) {
+    return
+  }
+  const destroys = effect.out
+  if (destroys) {
+    while (destroys.length) {
+      TestCallSize("commitHookEffectList:1")
+      const current = destroys.pop()
+      current()
+    }
+  }
+}
+
+// update = unmount -> mount
+function commitHookUpdate(hookFiber: Fiber) {
+  commitHookUnMount(hookFiber)
+  commitHookMount(hookFiber)
 }
 
 function commitCreate(hostFiber: Fiber) {
