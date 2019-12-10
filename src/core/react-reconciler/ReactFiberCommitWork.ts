@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 16:52:12
+ * @Last Modified time: 2019-12-10 21:57:45
  */
 import { Fiber, EffectType, NodeType, Effect } from "../shared/ReactTypes"
 import { HostConfig } from "./ReactFiberHostConfig"
@@ -186,6 +186,11 @@ function commitCreate(hostFiber: Fiber) {
 
 function commitPlace(finishedWork: Fiber): void {
   const parentFiber = getHostParentFiber(finishedWork)
+  if (!parentFiber) {
+    // when parent had been removed, ignore this effect.
+    return
+  }
+
   const parent = parentFiber.stateNode
 
   const before = getHostSiblingFiber(finishedWork)
