@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 19:30:24
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-06 19:47:12
+ * @Last Modified time: 2019-12-10 17:10:12
  */
 namespace HostConfig {
   export function createElement(tag: string) {
@@ -32,24 +32,12 @@ namespace HostConfig {
     parent.append(...nodes)
   }
 
-  export function replaceChild(
-    parent: HTMLElement,
-    newChild: HTMLElement,
-    oldChild: HTMLElement
-  ) {
-    parent.replaceChild(newChild, oldChild)
-  }
-
   export function removeSelf(node: HTMLElement) {
     node.remove()
   }
 
   export function removeAllChild(node: HTMLElement) {
     node.innerHTML = ""
-  }
-
-  export function removeChild(node: HTMLElement, oldChild: Node) {
-    node.removeChild(oldChild)
   }
 
   export function updateProps(
