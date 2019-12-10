@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:12:44
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-09 22:23:26
+ * @Last Modified time: 2019-12-10 16:46:47
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Reflection } from "./ReactFiberReflection"
@@ -105,8 +105,7 @@ function beginWork(fiber: Fiber) {
 
 function updateHOOKComponent(hookFiber: Fiber) {
   const { tag: constructor, props } = hookFiber
-  const alternate = Reflection.getInternalFiber(hookFiber)
-  hookFiber.alternate = alternate
+  hookFiber.alternate = Reflection.getInternalFiber(hookFiber)
 
   if (props.children && props.children.length === 1) {
     let singleChild = props.children[0]
@@ -122,17 +121,6 @@ function updateHOOKComponent(hookFiber: Fiber) {
   resetIndex()
   const children = constructor(props)
   const child = reconcileChildren(hookFiber, children)
-
-  // create or alternate is datched.
-  if (!alternate || alternate.effectType === EffectType.Delete) {
-    Reflection.setInternalFiber(hookFiber)
-  }
-
-  if (alternate) {
-    if (isSameTag(alternate, hookFiber)) {
-      hookFiber.effectType = EffectType.Update
-    }
-  }
 
   hookFiber.child = child
   return child
