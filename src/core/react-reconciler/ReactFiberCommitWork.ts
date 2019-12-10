@@ -2,15 +2,9 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-09 22:23:17
+ * @Last Modified time: 2019-12-10 16:52:12
  */
-import {
-  Fiber,
-  EffectType,
-  NodeType,
-  Effect,
-  Instance
-} from "../shared/ReactTypes"
+import { Fiber, EffectType, NodeType, Effect } from "../shared/ReactTypes"
 import { HostConfig } from "./ReactFiberHostConfig"
 import {
   getHostParentFiber,
@@ -71,7 +65,6 @@ function commitWork(fiber: Fiber) {
   // set hook alternate
   if (isHookFiber(fiber)) {
     Reflection.setInternalFiber(fiber)
-    console.log(fiber.effectList.filter(e => e.$$typeof === NodeType.Hook))
   }
 
   const callback = fiber.callback
@@ -122,6 +115,7 @@ function commitUnitOfWork(fiber: Fiber) {
       default:
         break
     }
+    Reflection.setInternalFiber(fiber)
   } else {
     switch (effectType) {
       case EffectType.Create:
@@ -242,16 +236,18 @@ function commitUpdate(hostFiber: Fiber) {
 function commitDelete(finishedWork: Fiber) {
   const current = finishedWork
 
-  let stateNode: Instance = null
   if (isHookFiber(current)) {
     const HostChildFiber = getHostChildFiber(current)
-    stateNode = HostChildFiber.stateNode
-    datchFiber(HostChildFiber)
+    if (HostChildFiber) {
+      const stateNode = HostChildFiber.stateNode
+      HostConfig.removeSelf(stateNode)
+      datchFiber(HostChildFiber)
+    }
   } else {
-    stateNode = current.stateNode
+    const stateNode = current.stateNode
+    HostConfig.removeSelf(stateNode)
   }
 
-  HostConfig.removeSelf(stateNode)
   datchFiber(current)
 }
 
