@@ -2,13 +2,14 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:11:09
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 14:11:29
+ * @Last Modified time: 2019-12-10 17:39:02
  */
 import { getCurrentWorkInProgress } from "./ReactFiberWorkLoop"
 import { scheduleWork } from "./ReactFiberReconciler"
 import { getIndex } from "./ReactFiberStack"
 import { is } from "../shared/objectIs"
 import { Effect, MemoizedState } from "../shared/ReactTypes"
+import { Ref } from "../shared/ReactElementType"
 
 const areHookInputsEqual = (
   nextDeps: readonly any[],
@@ -106,8 +107,36 @@ const useEffect = (create: Effect, deps?: readonly any[]) => {
   if (areHookInputsEqual(deps, prevDepsRef.current)) {
     return
   } else {
+    prevDepsRef.current = deps
     fiber.memoizedState = pushEffect(effect, create)
   }
 }
 
-export { useCallBack, useMemo, useReducer, useRef, useState, useEffect }
+const useImperativeHandle = <T, R extends T>(
+  ref: Ref<T>,
+  creator: () => R,
+  deps?: readonly any[]
+) => {
+  const prevDepsRef = useRef(null)
+  if (areHookInputsEqual(deps, prevDepsRef.current)) {
+    return
+  } else {
+    prevDepsRef.current = deps
+    const ret = creator()
+    if (typeof ref === "function") {
+      ref(ret)
+    } else {
+      ref.current = ret
+    }
+  }
+}
+
+export {
+  useCallBack,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+  useEffect,
+  useImperativeHandle
+}
