@@ -2,7 +2,7 @@
  * @Last Modified by: saber2pr
  * @Last Modified time: 2019-12-08 12:32:58
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-08 12:33:31
+ * @Last Modified time: 2019-12-10 18:00:34
  */
 type Ref<T> =
   | {
@@ -22,4 +22,7 @@ type ReactElement = {
   tag: any
 }
 
-export { ReactElement, Ref, Props }
+type FC<T extends Object> = (props: T, ...params: any[]) => JSX.Element
+type RefForwardingComponent<T, P> = (props: P, ref: Ref<T>) => JSX.Element
+
+export { ReactElement, Ref, Props, FC, RefForwardingComponent }
