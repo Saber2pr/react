@@ -2,11 +2,11 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 16:47:37
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-09 16:24:29
+ * @Last Modified time: 2019-12-10 17:24:55
  */
 import { Props } from "./ReactElementType"
 
-export namespace NodeType {
+namespace NodeType {
   export const Text = Symbol("Text")
   export const Fragment = Symbol("DocumentFragment")
   export const Root = Symbol("Container")
@@ -15,7 +15,7 @@ export namespace NodeType {
   export const Unknown = Symbol("Unknown")
 }
 
-export namespace EffectType {
+namespace EffectType {
   export const Place = Symbol("Place")
   export const Update = Symbol("Update")
   export const Delete = Symbol("Delete")
@@ -37,19 +37,19 @@ export namespace EffectType {
   }
 }
 
-export interface Instance {}
-export interface TextInstance {}
-export interface FragmentInstance {}
+interface Instance {}
+interface TextInstance {}
+interface FragmentInstance {}
 
-export type Effect = () => (() => void) | void
+type Effect = () => (() => void) | void
 
-export interface MemoizedState {
+interface MemoizedState {
   in?: Effect[]
   out?: Effect[]
   [id: number]: any
 }
 
-export type Fiber = {
+type Fiber = {
   tag?: any
   $$typeof?: symbol
   props?: Props<any>
@@ -63,4 +63,15 @@ export type Fiber = {
   effectList?: Fiber[]
   callback?: Function
   [key: string]: any
+}
+
+export {
+  NodeType,
+  EffectType,
+  Instance,
+  TextInstance,
+  FragmentInstance,
+  Effect,
+  MemoizedState,
+  Fiber
 }
