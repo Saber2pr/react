@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 20:37:43
+ * @Last Modified time: 2019-12-11 20:41:15
  */
 import React from ".."
 import ReactDOM from "../client"
@@ -84,6 +84,9 @@ const App = () => {
     </div>
   )
 }
+
+// if need analysis the performance.
+// React.Stack.watchStackSize(console.log)
 
 // open '../../index.html' in browser.
 ReactDOM.render(<App />, document.getElementById("root"))
