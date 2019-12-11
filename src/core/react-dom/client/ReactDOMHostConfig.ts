@@ -49,6 +49,10 @@ namespace HostConfig {
       if (k === "style") return
       if (oldProps[k] === v) return
 
+      if (k.startsWith("on")) {
+        k = k.toLowerCase()
+      }
+
       if (k === "dangerouslySetInnerHTML") {
         k = "innerHTML"
         v = v.__html
