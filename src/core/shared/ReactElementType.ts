@@ -40,7 +40,7 @@ type ReactContext<T> = {
   value: T
 }
 
-type LazyComponent<T> = (props: T) => Promise<{ default: JSX.Element }>
+type LazyComponent<T> = (props: T) => Promise<{ default: () => JSX.Element }>
 
 export {
   ReactElement,
