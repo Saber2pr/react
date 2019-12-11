@@ -1,3 +1,9 @@
+/*
+ * @Author: saber2pr
+ * @Date: 2019-12-11 16:22:14
+ * @Last Modified by:   saber2pr
+ * @Last Modified time: 2019-12-11 16:22:14
+ */
 import React, { Suspense, lazy, useState } from ".."
 
 const timeout = (delta = 1000) =>
@@ -7,7 +13,7 @@ const Content = lazy(async () => {
   await timeout(2000)
   console.log("lazy-component loaded.")
   return {
-    default: (
+    default: () => (
       <div>
         <p>lazy content</p>
       </div>
@@ -15,13 +21,7 @@ const Content = lazy(async () => {
   }
 })
 
-const useForceUpdate = () => {
-  const [tick, setNextTick] = useState(0)
-  return () => setNextTick(tick + 1)
-}
-
 const TestLazy = () => {
-  const forceUpdate = useForceUpdate()
   const [state, setState] = useState(true)
   return (
     <div>
@@ -35,8 +35,9 @@ const TestLazy = () => {
           <p>lazy is unmount</p>
         )}
       </div>
-      <button onclick={forceUpdate}>force update</button>
-      <button onclick={() => setState(!state)}>unmount the lazy</button>
+      <button onclick={() => setState(!state)}>
+        {state ? "unmount the lazy" : "mount the lazy"}
+      </button>
     </div>
   )
 }
