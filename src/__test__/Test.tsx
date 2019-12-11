@@ -2,9 +2,9 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-11 20:41:15
+ * @Last Modified time: 2019-12-11 21:02:47
  */
-import React from ".."
+import React, { useState, useEffect, useRef } from ".."
 import ReactDOM from "../client"
 import { TestIf } from "./TestIF"
 import { TestList } from "./TestList"
@@ -59,22 +59,31 @@ const Tests = [
   TestContext,
   TestLazy
 ]
-
+// onclick -> onClick
 const App = () => {
+  const [state, setState] = useState(false)
+  useWatchStack(state)
   return (
     <div>
       <header>
         <h1>React Features Tests</h1>
       </header>
       <main>
-        <ol>
-          {Tests.map((Test, i) => (
-            <li>
-              {i !== 0 && <hr />}
-              <Test />
-            </li>
-          ))}
-        </ol>
+        <section>
+          <button onclick={() => setState(!state)}>
+            {state ? "关闭性能分析" : "启用性能分析"}
+          </button>
+        </section>
+        <section>
+          <ol>
+            {Tests.map((Test, i) => (
+              <li>
+                {i !== 0 && <hr />}
+                <Test />
+              </li>
+            ))}
+          </ol>
+        </section>
       </main>
       <footer>
         <i>
@@ -86,7 +95,19 @@ const App = () => {
 }
 
 // if need analysis the performance.
-// React.Stack.watchStackSize(console.log)
+const useWatchStack = (shouldWatchStack = false) => {
+  const cancel = useRef<Function>()
+  useEffect(() => {
+    if (shouldWatchStack) {
+      cancel.current = React.Stack.watchStackSize(console.log)
+    } else {
+      if (cancel.current) {
+        cancel.current()
+        cancel.current = null
+      }
+    }
+  }, [shouldWatchStack])
+}
 
 // open '../../index.html' in browser.
 ReactDOM.render(<App />, document.getElementById("root"))
