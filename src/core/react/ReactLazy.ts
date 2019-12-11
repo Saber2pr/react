@@ -12,20 +12,30 @@ import {
 import { createContext } from "./ReactContext"
 import { LazyComponent } from "../shared/ReactElementType"
 
-const SuspenseContext = createContext<{ fallback: JSX.Element }>({
-  fallback: null
-})
+const SuspenseContext = createContext<{
+  fallback?: JSX.Element
+  result?: JSX.Element
+}>({})
 
 const lazy = <T extends Object>(lazyComponent: LazyComponent<T>) => (
   props: T
 ) => {
   const Context = useContext(SuspenseContext)
-  const [state, setState] = useState(Context.fallback)
+  const { fallback, result } = Context
+
+  const [state, setState] = useState(fallback)
 
   useEffect(() => {
-    setState(Context.fallback)
     //TODO: when it will unmount, cancel the render.
-    lazyComponent(props).then(component => setState(component.default))
+    if (result) {
+      setState(result)
+    } else {
+      lazyComponent(props).then(({ default: render }) => {
+        const result = render()
+        setState(result)
+        Context.result = result
+      })
+    }
   }, [Context.fallback])
 
   return state
