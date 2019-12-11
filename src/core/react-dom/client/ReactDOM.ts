@@ -15,11 +15,15 @@ namespace ReactDOM {
     container: HTMLElement,
     callback?: Function
   ) => {
-    const isContainer = renderer.isContainer(container)
-    if (isContainer) {
-      renderer.updateContainer(component, container, callback)
+    if (container === null) {
+      throw new Error("Target container is not a DOM element.")
     } else {
-      renderer.createContainer(component, container, callback)
+      const isContainer = renderer.isContainer(container)
+      if (isContainer) {
+        renderer.updateContainer(component, container, callback)
+      } else {
+        renderer.createContainer(component, container, callback)
+      }
     }
   }
 }
