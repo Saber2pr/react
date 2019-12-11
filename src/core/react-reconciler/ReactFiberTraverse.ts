@@ -6,12 +6,12 @@
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { isHostParentFiber, isHostChildFiber } from "../react-is/ReactIs"
-import { TestCallSize } from "../shared/testCallSize"
+import { TestStackSize } from "../shared/testStackSize"
 
 function getHostSiblingFiber(fiber: Fiber): Fiber {
   let node: Fiber = fiber
   siblings: while (true) {
-    TestCallSize("getHostSiblingFiber")
+    TestStackSize("getHostSiblingFiber")
     while (!node.sibling) {
       if (!node.return || isHostParentFiber(node.return)) {
         return null
@@ -40,7 +40,7 @@ function getHostSiblingFiber(fiber: Fiber): Fiber {
 function getHostParentFiber(fiber: Fiber): Fiber {
   let parent = fiber.return
   while (parent) {
-    TestCallSize("getHostParentFiber")
+    TestStackSize("getHostParentFiber")
     if (isHostParentFiber(parent)) {
       return parent
     }
@@ -51,7 +51,7 @@ function getHostParentFiber(fiber: Fiber): Fiber {
 function getHostChildFiber(fiber: Fiber): Fiber {
   let child = fiber.child
   while (child) {
-    TestCallSize("getHostChildFiber")
+    TestStackSize("getHostChildFiber")
     if (isHostChildFiber(child)) {
       return child
     }

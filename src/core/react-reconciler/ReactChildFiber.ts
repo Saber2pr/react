@@ -2,12 +2,12 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:08:56
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 21:15:27
+ * @Last Modified time: 2019-12-11 20:43:59
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Children } from "../react/ReactChildren"
 import { isSameTag, isHookFiber } from "../react-is/ReactIs"
-import { TestCallSize } from "../shared/testCallSize"
+import { TestStackSize } from "../shared/testStackSize"
 
 function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   if (isHookFiber(fiber)) {
@@ -23,7 +23,7 @@ function reconcileChildren(fiber: Fiber, children: Fiber[]) {
   let index = 0
 
   while (index < children.length || nextOldFiber) {
-    TestCallSize("reconcileChildren")
+    TestStackSize("reconcileChildren")
 
     const prevChild = newFiber
     let oldFiber = nextOldFiber

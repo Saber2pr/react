@@ -21,7 +21,7 @@ import {
   isFragmentFiber
 } from "../react-is/ReactIs"
 import { resetIndex } from "./ReactFiberStack"
-import { TestCallSize } from "../shared/testCallSize"
+import { TestStackSize } from "../shared/testStackSize"
 
 let workInProgress: Fiber = null
 let pendingCommit: Fiber = null
@@ -34,7 +34,7 @@ function renderRoot(root: Fiber) {
   while (workInProgress) {
     workInProgress = performUnitOfWork(workInProgress, root)
     if (workInProgress === root) break
-    TestCallSize("renderRoot")
+    TestStackSize("renderRoot")
   }
 
   if (pendingCommit) {
@@ -59,7 +59,7 @@ function performUnitOfWork(fiber: Fiber, top: Fiber) {
     completeWork(current, top)
     if (current.sibling) return current.sibling
     current = current.return
-    TestCallSize("performUnitOfWork")
+    TestStackSize("performUnitOfWork")
   }
 }
 

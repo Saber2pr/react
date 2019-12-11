@@ -8,7 +8,7 @@ import { renderRoot } from "./ReactFiberWorkLoop"
 import { Fiber, NodeType, Instance } from "../shared/ReactTypes"
 import { setHostConfig, HostConfigType } from "./ReactFiberHostConfig"
 import { Reflection } from "./ReactFiberReflection"
-import { TestCallSize } from "../shared/testCallSize"
+import { TestStackSize } from "../shared/testStackSize"
 
 declare interface IdleDeadline {
   readonly didTimeout: boolean
@@ -66,7 +66,7 @@ function scheduleWork(fiber: Fiber, mode: ScheduleWorkMode = "normal") {
 }
 
 function scheduleUnitOfWorkNormalMode() {
-  TestCallSize("scheduleUnitOfWorkNormalMode")
+  TestStackSize("scheduleUnitOfWorkNormalMode")
   const update = updateQueue.pop()
   if (update) renderRoot(update)
 
@@ -76,7 +76,7 @@ function scheduleUnitOfWorkNormalMode() {
 }
 
 function scheduleUnitOfWorkLayoutMode() {
-  TestCallSize("scheduleUnitOfWorkLayoutMode")
+  TestStackSize("scheduleUnitOfWorkLayoutMode")
   const update = updateQueue.pop()
   if (update) renderRoot(update)
 
