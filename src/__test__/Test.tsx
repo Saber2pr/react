@@ -59,7 +59,7 @@ const Tests = [
   TestContext,
   TestLazy
 ]
-// onclick -> onClick
+
 const App = () => {
   const [state, setState] = useState(false)
   useWatchStack(state)
@@ -70,7 +70,7 @@ const App = () => {
       </header>
       <main>
         <section>
-          <button onclick={() => setState(!state)}>
+          <button onClick={() => setState(!state)}>
             {state ? "关闭性能分析" : "启用性能分析"}
           </button>
         </section>
