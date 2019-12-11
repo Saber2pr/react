@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 21:57:45
+ * @Last Modified time: 2019-12-11 20:35:47
  */
 import { Fiber, EffectType, NodeType, Effect } from "../shared/ReactTypes"
 import { HostConfig } from "./ReactFiberHostConfig"
@@ -19,7 +19,7 @@ import {
   isHostFiber,
   isFragmentFiber
 } from "../react-is/ReactIs"
-import { TestCallSize } from "../shared/testCallSize"
+import { TestStackSize, resetStack } from "../shared/testStackSize"
 
 function createStateNode(hostFiber: Fiber) {
   const { tag, props } = hostFiber
@@ -67,6 +67,7 @@ function commitWork(fiber: Fiber) {
     Reflection.setInternalFiber(fiber)
   }
 
+  resetStack()
   const callback = fiber.callback
   if (callback) callback(fiber)
 }
@@ -145,7 +146,7 @@ function commitHookMount(hookFiber: Fiber) {
   if (creators) {
     const nextEffects: Effect[] = []
     while (creators.length) {
-      TestCallSize("commitHookEffectList")
+      TestStackSize("commitHookEffectList")
       const current = creators.pop()
       const nextEffect = current()
       if (nextEffect) {
@@ -164,7 +165,7 @@ function commitHookUnMount(hookFiber: Fiber) {
   const destroys = effect.out
   if (destroys) {
     while (destroys.length) {
-      TestCallSize("commitHookEffectList:1")
+      TestStackSize("commitHookEffectList:1")
       const current = destroys.pop()
       current()
     }
@@ -196,7 +197,7 @@ function commitPlace(finishedWork: Fiber): void {
   const before = getHostSiblingFiber(finishedWork)
   let node = finishedWork
   while (true) {
-    TestCallSize("commitPlace")
+    TestStackSize("commitPlace")
     const isHost =
       node.$$typeof === NodeType.Host || node.$$typeof === NodeType.Text
     if (isHost) {
@@ -215,7 +216,7 @@ function commitPlace(finishedWork: Fiber): void {
       return
     }
     while (!node.sibling) {
-      TestCallSize("commitPlace:1")
+      TestStackSize("commitPlace:1")
       if (!node.return || node.return === finishedWork) {
         return
       }
