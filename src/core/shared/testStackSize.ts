@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 15:20:04
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-11 20:35:41
+ * @Last Modified time: 2019-12-11 20:51:02
  */
 let MAX_STACK_SIZE = 10000
 const MAX_STACK_ID = Symbol("MAX_STACK_ID")
@@ -23,7 +23,10 @@ const resetStack = () => {
 }
 
 type StackSizeMap = { [id: string]: number }
-type StackListener = (stackSize: number, stackSizeMap: StackSizeMap) => void
+type StackListener = (
+  stackSize: { id: string; size: number },
+  stackSizeMap: StackSizeMap
+) => void
 let listeners: StackListener[]
 
 const watchStackSize = (callback: StackListener) => {
@@ -57,7 +60,7 @@ const TestStackSize = (id = "default") => {
   }
 
   if (listeners) {
-    listeners.forEach(listener => listener(size[id], size))
+    listeners.forEach(listener => listener({ id, size: size[id] }, size))
   }
 }
 
