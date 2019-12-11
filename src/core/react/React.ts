@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 22:31:48
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-10 20:23:19
+ * @Last Modified time: 2019-12-11 20:32:27
  */
 import * as ReactFiberHooks from "../react-reconciler/ReactFiberHooks"
 import { createRenderer } from "../react-reconciler/ReactFiberReconciler"
@@ -13,8 +13,10 @@ import { NodeType } from "../shared/ReactTypes"
 import { forwardRef as ReactForwardRef } from "./forwardRef"
 import * as ReactLazy from "./ReactLazy"
 import * as ReactContext from "./ReactContext"
+import * as ReactStack from "../shared/testStackSize"
 
 namespace React {
+  // hooks
   export const useCallBack = ReactFiberHooks.useCallBack
   export const useMemo = ReactFiberHooks.useMemo
   export const useReducer = ReactFiberHooks.useReducer
@@ -22,15 +24,17 @@ namespace React {
   export const useState = ReactFiberHooks.useState
   export const useEffect = ReactFiberHooks.useEffect
   export const useImperativeHandle = ReactFiberHooks.useImperativeHandle
-
+  // component
   export const createElement = ReactElement.createElement
   export const Children = ReactChildren
   export const Fragment = NodeType.Fragment
   export const forwardRef = ReactForwardRef
   export const lazy = ReactLazy.lazy
   export const Suspense = ReactLazy.Suspense
-
+  // context
   export const createContext = ReactContext.createContext
+  // options
+  export const Stack = ReactStack
 }
 
 // TSX Typings
@@ -111,6 +115,9 @@ const Suspense = ReactLazy.Suspense
 // context
 const createContext = ReactContext.createContext
 
+// options
+const Stack = ReactStack
+
 export default React
 export {
   React,
@@ -133,5 +140,7 @@ export {
   lazy,
   Suspense,
   // context
-  createContext
+  createContext,
+  // options
+  Stack
 }
