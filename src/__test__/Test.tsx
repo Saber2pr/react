@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:41:19
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-11 21:02:47
+ * @Last Modified time: 2019-12-13 16:38:54
  */
 import React, { useState, useEffect, useRef } from ".."
 import ReactDOM from "../client"
@@ -20,6 +20,7 @@ import { TestUseEffect } from "./TestUseEffect"
 import { TestForwardRef } from "./TestForwardRef"
 import { TestContext } from "./TestContext"
 import { TestLazy } from "./TestLazy"
+import { TestMemo } from "./TestMemo"
 
 const Store = {
   state: 0
@@ -57,7 +58,8 @@ const Tests = [
   TestUseEffect,
   TestForwardRef,
   TestContext,
-  TestLazy
+  TestLazy,
+  TestMemo
 ]
 
 const App = () => {
