@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:08:56
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-11 20:43:59
+ * @Last Modified time: 2019-12-13 19:03:54
  */
 import { Fiber, EffectType } from "../shared/ReactTypes"
 import { Children } from "../react/ReactChildren"
@@ -110,6 +110,7 @@ function updateSlot(element: Fiber, oldFiber: Fiber, returnFiber: Fiber) {
     effectType: EffectType.Update,
     alternate: oldFiber
   }
+  oldFiber.alternate = null
   return newFiber
 }
 
