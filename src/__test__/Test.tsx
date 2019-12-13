@@ -70,9 +70,11 @@ const App = () => {
       </header>
       <main>
         <section>
-          <button onClick={() => setState(!state)}>
-            {state ? "关闭性能分析" : "启用性能分析"}
-          </button>
+          performance analysis:
+          <input
+            type="checkbox"
+            oninput={event => setState(event.target["checked"])}
+          />
         </section>
         <section>
           <ol>
