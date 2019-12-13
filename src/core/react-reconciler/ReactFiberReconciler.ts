@@ -129,3 +129,4 @@ function createRenderer(HostConfig: HostConfigType) {
 }
 
 export { scheduleWork, createRenderer }
+export default createRenderer
