@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-07 22:31:48
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-11 20:32:27
+ * @Last Modified time: 2019-12-13 16:37:31
  */
 import * as ReactFiberHooks from "../react-reconciler/ReactFiberHooks"
 import { createRenderer } from "../react-reconciler/ReactFiberReconciler"
@@ -14,6 +14,7 @@ import { forwardRef as ReactForwardRef } from "./forwardRef"
 import * as ReactLazy from "./ReactLazy"
 import * as ReactContext from "./ReactContext"
 import * as ReactStack from "../shared/testStackSize"
+import * as ReactMemo from "./memo"
 
 namespace React {
   // hooks
@@ -31,6 +32,7 @@ namespace React {
   export const forwardRef = ReactForwardRef
   export const lazy = ReactLazy.lazy
   export const Suspense = ReactLazy.Suspense
+  export const memo = ReactMemo.memo
   // context
   export const createContext = ReactContext.createContext
   // options
@@ -111,6 +113,7 @@ const Fragment = NodeType.Fragment
 const forwardRef = ReactForwardRef
 const lazy = ReactLazy.lazy
 const Suspense = ReactLazy.Suspense
+const memo = ReactMemo.memo
 
 // context
 const createContext = ReactContext.createContext
@@ -139,6 +142,7 @@ export {
   forwardRef,
   lazy,
   Suspense,
+  memo,
   // context
   createContext,
   // options
