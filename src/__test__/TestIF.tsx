@@ -9,7 +9,7 @@ import React, { useCallBack, useState } from ".."
 export const TestIf = () => {
   const [isShow, setState] = useState(true)
   const clickWithDeps = useCallBack(() => setState(!isShow), [isShow])
-  const clickWithoutDes = useCallBack(() => setState(!isShow))
+  const clickWithNullDes = useCallBack(() => setState(!isShow), [])
   return (
     <div>
       <div>TestIf Demo</div>
@@ -20,8 +20,8 @@ export const TestIf = () => {
           <li>orange</li>
         </ol>
       )}
-      <button onclick={clickWithDeps}>change(with deps)</button>
-      <button onclick={clickWithoutDes}>change(without deps)</button>
+      <button onclick={clickWithDeps}>change(useCallBack(fn, [show]))</button>
+      <button onclick={clickWithNullDes}>change(useCallBack(fn, []))</button>
     </div>
   )
 }
