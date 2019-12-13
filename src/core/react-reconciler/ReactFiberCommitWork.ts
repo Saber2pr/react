@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 17:09:07
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-11 20:35:47
+ * @Last Modified time: 2019-12-13 19:12:55
  */
 import { Fiber, EffectType, NodeType, Effect } from "../shared/ReactTypes"
 import { HostConfig } from "./ReactFiberHostConfig"
@@ -267,6 +267,7 @@ function datchFiber(fiber: Fiber) {
     alternate.child = null
     alternate.sibling = null
   }
+  fiber.alternate = null
 }
 
 export {
