@@ -55,7 +55,7 @@ const TestStackSize = (id = "default") => {
   if (size[id] > MAX_STACK_SIZE) {
     throw new Error(
       `STACK SIZE OVERFLOW: ${id}, try to reset the MAX_STACK_SIZE(${MAX_STACK_SIZE});
-      method: React.setMaxCallSize()`
+      method: React.Stack.setMaxStackSize()`
     )
   }
 
