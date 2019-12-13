@@ -8,7 +8,9 @@ yarn add @saber2pr/react
 
 ## Examples
 
-1. CSR Demo
+1. CSR
+
+render Component to DOM in browser.
 
 ```tsx
 import React, {
@@ -32,7 +34,9 @@ ReactDOM.render(
 
 [examples](https://saber2pr.top/react/)
 
-2. SSR Demo
+2. SSR
+
+render Component to string.
 
 ```tsx
 import React from "@saber2pr/react"
@@ -55,6 +59,48 @@ const App = () => {
 }
 
 console.log(ReactDOMServer.renderToString(<App />))
+```
+
+3. Custom Render
+
+create a custom renderer.
+
+```tsx
+import React from "@saber2pr/react"
+import ReactFiberReconciler from "@saber2pr/react/lib/reconciler"
+
+// use your host config.
+const Renderer = ReactFiberReconciler(HostConfig)
+
+const Store = {
+  state: 0
+}
+
+const TestCreateRenderer = () => {
+  const state = Store.state
+  return (
+    <div>
+      <hr />
+      <div>This is a UpdateContainer Test</div>
+      <div>{state}</div>
+      <button
+        onclick={() => {
+          Store.state++
+          // update
+          Renderer.updateContainer(<TestCreateRenderer />, container)
+        }}
+      >
+        add
+      </button>
+    </div>
+  )
+}
+
+// init render
+Renderer.createContainer(
+  <TestCreateRenderer />,
+  document.getElementById("container")
+)
 ```
 
 ---
