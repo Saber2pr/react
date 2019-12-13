@@ -2,22 +2,20 @@
  * @Author: saber2pr
  * @Date: 2019-12-06 20:38:27
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-07 22:43:47
+ * @Last Modified time: 2019-12-13 12:57:50
  */
-import React, { createRenderer } from ".."
+import React from ".."
+import ReactFiberReconciler from "../reconciler"
 import { HostConfig } from "../client"
 
-const renderer = createRenderer(HostConfig)
-
-const container = document.createElement("div")
-
-document.body.append(container)
+// use your host config.
+const Renderer = ReactFiberReconciler(HostConfig)
 
 const Store = {
   state: 0
 }
 
-export const TestCreateRenderer = () => {
+const TestCreateRenderer = () => {
   const state = Store.state
   return (
     <div>
@@ -27,7 +25,8 @@ export const TestCreateRenderer = () => {
       <button
         onclick={() => {
           Store.state++
-          renderer.updateContainer(<TestCreateRenderer />, container, () =>
+          // update
+          Renderer.updateContainer(<TestCreateRenderer />, container, () =>
             console.log(Store.state)
           )
         }}
@@ -38,4 +37,8 @@ export const TestCreateRenderer = () => {
   )
 }
 
-renderer.createContainer(<TestCreateRenderer />, container)
+const container = document.createElement("div")
+document.body.append(container)
+
+// init render
+Renderer.createContainer(<TestCreateRenderer />, container)
