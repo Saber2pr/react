@@ -1,6 +1,6 @@
 {
   "name": "@saber2pr/react",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "react in Typescript.",
   "repository": {
     "type": "git",
@@ -12,7 +12,8 @@
     "lib/core/*",
     "lib/index.*",
     "lib/client.*",
-    "lib/server.*"
+    "lib/server.*",
+    "lib/reconciler.*"
   ],
   "main": "./lib/index.js",
   "scripts": {
