@@ -10,5 +10,7 @@ namespace ReactDOMServer {
   export const renderToString = ReactDOMStringRenderer.renderToString
 }
 
-export { ReactDOMServer }
+const renderToString = ReactDOMStringRenderer.renderToString
+
+export { ReactDOMServer, renderToString }
 export default ReactDOMServer

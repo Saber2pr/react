@@ -5,9 +5,9 @@
  * @Last Modified time: 2019-12-07 22:41:29
  */
 import { HostConfig } from "./ReactDOMHostConfig"
-import { createRenderer as ReactCreateRenderer } from "../../react-reconciler/ReactFiberReconciler"
+import ReactFiberReconciler from "../../react-reconciler/ReactFiberReconciler"
 
-const renderer = ReactCreateRenderer(HostConfig)
+const renderer = ReactFiberReconciler(HostConfig)
 
 namespace ReactDOM {
   export const render = (

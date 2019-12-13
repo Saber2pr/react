@@ -114,7 +114,9 @@ function createRenderer(HostConfig: HostConfigType) {
       stateNode: container,
       callback
     }
-    rootFiber.alternate = Reflection.getContainerFiber(rootFiber)
+    const containerFiber = Reflection.getContainerFiber(rootFiber)
+    containerFiber.alternate = null
+    rootFiber.alternate = containerFiber
     scheduleWork(rootFiber)
   }
 
