@@ -4,14 +4,14 @@
  * @Last Modified by: saber2pr
  * @Last Modified time: 2019-12-10 20:35:19
  */
-type Ref<T> =
-  | {
-      current: T
-    }
-  | ((value: T) => void)
+interface MutableRefObject<T> {
+  current: T;
+}
+
+type RefObject<T> = MutableRefObject<T> | ((value: T) => void)
 
 interface Props<T> {
-  ref?: Ref<T>
+  ref?: RefObject<T>
   children?: any
   [compatibleProps: string]: any
 }
@@ -23,7 +23,7 @@ type ReactElement = {
 }
 
 type FC<T extends Object> = (props: T, ...params: any[]) => ReactElement
-type RefForwardingComponent<T, P> = (props: P, ref: Ref<T>) => ReactElement
+type RefForwardingComponent<T, P> = (props: P, ref: MutableRefObject<T>) => ReactElement
 
 type Provider<T> = (props: {
   value?: T
@@ -44,7 +44,8 @@ type LazyComponent<T> = (props: T) => Promise<{ default: () => JSX.Element }>
 
 export {
   ReactElement,
-  Ref,
+  MutableRefObject,
+  RefObject,
   Props,
   FC,
   RefForwardingComponent,

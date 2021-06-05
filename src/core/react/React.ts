@@ -46,7 +46,7 @@ type Override<T, K extends keyof T, V> = {
 }
 
 namespace React {
-  export type Ref<T> = ReactElementType.Ref<T>
+  export type MutableRefObject<T> = ReactElementType.MutableRefObject<T>
   export type Props<T> = ReactElementType.Props<T>
 
   type ExAttributes<T> = {
@@ -91,7 +91,7 @@ declare global {
     interface ElementChildrenAttribute {
       children: {}
     }
-    export import RefAttributes = React.Ref
+    export import RefAttributes = React.MutableRefObject
   }
 }
 

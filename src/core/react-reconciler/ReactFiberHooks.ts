@@ -9,7 +9,7 @@ import { scheduleWork } from "./ReactFiberReconciler"
 import { getIndex } from "./ReactFiberStack"
 import { is } from "../shared/objectIs"
 import { Effect, MemoizedState } from "../shared/ReactTypes"
-import { Ref, ReactContext } from "../shared/ReactElementType"
+import { MutableRefObject, ReactContext, RefObject } from "../shared/ReactElementType"
 
 const areHookInputsEqual = (
   nextDeps: readonly any[],
@@ -60,7 +60,7 @@ const useReducer = <S, A>(
   return [state, dispatch]
 }
 
-const useRef = <T>(value?: T) => {
+const useRef = <T>(value?: T): MutableRefObject<T> => {
   const [state] = useState({ current: value })
   return state
 }
@@ -113,7 +113,7 @@ const useEffect = (create: Effect, deps?: readonly any[]) => {
 }
 
 const useImperativeHandle = <T, R extends T>(
-  ref: Ref<T>,
+  ref: RefObject<T>,
   creator: () => R,
   deps?: readonly any[]
 ) => {
