@@ -17,7 +17,7 @@ function memo<P extends Object>(
   compare?: (oldProps: P, newProps: P) => boolean
 ) {
   const Component = (props: P) => {
-    const newProps = pickProps(props)
+    const newProps = pickProps(props) as P
     const prevProps = useRef<P>(null)
     const result = useRef<JSX.Element>(null)
 

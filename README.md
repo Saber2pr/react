@@ -1,6 +1,6 @@
 # @saber2pr/react
 
-> react in typescript.
+> react in typescript. 
 
 ```bash
 yarn add @saber2pr/react
@@ -124,3 +124,6 @@ MIT
 ## Reference
 
 [facebook/react](https://github.com/facebook/react)
+
+> 项目仅用于理解和学习react原理，不可用于生产实践
+
