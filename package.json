@@ -19,7 +19,8 @@
   "scripts": {
     "start": "tsc --watch",
     "dev": "rollup -c --watch",
-    "test": "node ./lib/__test__/TestSSR"
+    "test": "node ./lib/__test__/TestSSR",
+    "build": "tsc && cross-env NODE_ENV=production rollup -c"
   },
   "keywords": [
     "react-like",
@@ -27,6 +28,8 @@
     "typescript"
   ],
   "devDependencies": {
+    "@rollup/plugin-html": "^0.2.3",
+    "cross-env": "^7.0.3",
     "rollup": "^1.27.8",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^5.2.0",
